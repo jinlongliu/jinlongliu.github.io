@@ -1,0 +1,25 @@
+pre code{
+  font-size: 14px;
+}
+
+p{
+  font-size: 16px;
+}
+
+h3{
+  color: #333333
+}
+
+.navbar{
+  padding-left: 87px;
+  padding-right: 87px;
+  background: #99CC99;
+}
+
+.navbar-default .navbar-brand{
+  color:#FFFFFF
+}
+
+.navbar-default .navbar-nav>li>a{
+  color:#FFFFFF
+}
