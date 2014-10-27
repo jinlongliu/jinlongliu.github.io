@@ -11,11 +11,17 @@ h3{
 }
 
 .navbar{
-  padding-left: 246px;
-  padding-right: 246px;
+  
+  padding-left:126.5px;
+  padding-right:126.5px;
   background: #99CC99;
   z-index:100;
-  width:100%
+  width:100%;
+}
+
+.container{
+  margin-left:126.5px;
+  margin-right:126.5px
 }
 
 .navbar-default .navbar-brand{
