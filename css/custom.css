@@ -17,6 +17,19 @@ h3{
   background: #99CC99;
   z-index:100;
   width:100%;
+  border:0px;
+}
+
+#logo{
+#  float:left;
+  background: #99CC99;
+  border:0px;
+}
+
+#logo img{
+  width:180px;
+  height:90px;
+  margin-left:126.5px;
 }
 
 .container{
@@ -26,6 +39,7 @@ h3{
 
 .navbar-default .navbar-brand{
   color:#FFFFFF;
+#  color:#00CC00;
 #  font-family: "微软雅黑";
   font-size:24px
 }
