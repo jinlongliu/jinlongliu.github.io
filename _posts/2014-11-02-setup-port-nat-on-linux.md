@@ -16,7 +16,6 @@ root@Linux#iptables -t nat -A POSTROUTING -d 192.168.2.11 -p tcp --dport 5902 -j
 root@Linux#iptables -t nat -A PREROUTING -d 192.168.99.2 -p tcp --dport 5909 -j DNAT --to 192.168.2.2:5902
 root@Linux#iptables -t nat -A POSTROUTING -d 192.168.2.2 -p tcp --dport 5902 -j SNAT --to 192.168.2.5
 root@iptables -t nat -L
-
 def foo()
     puts 'foo'
 end
