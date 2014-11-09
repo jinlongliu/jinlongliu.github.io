@@ -54,5 +54,5 @@ service shadowsocks start	#启动
 service shadowsocks stop	#关闭
 {% endhighlight %}
 <p>
-下载Windows ShadowsocksGUI作为访问客户端结合Chrome Proxy SwitchySharp就可以顺利翻墙了！
+下载Windows ShadowsocksGUI作为访问客户端结合Chrome Proxy SwitchySharp就可以顺利观看1024喽！
 </p>
