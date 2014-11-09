@@ -6,5 +6,5 @@ category: "其它"
 tags: []
 ---
 {% include JB/setup %}
-<img width="800px" hight="600px" src="/upload/2014/11/5/1.jpg"/>
-<img width="800px" hight="600px" src="/upload/2014/11/5/2.jpg"/>
+<img width="800px" hight="600px" src="/upload/2014/11/5/1.png"/>
+<img width="800px" hight="600px" src="/upload/2014/11/5/2.png"/>
