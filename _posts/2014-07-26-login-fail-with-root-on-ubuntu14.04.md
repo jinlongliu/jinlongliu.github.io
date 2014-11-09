@@ -2,8 +2,8 @@
 layout: post
 title: "Ubuntu 14.04 SSH无法登录"
 description: ""
-category: 
-tags: []
+category: "运维" 
+tags: [运维]
 ---
 {% include JB/setup %}
 <p>

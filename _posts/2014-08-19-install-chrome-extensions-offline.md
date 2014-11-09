@@ -2,8 +2,8 @@
 layout: post
 title: "Chrome扩展离线安装"
 description: ""
-category: 
-tags: []
+category: "其它" 
+tags: [Chrome, 离线扩展]
 ---
 {% include JB/setup %}
 <p>

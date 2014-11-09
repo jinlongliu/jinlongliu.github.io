@@ -2,7 +2,7 @@
 layout: post
 title: "Linux端口NAT设置"
 description: ""
-category: 
+category: "运维" 
 tags: [运维]
 ---
 {% include JB/setup %}

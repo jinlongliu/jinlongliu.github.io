@@ -2,8 +2,8 @@
 layout: post
 title: "Ubuntu 14.04 网卡逻辑名修改"
 description: ""
-category: 
-tags: []
+category: "运维" 
+tags: [Ubuntu14.04, 网卡逻辑名`]
 ---
 {% include JB/setup %}
 <p>

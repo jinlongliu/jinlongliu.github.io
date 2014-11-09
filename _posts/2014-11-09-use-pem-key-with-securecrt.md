@@ -2,8 +2,8 @@
 layout: post
 title: "SecureCRT使用pem key"
 description: ""
-category: 
-tags: []
+category: "运维" 
+tags: [Pem Key, SecureCRT]
 ---
 {% include JB/setup %}
 <p>

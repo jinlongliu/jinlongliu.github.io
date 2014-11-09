@@ -2,8 +2,8 @@
 layout: post
 title: "基于Ubuntu 14.04的iSCSI存储配置--Target创建，Initiator连接"
 description: ""
-category: 
-tags: []
+category: "运维" 
+tags: [iSCSI,Ubuntu14.04]
 ---
 {% include JB/setup %}
 <p>

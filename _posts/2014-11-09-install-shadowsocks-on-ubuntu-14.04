@@ -2,8 +2,8 @@
 layout: post
 title: "基于Ubuntu14.04的shadowsocks安装"
 description: ""
-category: 
-tags: []
+category: "运维" 
+tags: [Ubuntu14.04, Shadowsocks]
 ---
 {% include JB/setup %}
 <p>

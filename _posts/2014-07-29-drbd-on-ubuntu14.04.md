@@ -2,8 +2,8 @@
 layout: post
 title: "基于Ubuntu 14.04 的DRBD配置"
 description: ""
-category: 
-tags: []
+category: "存储" 
+tags: [存储, 运维]
 ---
 {% include JB/setup %}
 <p>
