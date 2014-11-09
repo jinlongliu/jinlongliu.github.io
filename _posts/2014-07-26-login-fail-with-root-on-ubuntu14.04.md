@@ -9,7 +9,7 @@ tags: []
 <p>
 新安装完Ubuntu 14.04 server，在机器上配置了root用户的密码，但是SSH登录失败。报错信息“Password authentication failed”。
 解决办法，修改SSH配置文件
-<img src="/upload/2014/7/25/login_fail.png"/>
+<img src="/upload/2014/7/26/login_fail.png"/>
 </p>
 {% highlight ruby %}
 root@ubuntu#vim /etc/ssh/sshd_config
