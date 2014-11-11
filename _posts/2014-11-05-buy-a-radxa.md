@@ -2,7 +2,7 @@
 layout: post
 title: "Radxa展示"
 description: ""
-category: "其它"
+category: "Radxa"
 tags: []
 ---
 {% include JB/setup %}
