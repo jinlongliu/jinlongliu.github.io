@@ -23,3 +23,9 @@ root@iptables -t nat -L
 {% highlight ruby %}
 root@ubuntu#echo 1 > /proc/sys/net/ipv4/ip_forward
 {% endhighlight %}
+<p>
+端口转发NAT删除
+</p>
+{% highlight ruby %}
+root@ubuntu#iptables -t nat -D POSTROUTING 3  &&  iptables -t nat -D PREROUTING 2
+{% endhighlight %}
