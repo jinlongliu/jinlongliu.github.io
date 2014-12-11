@@ -40,7 +40,7 @@ Git提交
 {%  highlight ruby %}
 #git status
 #git add -a
-#git commit -m "XXX"
+#git commit -a -m "XXX"
 #git push origin master
 {% endhighlight %}
 <p>
