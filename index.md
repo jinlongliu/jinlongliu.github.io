@@ -5,7 +5,9 @@ tagline: 潜龙出水，海棠花开！
 ---
 {% include JB/setup %}
 
-Here's a sample "posts list".KING
+<p>
+文章清单：
+</p>
 
 <ul class="posts">
   {% for post in site.posts %}
