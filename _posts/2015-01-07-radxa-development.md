@@ -2,7 +2,7 @@
 layout: post
 title: "Radxa编译内核生成新镜像"
 description: ""
-category: "Linux" 
+category: "Radxa" 
 tags: ["radxa", "Ubuntu"]
 ---
 {% include JB/setup %}
