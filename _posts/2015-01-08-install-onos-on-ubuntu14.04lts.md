@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Ubuntu 14.04 64bits安装ONOS"
+title: "Ubuntu 14.04 64bits安装ONOS[源码]"
 description: ""
 category: "ONOS"
 tags: ["SDN", "ONOS"]
