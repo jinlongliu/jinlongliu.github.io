@@ -38,3 +38,49 @@ mvn --version	验证安装
 Ubuntu 14.04 64bits 安装JDK8 <br/>
 参见：http://jinlongliu.github.io/linux/2015/01/06/install-jdk8-on-ubuntu14.04lts/
 </p>
+<p>
+配置国内仓库，本地仓库
+</p>
+{% highlight ruby %}
+cd $M2_HOME/conf	进入Maven配置文件目录
+vim settings.xml
+{% endhighlight %}
+<p>
+本地仓库，当进行编译打包操作时会把远程仓库的包下载到本地仓库。<br/>
+另外的目的配置了本地仓库，只要将仓库包添加到该路径下，就不需要再到远程下载了。 <br/>
+ONOS技术群[425319659]共享中心,后续会提供ONOS编译的依赖库。
+</p>
+{% highlight xml %}
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+  <localRepository>/usr/local/repos</localRepository>
+  <!-- 此处/usr/local/repos可以修改为自己定义的路径 --> 
+  <!-- interactiveMode
+   | This will determine whether maven prompts you when it needs input. If set to false,
+   | maven will use a sensible default value, perhaps based on some other setting, for
+   | the parameter in question.
+   |
+   | Default: true
+  <interactiveMode>true</interactiveMode>
+  -->
+{% endhighlight %}
+<p>
+国内仓库OSChina中央库
+</p>
+{% highlight xml %}
+ <mirrors>
+    <mirror>
+      <id>CN</id>
+      <name>OSChina Central</name>
+      <url>http://maven.oschina.net/content/groups/public/</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+ </mirrors>
+{% endhighlight %}

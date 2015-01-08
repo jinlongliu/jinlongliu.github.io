@@ -8,7 +8,7 @@ tags: []
 {% include JB/setup %}
 <p>
 版本链接：http://karaf.apache.org/index/community/download.html <br/>
-3.0.2下载页面：http://www.apache.org/dyn/closer.cgi/karaf/3.0.2/apache-karaf-3.0.2.tar.gz
+3.0.2下载页面：http://www.apache.org/dyn/closer.cgi/karaf/3.0.2/apache-karaf-3.0.2.tar.gz <br/>
 ONOS技术群[425319659]共享中心：http://pan.baidu.com/s/1dDcVbfN
 </p>
 {% highlight ruby %}
@@ -19,8 +19,8 @@ cd /usr/local
 mv apache-karaf-3.0.2/ apache-karaf
   
 配置环境变量，依赖JAVA_HOME	可将以下编辑添加到/etc/profile或者~/.bashrc
-export KARAF_HOME=/usr/local/apache-karaf/
-export KARAF=$KARAF_HOME/bin
+export KARAF_ROOT=/usr/local/apache-karaf/
+export KARAF=$KARAF_ROOT/bin
 export PATH=$KARAF:$PATH
   
 其它环境变量
