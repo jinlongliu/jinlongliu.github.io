@@ -12,7 +12,7 @@ tags: []
 文件链接：http://openvswitch.org/releases/openvswitch-2.3.1.tar.gz <br/>
 ONOS技术群[425319659]共享中心：http://pan.baidu.com/s/1dDGkHn7
 </p>
-{% highlight ruby %}
+{% highlight bash %}
 #预先安装
 apt-get install dh-autoreconf libssl-dev openssl
 #编译源码
@@ -67,4 +67,10 @@ start-stop-daemon -q -S -x /usr/local/sbin/ovs-vswitchd -- --pidfile --detach --
   
 chmod +x /etc/init.d/openvswitch
 update-rc.d -f openvswitch defaults
+  
+验证安装
+root@king:/# ovs-vsctl -V
+ovs-vsctl (Open vSwitch) 2.3.1
+Compiled Jan  8 2015 11:38:39
+DB Schema 7.6.2
 {% endhighlight %}
