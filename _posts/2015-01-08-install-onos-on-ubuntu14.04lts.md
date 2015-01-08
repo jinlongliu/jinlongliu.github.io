@@ -198,5 +198,6 @@ root@king:/# netstat -lnput |grep 6633
 tcp6       0      0 :::6633                 :::*                    LISTEN      21716/java
 {% endhighlight %}
 <p>
-访问http://[your_ server_ip]:8181/onos/ui/index.html查看WebGui,请使用Chrome查看，笔者测试IE和QQ浏览器浮动窗口效果均有问题。
+访问http://[your_ server_ip]:8181/onos/ui/index.html查看WebGui,请使用Chrome查看，笔者测试IE和QQ浏览器浮动窗口效果均有问题。 <br/>
+使用Mininet建立拓扑，此时Mininet安装可以使用apt-get install mininet,不过似乎后面它会安装openvswitch可能会报错，忽略。service openvswitch-controller stop
 </p>
