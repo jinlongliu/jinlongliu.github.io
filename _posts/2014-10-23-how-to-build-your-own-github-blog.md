@@ -54,4 +54,10 @@ http://ruby.taobao.org/
 #gem sources --remove https://rubygems.org/
 #gem sources -a http://ruby.taobao.org/
 {% endhighlight %}
+<p>
+博客站点预览
+</p>
+{%  highlight ruby %}
+#rake preview
+{% endhighlight %}
 {% include JB/setup %}
