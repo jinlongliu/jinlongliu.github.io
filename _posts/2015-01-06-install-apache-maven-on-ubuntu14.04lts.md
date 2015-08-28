@@ -82,5 +82,11 @@ ONOS技术群[425319659]共享中心,后续会提供ONOS编译的依赖库。
       <url>http://maven.oschina.net/content/groups/public/</url>
       <mirrorOf>central</mirrorOf>
     </mirror>
+    <mirror>
+      <id>ui</id>
+      <mirrorOf>central</mirrorOf>
+      <name>Human Readable Name for this Mirror.</name>
+      <url>http://uk.maven.org/maven2/</url>
+    </mirror>
  </mirrors>
 {% endhighlight %}
