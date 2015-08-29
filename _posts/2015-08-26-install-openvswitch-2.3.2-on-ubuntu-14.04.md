@@ -20,6 +20,11 @@ tags: ["SDN", "ONOS"]
 #dpkg -i openvswitch-common_2.3.2-1_amd64.deb openvswitch-switch_2.3.2-1_amd64.deb
 {% endhighlight %}
 <p>
+#apt-get install dkms<br/>
+该命令可以通过下载http://yun.baidu.com/share/link?shareid=1517923564&uk=1818218422#path=%252F01Software%252F00-OpenvSwitch<br/>
+dmks_deb.tar.gz,解压，进入目录，然后执行#dpkg -i *.deb即可安装DKMS
+</p>
+<p>
 查看是否安装成功
 </p>
 {% highlight bash %}
