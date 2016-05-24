@@ -22,6 +22,7 @@ Ubuntu安装Jekyll本地测试环境
 #gem uninstall XXX
 {% endhighlight %}
 </p>
+xx
 <p>
 Github增加SSH-KEY
 {%  highlight ruby %}
@@ -52,7 +53,7 @@ Git提交
   
 http://ruby.taobao.org/
 #gem sources --remove https://rubygems.org/
-#gem sources -a http://ruby.taobao.org/
+#gem sources -a https://ruby.taobao.org/
 {% endhighlight %}
 <p>
 博客站点预览
