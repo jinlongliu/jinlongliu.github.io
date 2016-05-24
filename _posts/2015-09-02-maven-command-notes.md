@@ -33,7 +33,10 @@ Maven常用命令：
 15. 只测试而不编译，也不测试编译：mvn test -skipping compile -skipping test-compile 
       ( -skipping 的灵活运用，当然也可以用于其他组合命令)  
 16. 清除eclipse的一些系统设置:mvn eclipse:clean 
-  
+17. 跳过测试: mvn package -DskipTests
+18. 跳过测试且跳过测试编译:  mvn package -Dmaven.test.skip=true
+
+
 PS:
 一般使用情况是这样，首先通过cvs或svn下载代码到本机，然后执行mvn eclipse:eclipse生成ecllipse项目文件，然后导入到eclipse就行了；修改代码后执行mvn compile或mvn test检验，也可以下载eclipse的maven插件。
   
