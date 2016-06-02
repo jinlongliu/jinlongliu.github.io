@@ -235,4 +235,11 @@ UNCONN  0       0       *:1701               *:*           users:(("xl2tpd",4257
 UNCONN  0       0       ::1:500              :::*          users:(("pluto",42500,22))
 #### UDP端口号1701 4500 500 需要暴露到公网
 {% endhighlight %}
+
+#### VPN错误789修复
+
+注册表 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Rasman\Parameters <br/>
+在“编辑”菜单上，单击“新建”->“DWORD值” <br/>
+在“名称”框中，键入“ProhibitIpSec” <br/>
+在“数值数据”框中，键入“1”，然后单击“确定” <br/>
 {% include JB/setup %}
