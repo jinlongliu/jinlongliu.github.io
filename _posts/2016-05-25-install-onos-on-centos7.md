@@ -17,7 +17,8 @@ tags: []
 - ONOS source code
 
 ### 下载离线包
-http://pan.baidu.com/s/1bnfkIlx#path=%252F01Software%252F02-ONOS <br/>
+http://pan.baidu.com/s/1bnfkIlx <br/>
+01Software>>02-ONOS>>ONOS-offlive-build.tar.gz
 
 #### ONOS-offlive-build.tar.gz
 
