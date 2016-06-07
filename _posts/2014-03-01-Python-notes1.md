@@ -164,8 +164,8 @@ for num in range(10,20):  # 迭代 10 到 20 之间的数字
 {% endhighlight %}
 
 ### 循环嵌套
-#for语法
 {% highlight python %}
+#for语法
 for iterating_var in sequence:
     for iterating_var in sequence:
         statements(s)

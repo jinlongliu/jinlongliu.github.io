@@ -9,3 +9,7 @@ group: navigation
 <p>
 &nbsp; &nbsp;笔者就职于华讯方舟科技有限公司，目前从事云计算、SDN相关技术!
 </p>
+
+### E-Mail：
+* &nbsp; &nbsp;&nbsp;&nbsp;nnuljl@139.com 
+* &nbsp; &nbsp;&nbsp;&nbsp;nnuljl@gmail.com
