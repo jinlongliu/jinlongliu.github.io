@@ -63,6 +63,9 @@ wsrep_node_address="10.0.0.11"
 #First node
 mysqld --wsrep-new-cluster
 
+#或者
+service mysql start --wsrep-new-cluster
+
 #Not Firest node
 systemctl start mariadb
 {% endhighlight %}
