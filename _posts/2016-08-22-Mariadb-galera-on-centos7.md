@@ -32,12 +32,14 @@ yum --nogpgcheck -y install MariaDB-server galera
 
 #### Mysql配置
 {% highlight bash %}
+#vim /etc/my.cnf.d/server.cnf 
+
 [galera]
 wsrep_on=ON
 
 user=mysql
 binlog_format=ROW
-bind-address=0.0.0.0
+bind-address=10.0.0.11
 
 default_storage_engine=innodb
 innodb_autoinc_lock_mode=2
@@ -53,8 +55,11 @@ wsrep_node_name="node1"
 wsrep_node_address="10.0.0.11"
 {% endhighlight %}
 
+#### 注意：bind-address 不可以为127.0.0.1 也不可以为0.0.0.0否则与Haproxy冲突
+
 #### 启动集群
 {% highlight bash %}
+#在第一个节点上mysql_secure_installation进行用户配置，后续会自动同步
 #First node
 mysqld --wsrep-new-cluster
 
