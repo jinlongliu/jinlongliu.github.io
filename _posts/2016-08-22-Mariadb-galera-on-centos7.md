@@ -136,3 +136,23 @@ MariaDB [(none)]> show status like 'wsrep_%';
 +------------------------------+----------------------------------------------+
 {% endhighlight %}
 
+#### 与Haproxy配置进行负载均衡
+{% highlight bash %}
+#Haproxy 配置
+listen galera_cluster
+  bind 10.0.0.100:3306
+  balance  source
+  mode tcp
+  option tcpka
+  option mysql-check user haproxy
+  server controller1 10.0.0.11:3306 check weight 1
+  server controller2 10.0.0.12:3306 backup check weight 1
+  server controller3 10.0.0.13:3306 backup check weight 1
+
+#Mariadb 创建Health Check用户以启用监控检测
+mysql -uroot -pcctcloud -e "CREATE USER 'haproxy'@'192.168.1.10';"
+
+#192.168.1.10为haproxy主机ip,可以替换为%
+{% endhighlight %}
+
+
