@@ -61,7 +61,7 @@ wsrep_node_address="10.0.0.11"
 {% highlight bash %}
 #在第一个节点上mysql_secure_installation进行用户配置，后续会自动同步
 #First node
-mysqld --wsrep-new-cluster
+mysqld --wsrep-new-cluster >/dev/null 2>&1 &
 
 #或者
 service mysql start --wsrep-new-cluster
