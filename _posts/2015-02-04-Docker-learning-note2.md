@@ -113,7 +113,7 @@ ubuntu              latest              bd3d4369aebc        2 weeks ago         
 - 创建并启动 docker run NAME[:TAG]
 - 终止容器 docker stop CONTAINER_ID
 - 进入容器 docker attach CONTAINER_ID
-- 运行命令 docker exec COMMAND
+- 运行命令 docker exec -ti COMMAND
 - 删除容器 docker rm CONTAINER_ID
 - 导出容器 docker export CONTAINER_ID>OUTPUT_FILE_NAME
 - 导入容器为镜像 cat INPUT_FILE_NAME \| docker import -  [REPOSITORY[:TAG]]
