@@ -116,7 +116,7 @@ ubuntu              latest              bd3d4369aebc        2 weeks ago         
 - 运行命令 docker exec COMMAND
 - 删除容器 docker rm CONTAINER_ID
 - 导出容器 docker export CONTAINER_ID>OUTPUT_FILE_NAME
-- 导入容器为镜像 cat INPUT_FILE_NAME | docker import -  [REPOSITORY[:TAG]]
+- 导入容器为镜像 cat INPUT_FILE_NAME \| docker import -  [REPOSITORY[:TAG]]
 - 守护态参数 -d 和命令docker run 使用非docker create
 - docker rm xxx  可以使用容器ID的前三个字母来作为参数操作容器，会自动索引
 
