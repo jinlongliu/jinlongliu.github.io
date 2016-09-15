@@ -1,0 +1,55 @@
+pre code{
+  font-size: 14px;
+}
+
+p{
+  font-size: 16px;
+}
+
+h3{
+  color: #333333
+}
+
+.navbar{
+  
+  padding-left:126.5px;
+  padding-right:126.5px;
+  background: #99CC99;
+  z-index:100;
+  width:100%;
+  border:0px;
+}
+
+#footer {
+  background-color: #99CC99;
+}
+#logo{
+#  float:left;
+  background: #99CC99;
+  border:0px;
+}
+
+#logo img{
+  width:180px;
+  height:90px;
+  margin-left:126.5px;
+}
+
+.container{
+  margin-left:126.5px;
+  margin-right:126.5px
+}
+
+.navbar-default .navbar-brand{
+  color:#FFFFFF;
+#  color:#00CC00;
+#  font-family: "微软雅黑";
+  font-size:22px
+}
+
+
+.navbar-default .navbar-nav>li>a{
+  color:#FFFFFF;
+#  font-family: "微软雅黑";
+  font-size:22px
+}

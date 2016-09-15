@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>LVM2 Logical Volume Manager 详解（六）--LVM物理卷Physical Volume命令实战</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>LVM2 Logical Volume Manager 详解（六）--LVM物理卷Physical Volume命令实战 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-27</span>
+    </div>
+    <div class="content">
+      
+<p>
+命令清单，后面我们回来一一实践
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvm help</span>
+  <span class="no">Available</span> <span class="n">lvm</span> <span class="ss">commands:
+  </span><span class="no">Use</span> <span class="s1">'lvm help &lt;command&gt;'</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span>
+   
+  <span class="n">dumpconfig</span>      <span class="no">Dump</span> <span class="n">active</span> <span class="n">configuration</span>
+  <span class="n">formats</span>         <span class="no">List</span> <span class="n">available</span> <span class="n">metadata</span> <span class="n">formats</span>
+  <span class="n">help</span>            <span class="no">Display</span> <span class="n">help</span> <span class="k">for</span> <span class="n">commands</span>
+  <span class="n">lvchange</span>        <span class="no">Change</span> <span class="n">the</span> <span class="n">attributes</span> <span class="n">of</span> <span class="n">logical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">lvconvert</span>       <span class="no">Change</span> <span class="n">logical</span> <span class="n">volume</span> <span class="n">layout</span>
+  <span class="n">lvcreate</span>        <span class="no">Create</span> <span class="n">a</span> <span class="n">logical</span> <span class="n">volume</span>
+  <span class="n">lvdisplay</span>       <span class="no">Display</span> <span class="n">information</span> <span class="n">about</span> <span class="n">a</span> <span class="n">logical</span> <span class="n">volume</span>
+  <span class="n">lvextend</span>        <span class="no">Add</span> <span class="n">space</span> <span class="n">to</span> <span class="n">a</span> <span class="n">logical</span> <span class="n">volume</span>
+  <span class="n">lvmchange</span>       <span class="no">With</span> <span class="n">the</span> <span class="n">device</span> <span class="n">mapper</span><span class="p">,</span> <span class="n">this</span> <span class="n">is</span> <span class="n">obsolete</span> <span class="n">and</span> <span class="n">does</span> <span class="n">nothing</span><span class="p">.</span>
+  <span class="nf">lvmdiskscan</span>     <span class="no">List</span> <span class="n">devices</span> <span class="n">that</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">as</span> <span class="n">physical</span> <span class="n">volumes</span>
+  <span class="n">lvmsadc</span>         <span class="no">Collect</span> <span class="n">activity</span> <span class="n">data</span>
+  <span class="n">lvmsar</span>          <span class="no">Create</span> <span class="n">activity</span> <span class="n">report</span>
+  <span class="n">lvreduce</span>        <span class="no">Reduce</span> <span class="n">the</span> <span class="n">size</span> <span class="n">of</span> <span class="n">a</span> <span class="n">logical</span> <span class="n">volume</span>
+  <span class="n">lvremove</span>        <span class="no">Remove</span> <span class="n">logical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">from</span> <span class="n">the</span> <span class="nb">system</span>
+  <span class="n">lvrename</span>        <span class="no">Rename</span> <span class="n">a</span> <span class="n">logical</span> <span class="n">volume</span>
+  <span class="n">lvresize</span>        <span class="no">Resize</span> <span class="n">a</span> <span class="n">logical</span> <span class="n">volume</span>
+  <span class="n">lvs</span>             <span class="no">Display</span> <span class="n">information</span> <span class="n">about</span> <span class="n">logical</span> <span class="n">volumes</span>
+  <span class="n">lvscan</span>          <span class="no">List</span> <span class="n">all</span> <span class="n">logical</span> <span class="n">volumes</span> <span class="k">in</span> <span class="n">all</span> <span class="n">volume</span> <span class="n">groups</span>
+  <span class="n">pvchange</span>        <span class="no">Change</span> <span class="n">attributes</span> <span class="n">of</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">pvresize</span>        <span class="no">Resize</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">pvck</span>            <span class="no">Check</span> <span class="n">the</span> <span class="n">consistency</span> <span class="n">of</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">pvcreate</span>        <span class="no">Initialize</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">use</span> <span class="n">by</span> <span class="no">LVM</span>
+  <span class="n">pvdata</span>          <span class="no">Display</span> <span class="n">the</span> <span class="n">on</span><span class="o">-</span><span class="n">disk</span> <span class="n">metadata</span> <span class="k">for</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">pvdisplay</span>       <span class="no">Display</span> <span class="n">various</span> <span class="n">attributes</span> <span class="n">of</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">pvmove</span>          <span class="no">Move</span> <span class="n">extents</span> <span class="n">from</span> <span class="n">one</span> <span class="n">physical</span> <span class="n">volume</span> <span class="n">to</span> <span class="n">another</span>
+  <span class="n">pvremove</span>        <span class="no">Remove</span> <span class="no">LVM</span> <span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">from</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">pvs</span>             <span class="no">Display</span> <span class="n">information</span> <span class="n">about</span> <span class="n">physical</span> <span class="n">volumes</span>
+  <span class="n">pvscan</span>          <span class="no">List</span> <span class="n">all</span> <span class="n">physical</span> <span class="n">volumes</span>
+  <span class="n">segtypes</span>        <span class="no">List</span> <span class="n">available</span> <span class="n">segment</span> <span class="n">types</span>
+  <span class="n">vgcfgbackup</span>     <span class="no">Backup</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">configuration</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">vgcfgrestore</span>    <span class="no">Restore</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">configuration</span>
+  <span class="n">vgchange</span>        <span class="no">Change</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">attributes</span>
+  <span class="n">vgck</span>            <span class="no">Check</span> <span class="n">the</span> <span class="n">consistency</span> <span class="n">of</span> <span class="n">volume</span> <span class="n">group</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">vgconvert</span>       <span class="no">Change</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">metadata</span> <span class="nb">format</span>
+  <span class="n">vgcreate</span>        <span class="no">Create</span> <span class="n">a</span> <span class="n">volume</span> <span class="n">group</span>
+  <span class="n">vgdisplay</span>       <span class="no">Display</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">information</span>
+  <span class="n">vgexport</span>        <span class="no">Unregister</span> <span class="n">volume</span> <span class="n">group</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">from</span> <span class="n">the</span> <span class="nb">system</span>
+  <span class="n">vgextend</span>        <span class="no">Add</span> <span class="n">physical</span> <span class="n">volumes</span> <span class="n">to</span> <span class="n">a</span> <span class="n">volume</span> <span class="n">group</span>
+  <span class="n">vgimport</span>        <span class="no">Register</span> <span class="n">exported</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">with</span> <span class="nb">system</span>
+  <span class="n">vgmerge</span>         <span class="no">Merge</span> <span class="n">volume</span> <span class="n">groups</span>
+  <span class="n">vgmknodes</span>       <span class="no">Create</span> <span class="n">the</span> <span class="n">special</span> <span class="n">files</span> <span class="k">for</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">devices</span> <span class="k">in</span> <span class="sr">/dev
+  vgreduce        Remove physical volume(s) from a volume group
+  vgremove        Remove volume group(s)
+  vgrename        Rename a volume group
+  vgs             Display information about volume groups
+  vgscan          Search for all volume groups
+  vgsplit         Move physical volumes into a new or existing volume group
+  version         Display software and driver version information</span></code></pre></div>
+
+<p>
+配置转存命令
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvm dumpconfig --help</span>
+  <span class="ss">dumpconfig: </span><span class="no">Dump</span> <span class="n">active</span> <span class="n">configuration</span>
+  
+<span class="n">dumpconfig</span>      <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">file</span> <span class="n">filename</span><span class="p">]</span> 
+<span class="p">[</span><span class="no">ConfigurationVariable</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvm dumpconfig -f lvm-config.conf</span>
+<span class="c1">#会在当前目录生成LVM配置信息文件。</span></code></pre></div>
+
+<p>
+创建物理卷Physical Volume
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvcreate --help</span>
+  <span class="ss">pvcreate: </span><span class="no">Initialize</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">use</span> <span class="n">by</span> <span class="no">LVM</span>
+
+<span class="n">pvcreate</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">norestorefile</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">restorefile</span> <span class="n">file</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">|--</span><span class="n">force</span> <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="p">]]</span>        <span class="c1">#强制执行</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|-</span><span class="sc">?|</span><span class="o">--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">labelsector</span> <span class="n">sector</span><span class="p">]</span>           <span class="c1">#标签所处扇区，默认第二个扇区，扇区1，从0开始。可选0-3</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">M</span><span class="o">|--</span><span class="n">metadatatype</span> <span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">pvmetadatacopies</span> <span class="c1">#copies]                          #元数据备份数</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">metadatasize</span> <span class="no">MetadataSize</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]]</span>       <span class="c1">#元数据预留空间大小</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">dataalignment</span> <span class="no">Alignment</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]]</span>         <span class="c1">#数据对齐段</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">dataalignmentoffset</span> <span class="no">AlignmentOffset</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]]</span>      <span class="c1">#数据对齐偏移段，和前者一起决定了1stPE的位置</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">setphysicalvolumesize</span> <span class="no">PhysicalVolumeSize</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]</span>  <span class="c1">#覆盖自动检测到PV大小</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>         <span class="c1">#测试模式 </span>
+        <span class="p">[</span><span class="o">-</span><span class="n">u</span><span class="o">|--</span><span class="n">uuid</span> <span class="n">uuid</span><span class="p">]</span>    <span class="c1">#指定UUID</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>      <span class="c1">#输出信息</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="o">|--</span><span class="n">yes</span><span class="p">]</span>          <span class="c1">#对于所有询问回复y</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">Z</span><span class="o">|--</span><span class="n">zero</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span>   <span class="c1">#s是否擦除设备的前4个扇区，2048字节</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="no">PhysicalVolume</span> <span class="p">[</span><span class="no">PhysicalVolume</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>      <span class="c1">#实际的物理卷，可以跟接多个物理卷</span>
+  
+<span class="c1"># 创建偏移PV</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvcreate --dataalignment 80m --dataalignmentoffset 30m /dev/sdb1</span>
+  <span class="no">Physical</span> <span class="n">volume</span> <span class="s2">"/dev/sdb1"</span> <span class="n">successfully</span> <span class="n">created</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvs -o+pe_start</span>
+  <span class="no">PV</span>         <span class="no">VG</span>   <span class="no">Fmt</span>  <span class="no">Attr</span> <span class="no">PSize</span> <span class="no">PFree</span> <span class="mi">1</span><span class="n">st</span> <span class="no">PE</span> 
+  <span class="sr">/dev/s</span><span class="n">db1</span>       <span class="n">lvm2</span> <span class="n">a</span><span class="o">--</span>  <span class="mi">1</span><span class="o">.</span><span class="mo">00</span><span class="n">g</span> <span class="mi">1</span><span class="o">.</span><span class="mo">00</span><span class="n">g</span> <span class="mi">110</span><span class="o">.</span><span class="mo">00</span><span class="n">m</span>
+<span class="c1"># 数据对齐80MB，对齐偏移30MB，则第一块PE位置110MB。</span></code></pre></div>
+
+<p>
+删除物理卷Physical Volume
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvremove -h</span>
+  <span class="ss">pvremove: </span><span class="no">Remove</span> <span class="no">LVM</span> <span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">from</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">pvremove</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">|--</span><span class="n">force</span> <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="p">]]</span>             <span class="c1">#强制删除</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|-</span><span class="sc">?|</span><span class="o">--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>                           <span class="c1">#测试模式</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>                        <span class="c1">#详细输出</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="o">|--</span><span class="n">yes</span><span class="p">]</span>                            <span class="c1">#所有询问，输入y</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="no">PhysicalVolume</span> <span class="p">[</span><span class="no">PhysicalVolume</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>    <span class="c1">#所要删除的物理卷</span></code></pre></div>
+
+<p>
+更改物理卷Physical Volume
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvchange -h</span>
+  <span class="ss">pvchange: </span><span class="no">Change</span> <span class="n">attributes</span> <span class="n">of</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">pvchange</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">all</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>    <span class="c1">#是否自动备份</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>             <span class="c1">#debug模式</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">force</span><span class="p">]</span>             <span class="c1">#强制更改</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>              <span class="c1">#测试模式</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">u</span><span class="o">|--</span><span class="n">uuid</span><span class="p">]</span>              <span class="c1">#生成新的UUID</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">x</span><span class="o">|--</span><span class="n">allocatable</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>   <span class="c1">#是否分配Physical Extent在该PV,如果PV尚未纳入某个VG，则此操作无效。</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">metadataignore</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>   <span class="c1">#是否忽略PV上的元数据，如果忽略，LVM将不存储元数据在这个PV的元数据区域。</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">addtag</span> <span class="no">Tag</span><span class="p">]</span>           <span class="c1">#</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">deltag</span> <span class="no">Tag</span><span class="p">]</span>           <span class="c1">#</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span><span class="no">PhysicalVolumePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvresize --help</span>
+  <span class="ss">pvresize: </span><span class="no">Resize</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">pvresize</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|-</span><span class="sc">?|</span><span class="o">--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">setphysicalvolumesize</span> <span class="no">PhysicalVolumeSize</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]</span>     <span class="c1">#扩展或者收缩自动检测到的磁盘大小，</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="no">PhysicalVolume</span> <span class="p">[</span><span class="no">PhysicalVolume</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+<span class="c1">#实际操作</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvresize --setphysicalvolumesize 40m /dev/sdb1 </span>
+  <span class="no">Size</span> <span class="n">must</span> <span class="n">exceed</span> <span class="n">physical</span> <span class="n">extent</span> <span class="n">start</span> <span class="n">of</span> <span class="mi">225280</span> <span class="n">sectors</span> <span class="n">on</span> <span class="no">PV</span> <span class="sr">/dev/s</span><span class="n">db1</span><span class="o">.</span>
+  <span class="no">Physical</span> <span class="n">volume</span> <span class="s2">"/dev/sdb1"</span> <span class="n">changed</span>
+  <span class="mi">1</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">resized</span> <span class="o">/</span> <span class="mi">0</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">not</span> <span class="n">resized</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvs</span>
+  <span class="no">PV</span>         <span class="no">VG</span>   <span class="no">Fmt</span>  <span class="no">Attr</span> <span class="no">PSize</span>  <span class="no">PFree</span> 
+  <span class="sr">/dev/s</span><span class="n">db1</span>       <span class="n">lvm2</span> <span class="n">a</span><span class="o">--</span>  <span class="mi">40</span><span class="o">.</span><span class="mo">00</span><span class="n">m</span> <span class="mi">40</span><span class="o">.</span><span class="mo">00</span><span class="n">m</span>
+<span class="c1"># 如果新收缩的大小尾部，处于分配的PE上，则会拒绝收缩。</span></code></pre></div>
+
+<p>
+迁移PV上的PE
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvmove --help</span>
+  <span class="ss">pvmove: </span><span class="no">Move</span> <span class="n">extents</span> <span class="n">from</span> <span class="n">one</span> <span class="n">physical</span> <span class="n">volume</span> <span class="n">to</span> <span class="n">another</span>
+
+<span class="n">pvmove</span> 
+        <span class="p">[</span><span class="o">--</span><span class="nb">abort</span><span class="p">]</span>                     <span class="c1">#过程中中断进程</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">alloc</span> <span class="no">AllocationPolicy</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">b</span><span class="o">|--</span><span class="n">background</span><span class="p">]</span>             <span class="c1">#在后台运行守护进程</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|-</span><span class="sc">?|</span><span class="o">--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="o">|--</span><span class="n">interval</span> <span class="n">seconds</span><span class="p">]</span>       <span class="c1">#按周期进程进度百分比报告</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">noudevsync</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[{</span><span class="o">-</span><span class="n">n</span><span class="o">|--</span><span class="nb">name</span><span class="p">}</span> <span class="no">LogicalVolume</span><span class="p">]</span>   <span class="c1">#迁移指定LV的PE从源PV上</span>
+        <span class="no">SourcePhysicalVolume</span><span class="p">[</span><span class="ss">:PhysicalExtent</span><span class="p">[</span><span class="o">-</span><span class="no">PhysicalExtent</span><span class="p">].</span><span class="nf">.</span><span class="o">.</span><span class="p">]}</span>                    <span class="c1">#源物理卷</span>
+        <span class="p">[</span><span class="no">DestinationPhysicalVolume</span><span class="p">[</span><span class="ss">:PhysicalExtent</span><span class="p">[</span><span class="o">-</span><span class="no">PhysicalExtent</span><span class="p">].</span><span class="nf">.</span><span class="o">.</span><span class="p">].</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>           <span class="c1">#目的物理卷</span></code></pre></div>
+
+<p>
+指定LV的PE迁移到指定PV上，目的PV未指定，则调用VG的分配规则。<br />
+如果pvmove被任何原因中断，比如宕机。重新不带参数执行pvmove，重启上次最后检查点的任何move进程。另外pvmove --about在任何时间，在最后检查点终止。<br />
+一次可以运行多个pvmove来移动不同源PV，但是额外的pvmove将忽略已经进行中的数据被改的LV，所以一些数据可能不会移动。<br />
+pvmove工作流程：<br />
+临时的pvmove逻辑卷被创建，来存储移动所有的数据。<br />
+VG中的每个LV搜索需要被移动的连续数据，每找到一个数据段，新的segment被加入临时LV的尾部。拷贝数据，LV中更新使用新的数据段。<br />
+卷组VG上的元数据更新。<br />
+pvmove 逻辑卷的第一个数据段被激活，开始镜像数据的第一部分。一次只镜像一个数据段，这样效率高。<br />
+守护进程在指定时间周期检查过程，当它检测到第一个临时镜像在同步时，它中断镜像，那样只有那段数据的新位置被使用，写入一个检查点到VG的磁盘元数据中。然后激活pvmove LV中的下个数据段。<br />
+当没有需要镜像的数据段时，临时逻辑卷将被移除。更新VG元数据。LV指向新的位置。<br />
+镜像迁移不支持，快照和快照原始卷。
+</p>
+<p>
+检测物理卷元数据
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvck --help</span>
+  <span class="ss">pvck: </span><span class="no">Check</span> <span class="n">the</span> <span class="n">consistency</span> <span class="n">of</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">pvck</span>    <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">labelsector</span> <span class="n">sector</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">PhysicalVolume</span> <span class="p">[</span><span class="no">PhysicalVolume</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+<span class="c1">#默认，4扇区作为PV的标签扫描，从扇区0开始。指定不同的扫描扇区，在数据恢复很有用。</span></code></pre></div>
+
+<p>
+显示物理卷信息
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvdisplay --help</span>
+  <span class="ss">pvdisplay: </span><span class="no">Display</span> <span class="n">various</span> <span class="n">attributes</span> <span class="n">of</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">pvdisplay</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="o">|--</span><span class="n">colon</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">m</span><span class="o">|--</span><span class="n">maps</span><span class="p">]</span>          <span class="c1">#显示物理块到逻辑卷和逻辑块的映射</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">nosuffix</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="o">|--</span><span class="n">short</span><span class="p">]</span>         <span class="c1">#只显示指定PV的大小</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">units</span> <span class="n">hHbBsSkKmMgGtTpPeE</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span><span class="no">PhysicalVolumePath</span> <span class="p">[</span><span class="no">PhysicalVolumePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]</span>
+
+<span class="n">pvdisplay</span> <span class="o">--</span><span class="n">columns</span><span class="o">|-</span><span class="no">C</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">aligned</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">all</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">noheadings</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">nosuffix</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">o</span><span class="o">|--</span><span class="n">options</span> <span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="no">Field</span><span class="p">[,</span><span class="no">Field</span><span class="p">]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">O</span><span class="o">|--</span><span class="n">sort</span> <span class="p">[</span><span class="o">+|-</span><span class="p">]</span><span class="n">key1</span><span class="p">[,[</span><span class="o">+|-</span><span class="p">]</span><span class="n">key2</span><span class="p">[,.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">separator</span> <span class="no">Separator</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">unbuffered</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">units</span> <span class="n">hHbBsSkKmMgGtTpPeE</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span><span class="no">PhysicalVolumePath</span> <span class="p">[</span><span class="no">PhysicalVolumePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]</span>
+  
+  
+<span class="c1">#-c 参数，以冒号分割返回PV属性。分比为：PV设备名；卷组名；物理卷大小KB；内部PV号；PV状态；</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvs --help</span>
+  <span class="ss">pvs: </span><span class="no">Display</span> <span class="n">information</span> <span class="n">about</span> <span class="n">physical</span> <span class="n">volumes</span>
+
+<span class="n">pvs</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">all</span><span class="p">]</span>            <span class="c1">#显示未被pvcreate初始化设备信息</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">aligned</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|-</span><span class="sc">?|</span><span class="o">--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">nameprefixes</span><span class="p">]</span>     <span class="c1">#增加LVM2_的前缀</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">noheadings</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">nosuffix</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">o</span><span class="o">|--</span><span class="n">options</span> <span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="no">Field</span><span class="p">[,</span><span class="no">Field</span><span class="p">]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">O</span><span class="o">|--</span><span class="n">sort</span> <span class="p">[</span><span class="o">+|-</span><span class="p">]</span><span class="n">key1</span><span class="p">[,[</span><span class="o">+|-</span><span class="p">]</span><span class="n">key2</span><span class="p">[,.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">P</span><span class="o">|--</span><span class="n">partial</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">rows</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">segments</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">separator</span> <span class="no">Separator</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">trustcache</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">unbuffered</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">units</span> <span class="n">hHbBsSkKmMgGtTpPeE</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">unquoted</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span><span class="no">PhysicalVolume</span> <span class="p">[</span><span class="no">PhysicalVolume</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]</span>
+  
+  
+<span class="c1">#pvs -o help 显示列属性字段，所有字段如下。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvs -o help</span>
+  <span class="no">Logical</span> <span class="no">Volume</span> <span class="no">Fields</span>
+  <span class="o">---------------------</span>
+    <span class="n">lv_all</span>               <span class="o">-</span> <span class="no">All</span> <span class="n">fields</span> <span class="k">in</span> <span class="n">this</span> <span class="n">section</span><span class="p">.</span>
+    <span class="nf">lv_uuid</span>              <span class="o">-</span> <span class="no">Unique</span> <span class="n">identifier</span><span class="p">.</span>
+    <span class="nf">lv_name</span>              <span class="o">-</span> <span class="no">Name</span><span class="o">.</span>  <span class="no">LVs</span> <span class="n">created</span> <span class="k">for</span> <span class="n">internal</span> <span class="n">use</span> <span class="n">are</span> <span class="n">enclosed</span> <span class="k">in</span> <span class="n">brackets</span><span class="p">.</span>
+    <span class="nf">lv_path</span>              <span class="o">-</span> <span class="no">Full</span> <span class="n">pathname</span> <span class="k">for</span> <span class="no">LV</span><span class="p">.</span>
+    <span class="nf">lv_attr</span>              <span class="o">-</span> <span class="no">Various</span> <span class="n">attributes</span> <span class="o">-</span> <span class="n">see</span> <span class="n">man</span> <span class="n">page</span><span class="p">.</span>
+    <span class="nf">lv_major</span>             <span class="o">-</span> <span class="no">Persistent</span> <span class="n">major</span> <span class="n">number</span> <span class="n">or</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">not</span> <span class="n">persistent</span><span class="p">.</span>
+    <span class="nf">lv_minor</span>             <span class="o">-</span> <span class="no">Persistent</span> <span class="n">minor</span> <span class="n">number</span> <span class="n">or</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">not</span> <span class="n">persistent</span><span class="p">.</span>
+    <span class="nf">lv_read_ahead</span>        <span class="o">-</span> <span class="no">Read</span> <span class="n">ahead</span> <span class="n">setting</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">lv_kernel_major</span>      <span class="o">-</span> <span class="no">Currently</span> <span class="n">assigned</span> <span class="n">major</span> <span class="n">number</span> <span class="n">or</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="no">LV</span> <span class="n">is</span> <span class="n">not</span> <span class="n">active</span><span class="p">.</span>
+    <span class="nf">lv_kernel_minor</span>      <span class="o">-</span> <span class="no">Currently</span> <span class="n">assigned</span> <span class="n">minor</span> <span class="n">number</span> <span class="n">or</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="no">LV</span> <span class="n">is</span> <span class="n">not</span> <span class="n">active</span><span class="p">.</span>
+    <span class="nf">lv_kernel_read_ahead</span> <span class="o">-</span> <span class="no">Currently</span><span class="o">-</span><span class="k">in</span><span class="o">-</span><span class="n">use</span> <span class="n">read</span> <span class="n">ahead</span> <span class="n">setting</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">lv_size</span>              <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="no">LV</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">lv_metadata_size</span>     <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">the</span> <span class="n">size</span> <span class="n">of</span> <span class="n">the</span> <span class="no">LV</span> <span class="n">that</span> <span class="n">holds</span> <span class="n">the</span> <span class="n">metadata</span><span class="p">.</span>
+    <span class="nf">seg_count</span>            <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">segments</span> <span class="k">in</span> <span class="no">LV</span><span class="p">.</span>
+    <span class="nf">origin</span>               <span class="o">-</span> <span class="no">For</span> <span class="n">snapshots</span><span class="p">,</span> <span class="n">the</span> <span class="n">origin</span> <span class="n">device</span> <span class="n">of</span> <span class="n">this</span> <span class="no">LV</span><span class="p">.</span>
+    <span class="nf">origin_size</span>          <span class="o">-</span> <span class="no">For</span> <span class="n">snapshots</span><span class="p">,</span> <span class="n">the</span> <span class="n">size</span> <span class="n">of</span> <span class="n">the</span> <span class="n">origin</span> <span class="n">device</span> <span class="n">of</span> <span class="n">this</span> <span class="no">LV</span><span class="p">.</span>
+    <span class="nf">data_percent</span>         <span class="o">-</span> <span class="no">For</span> <span class="n">snapshot</span> <span class="n">and</span> <span class="n">thin</span> <span class="n">pools</span> <span class="n">and</span> <span class="n">volumes</span><span class="p">,</span> <span class="n">the</span> <span class="n">percentage</span> <span class="n">full</span> <span class="k">if</span> <span class="no">LV</span> <span class="n">is</span> <span class="n">active</span><span class="p">.</span>
+    <span class="nf">snap_percent</span>         <span class="o">-</span> <span class="no">For</span> <span class="n">snapshots</span><span class="p">,</span> <span class="n">the</span> <span class="n">percentage</span> <span class="n">full</span> <span class="k">if</span> <span class="no">LV</span> <span class="n">is</span> <span class="n">active</span><span class="p">.</span>
+    <span class="nf">metadata_percent</span>     <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">the</span> <span class="n">percentage</span> <span class="n">of</span> <span class="n">metadata</span> <span class="n">full</span> <span class="k">if</span> <span class="no">LV</span> <span class="n">is</span> <span class="n">active</span><span class="p">.</span>
+    <span class="nf">copy_percent</span>         <span class="o">-</span> <span class="no">For</span> <span class="n">mirrors</span> <span class="n">and</span> <span class="n">pvmove</span><span class="p">,</span> <span class="n">current</span> <span class="n">percentage</span> <span class="k">in</span><span class="o">-</span><span class="n">sync</span><span class="p">.</span>
+    <span class="nf">move_pv</span>              <span class="o">-</span> <span class="no">For</span> <span class="n">pvmove</span><span class="p">,</span> <span class="no">Source</span> <span class="no">PV</span> <span class="n">of</span> <span class="n">temporary</span> <span class="no">LV</span> <span class="n">created</span> <span class="n">by</span> <span class="n">pvmove</span><span class="p">.</span>
+    <span class="nf">convert_lv</span>           <span class="o">-</span> <span class="no">For</span> <span class="n">lvconvert</span><span class="p">,</span> <span class="no">Name</span> <span class="n">of</span> <span class="n">temporary</span> <span class="no">LV</span> <span class="n">created</span> <span class="n">by</span> <span class="n">lvconvert</span><span class="p">.</span>
+    <span class="nf">mirror_log</span>           <span class="o">-</span> <span class="no">For</span> <span class="n">mirrors</span><span class="p">,</span> <span class="n">the</span> <span class="no">LV</span> <span class="n">holding</span> <span class="n">the</span> <span class="n">synchronisation</span> <span class="n">log</span><span class="p">.</span>
+    <span class="nf">data_lv</span>              <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">the</span> <span class="no">LV</span> <span class="n">holding</span> <span class="n">the</span> <span class="n">associated</span> <span class="n">data</span><span class="p">.</span>
+    <span class="nf">metadata_lv</span>          <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">the</span> <span class="no">LV</span> <span class="n">holding</span> <span class="n">the</span> <span class="n">associated</span> <span class="n">metadata</span><span class="p">.</span>
+    <span class="nf">pool_lv</span>              <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">volumes</span><span class="p">,</span> <span class="n">the</span> <span class="n">thin</span> <span class="n">pool</span> <span class="no">LV</span> <span class="k">for</span> <span class="n">this</span> <span class="n">volume</span><span class="p">.</span>
+    <span class="nf">lv_tags</span>              <span class="o">-</span> <span class="no">Tags</span><span class="p">,</span> <span class="k">if</span> <span class="n">any</span><span class="p">.</span>
+    <span class="nf">lv_time</span>              <span class="o">-</span> <span class="no">Creation</span> <span class="n">time</span> <span class="n">of</span> <span class="n">the</span> <span class="no">LV</span><span class="p">,</span> <span class="k">if</span> <span class="n">known</span>
+    <span class="n">lv_host</span>              <span class="o">-</span> <span class="no">Creation</span> <span class="n">host</span> <span class="n">of</span> <span class="n">the</span> <span class="no">LV</span><span class="p">,</span> <span class="k">if</span> <span class="n">known</span><span class="p">.</span>
+    <span class="nf">modules</span>              <span class="o">-</span> <span class="no">Kernel</span> <span class="n">device</span><span class="o">-</span><span class="n">mapper</span> <span class="n">modules</span> <span class="n">required</span> <span class="k">for</span> <span class="n">this</span> <span class="no">LV</span><span class="o">.</span>
+   
+  <span class="no">Physical</span> <span class="no">Volume</span> <span class="no">Label</span> <span class="no">Fields</span>
+  <span class="o">----------------------------</span>
+    <span class="n">pv_all</span>               <span class="o">-</span> <span class="no">All</span> <span class="n">fields</span> <span class="k">in</span> <span class="n">this</span> <span class="n">section</span><span class="p">.</span>
+    <span class="nf">pv_fmt</span>               <span class="o">-</span> <span class="no">Type</span> <span class="n">of</span> <span class="n">metadata</span><span class="p">.</span>
+    <span class="nf">pv_uuid</span>              <span class="o">-</span> <span class="no">Unique</span> <span class="n">identifier</span><span class="p">.</span>
+    <span class="nf">dev_size</span>             <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="n">underlying</span> <span class="n">device</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">pv_name</span>              <span class="o">-</span> <span class="no">Name</span><span class="p">.</span>
+    <span class="nf">pv_mda_free</span>          <span class="o">-</span> <span class="no">Free</span> <span class="n">metadata</span> <span class="n">area</span> <span class="n">space</span> <span class="n">on</span> <span class="n">this</span> <span class="n">device</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">pv_mda_size</span>          <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="n">smallest</span> <span class="n">metadata</span> <span class="n">area</span> <span class="n">on</span> <span class="n">this</span> <span class="n">device</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="o">.</span>
+   
+  <span class="no">Physical</span> <span class="no">Volume</span> <span class="no">Fields</span>
+  <span class="o">----------------------</span>
+    <span class="n">pv_all</span>               <span class="o">-</span> <span class="no">All</span> <span class="n">fields</span> <span class="k">in</span> <span class="n">this</span> <span class="n">section</span><span class="p">.</span>
+    <span class="nf">pe_start</span>             <span class="o">-</span> <span class="no">Offset</span> <span class="n">to</span> <span class="n">the</span> <span class="n">start</span> <span class="n">of</span> <span class="n">data</span> <span class="n">on</span> <span class="n">the</span> <span class="n">underlying</span> <span class="n">device</span><span class="p">.</span>
+    <span class="nf">pv_size</span>              <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="no">PV</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">pv_free</span>              <span class="o">-</span> <span class="no">Total</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">unallocated</span> <span class="n">space</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">pv_used</span>              <span class="o">-</span> <span class="no">Total</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">allocated</span> <span class="n">space</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">pv_attr</span>              <span class="o">-</span> <span class="no">Various</span> <span class="n">attributes</span> <span class="o">-</span> <span class="n">see</span> <span class="n">man</span> <span class="n">page</span><span class="p">.</span>
+    <span class="nf">pv_pe_count</span>          <span class="o">-</span> <span class="no">Total</span> <span class="n">number</span> <span class="n">of</span> <span class="no">Physical</span> <span class="no">Extents</span><span class="p">.</span>
+    <span class="nf">pv_pe_alloc_count</span>    <span class="o">-</span> <span class="no">Total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">allocated</span> <span class="no">Physical</span> <span class="no">Extents</span><span class="p">.</span>
+    <span class="nf">pv_tags</span>              <span class="o">-</span> <span class="no">Tags</span><span class="p">,</span> <span class="k">if</span> <span class="n">any</span><span class="p">.</span>
+    <span class="nf">pv_mda_count</span>         <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">metadata</span> <span class="n">areas</span> <span class="n">on</span> <span class="n">this</span> <span class="n">device</span><span class="p">.</span>
+    <span class="nf">pv_mda_used_count</span>    <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">metadata</span> <span class="n">areas</span> <span class="k">in</span> <span class="n">use</span> <span class="n">on</span> <span class="n">this</span> <span class="n">device</span><span class="o">.</span>
+   
+  <span class="no">Volume</span> <span class="no">Group</span> <span class="no">Fields</span>
+  <span class="o">-------------------</span>
+    <span class="n">vg_all</span>               <span class="o">-</span> <span class="no">All</span> <span class="n">fields</span> <span class="k">in</span> <span class="n">this</span> <span class="n">section</span><span class="p">.</span>
+    <span class="nf">vg_fmt</span>               <span class="o">-</span> <span class="no">Type</span> <span class="n">of</span> <span class="n">metadata</span><span class="p">.</span>
+    <span class="nf">vg_uuid</span>              <span class="o">-</span> <span class="no">Unique</span> <span class="n">identifier</span><span class="p">.</span>
+    <span class="nf">vg_name</span>              <span class="o">-</span> <span class="no">Name</span><span class="p">.</span>
+    <span class="nf">vg_attr</span>              <span class="o">-</span> <span class="no">Various</span> <span class="n">attributes</span> <span class="o">-</span> <span class="n">see</span> <span class="n">man</span> <span class="n">page</span><span class="p">.</span>
+    <span class="nf">vg_size</span>              <span class="o">-</span> <span class="no">Total</span> <span class="n">size</span> <span class="n">of</span> <span class="no">VG</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">vg_free</span>              <span class="o">-</span> <span class="no">Total</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">free</span> <span class="n">space</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">vg_sysid</span>             <span class="o">-</span> <span class="no">System</span> <span class="no">ID</span> <span class="n">indicating</span> <span class="k">when</span> <span class="n">and</span> <span class="n">where</span> <span class="n">it</span> <span class="n">was</span> <span class="n">created</span><span class="p">.</span>
+    <span class="nf">vg_extent_size</span>       <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="no">Physical</span> <span class="no">Extents</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">vg_extent_count</span>      <span class="o">-</span> <span class="no">Total</span> <span class="n">number</span> <span class="n">of</span> <span class="no">Physical</span> <span class="no">Extents</span><span class="p">.</span>
+    <span class="nf">vg_free_count</span>        <span class="o">-</span> <span class="no">Total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">unallocated</span> <span class="no">Physical</span> <span class="no">Extents</span><span class="p">.</span>
+    <span class="nf">max_lv</span>               <span class="o">-</span> <span class="no">Maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="no">LVs</span> <span class="n">allowed</span> <span class="k">in</span> <span class="no">VG</span> <span class="n">or</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">unlimited</span><span class="p">.</span>
+    <span class="nf">max_pv</span>               <span class="o">-</span> <span class="no">Maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="no">PVs</span> <span class="n">allowed</span> <span class="k">in</span> <span class="no">VG</span> <span class="n">or</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">unlimited</span><span class="p">.</span>
+    <span class="nf">pv_count</span>             <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="no">PVs</span><span class="p">.</span>
+    <span class="nf">lv_count</span>             <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="no">LVs</span><span class="p">.</span>
+    <span class="nf">snap_count</span>           <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">snapshots</span><span class="p">.</span>
+    <span class="nf">vg_seqno</span>             <span class="o">-</span> <span class="no">Revision</span> <span class="n">number</span> <span class="n">of</span> <span class="n">internal</span> <span class="n">metadata</span><span class="o">.</span>  <span class="no">Incremented</span> <span class="n">whenever</span> <span class="n">it</span> <span class="n">changes</span><span class="p">.</span>
+    <span class="nf">vg_tags</span>              <span class="o">-</span> <span class="no">Tags</span><span class="p">,</span> <span class="k">if</span> <span class="n">any</span><span class="p">.</span>
+    <span class="nf">vg_mda_count</span>         <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">metadata</span> <span class="n">areas</span> <span class="n">on</span> <span class="n">this</span> <span class="no">VG</span><span class="p">.</span>
+    <span class="nf">vg_mda_used_count</span>    <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">metadata</span> <span class="n">areas</span> <span class="k">in</span> <span class="n">use</span> <span class="n">on</span> <span class="n">this</span> <span class="no">VG</span><span class="p">.</span>
+    <span class="nf">vg_mda_free</span>          <span class="o">-</span> <span class="no">Free</span> <span class="n">metadata</span> <span class="n">area</span> <span class="n">space</span> <span class="k">for</span> <span class="n">this</span> <span class="no">VG</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">vg_mda_size</span>          <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="n">smallest</span> <span class="n">metadata</span> <span class="n">area</span> <span class="k">for</span> <span class="n">this</span> <span class="no">VG</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">vg_mda_copies</span>        <span class="o">-</span> <span class="no">Target</span> <span class="n">number</span> <span class="n">of</span> <span class="k">in</span> <span class="n">use</span> <span class="n">metadata</span> <span class="n">areas</span> <span class="k">in</span> <span class="n">the</span> <span class="no">VG</span><span class="o">.</span>
+   
+  <span class="no">Logical</span> <span class="no">Volume</span> <span class="no">Segment</span> <span class="no">Fields</span>
+  <span class="o">-----------------------------</span>
+    <span class="n">seg_all</span>              <span class="o">-</span> <span class="no">All</span> <span class="n">fields</span> <span class="k">in</span> <span class="n">this</span> <span class="n">section</span><span class="p">.</span>
+    <span class="nf">segtype</span>              <span class="o">-</span> <span class="no">Type</span> <span class="n">of</span> <span class="no">LV</span> <span class="n">segment</span><span class="p">.</span>
+    <span class="nf">stripes</span>              <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">stripes</span> <span class="n">or</span> <span class="n">mirror</span> <span class="n">legs</span><span class="p">.</span>
+    <span class="nf">stripesize</span>           <span class="o">-</span> <span class="no">For</span> <span class="n">stripes</span><span class="p">,</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">data</span> <span class="n">placed</span> <span class="n">on</span> <span class="n">one</span> <span class="n">device</span> <span class="n">before</span> <span class="n">switching</span> <span class="n">to</span> <span class="n">the</span> <span class="k">next</span><span class="p">.</span>
+    <span class="nf">stripe_size</span>          <span class="o">-</span> <span class="no">For</span> <span class="n">stripes</span><span class="p">,</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">data</span> <span class="n">placed</span> <span class="n">on</span> <span class="n">one</span> <span class="n">device</span> <span class="n">before</span> <span class="n">switching</span> <span class="n">to</span> <span class="n">the</span> <span class="k">next</span><span class="p">.</span>
+    <span class="nf">regionsize</span>           <span class="o">-</span> <span class="no">For</span> <span class="n">mirrors</span><span class="p">,</span> <span class="n">the</span> <span class="n">unit</span> <span class="n">of</span> <span class="n">data</span> <span class="n">copied</span> <span class="k">when</span> <span class="n">synchronising</span> <span class="n">devices</span><span class="p">.</span>
+    <span class="nf">region_size</span>          <span class="o">-</span> <span class="no">For</span> <span class="n">mirrors</span><span class="p">,</span> <span class="n">the</span> <span class="n">unit</span> <span class="n">of</span> <span class="n">data</span> <span class="n">copied</span> <span class="k">when</span> <span class="n">synchronising</span> <span class="n">devices</span><span class="p">.</span>
+    <span class="nf">chunksize</span>            <span class="o">-</span> <span class="no">For</span> <span class="n">snapshots</span><span class="p">,</span> <span class="n">the</span> <span class="n">unit</span> <span class="n">of</span> <span class="n">data</span> <span class="n">used</span> <span class="k">when</span> <span class="n">tracking</span> <span class="n">changes</span><span class="p">.</span>
+    <span class="nf">chunk_size</span>           <span class="o">-</span> <span class="no">For</span> <span class="n">snapshots</span><span class="p">,</span> <span class="n">the</span> <span class="n">unit</span> <span class="n">of</span> <span class="n">data</span> <span class="n">used</span> <span class="k">when</span> <span class="n">tracking</span> <span class="n">changes</span><span class="p">.</span>
+    <span class="nf">thin_count</span>           <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">thin</span> <span class="n">volumes</span> <span class="k">in</span> <span class="n">this</span> <span class="n">pool</span><span class="p">.</span>
+    <span class="nf">discards</span>             <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">how</span> <span class="n">discards</span> <span class="n">are</span> <span class="n">handled</span><span class="p">.</span>
+    <span class="nf">zero</span>                 <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="k">if</span> <span class="n">zeroing</span> <span class="n">is</span> <span class="n">enabled</span><span class="p">.</span>
+    <span class="nf">transaction_id</span>       <span class="o">-</span> <span class="no">For</span> <span class="n">thin</span> <span class="n">pools</span><span class="p">,</span> <span class="n">the</span> <span class="n">transaction</span> <span class="nb">id</span><span class="p">.</span>
+    <span class="nf">seg_start</span>            <span class="o">-</span> <span class="no">Offset</span> <span class="n">within</span> <span class="n">the</span> <span class="no">LV</span> <span class="n">to</span> <span class="n">the</span> <span class="n">start</span> <span class="n">of</span> <span class="n">the</span> <span class="n">segment</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">seg_start_pe</span>         <span class="o">-</span> <span class="no">Offset</span> <span class="n">within</span> <span class="n">the</span> <span class="no">LV</span> <span class="n">to</span> <span class="n">the</span> <span class="n">start</span> <span class="n">of</span> <span class="n">the</span> <span class="n">segment</span> <span class="k">in</span> <span class="n">physical</span> <span class="n">extents</span><span class="p">.</span>
+    <span class="nf">seg_size</span>             <span class="o">-</span> <span class="no">Size</span> <span class="n">of</span> <span class="n">segment</span> <span class="k">in</span> <span class="n">current</span> <span class="n">units</span><span class="p">.</span>
+    <span class="nf">seg_tags</span>             <span class="o">-</span> <span class="no">Tags</span><span class="p">,</span> <span class="k">if</span> <span class="n">any</span><span class="p">.</span>
+    <span class="nf">seg_pe_ranges</span>        <span class="o">-</span> <span class="no">Ranges</span> <span class="n">of</span> <span class="no">Physical</span> <span class="no">Extents</span> <span class="n">of</span> <span class="n">underlying</span> <span class="n">devices</span> <span class="k">in</span> <span class="n">command</span> <span class="n">line</span> <span class="nb">format</span><span class="p">.</span>
+    <span class="nf">devices</span>              <span class="o">-</span> <span class="no">Underlying</span> <span class="n">devices</span> <span class="n">used</span> <span class="n">with</span> <span class="n">starting</span> <span class="n">extent</span> <span class="n">numbers</span><span class="o">.</span>
+   
+  <span class="no">Physical</span> <span class="no">Volume</span> <span class="no">Segment</span> <span class="no">Fields</span>
+  <span class="o">------------------------------</span>
+    <span class="n">pvseg_all</span>            <span class="o">-</span> <span class="no">All</span> <span class="n">fields</span> <span class="k">in</span> <span class="n">this</span> <span class="n">section</span><span class="p">.</span>
+    <span class="nf">pvseg_start</span>          <span class="o">-</span> <span class="no">Physical</span> <span class="no">Extent</span> <span class="n">number</span> <span class="n">of</span> <span class="n">start</span> <span class="n">of</span> <span class="n">segment</span><span class="p">.</span>
+    <span class="nf">pvseg_size</span>           <span class="o">-</span> <span class="no">Number</span> <span class="n">of</span> <span class="n">extents</span> <span class="k">in</span> <span class="n">segment</span><span class="o">.</span></code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-5" title="LVM2 Logical Volume Manager 详解（五）--利用快照备份">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-7" title="LVM2 Logical Volume Manager 详解（七）--LVM卷组Volume Group命令实战">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-6"  data-title="LVM2 Logical Volume Manager 详解（六）--LVM物理卷Physical Volume命令实战 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

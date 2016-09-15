@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Python学习笔记（二）</title>
+    <meta name="description" content="Python学习笔记">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>Python学习笔记（二） </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-03-01</span>
+    </div>
+    <div class="content">
+      
+<h2 id="python">Python日期和时间</h2>
+<p>获取当前时间</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">localtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="k">print</span> <span class="s">"本地时间为 :"</span><span class="p">,</span> <span class="n">localtime</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#格式化日期</span>
+<span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">format</span><span class="p">[,</span> <span class="n">t</span><span class="p">])</span>
+<span class="c"># 格式化成2016-03-20 11:45:39形式</span>
+<span class="k">print</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S"</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span> 
+
+<span class="c"># 格式化成Sat Mar 28 22:24:24 2016形式</span>
+<span class="k">print</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">a </span><span class="si">%</span><span class="s">b </span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S </span><span class="si">%</span><span class="s">Y"</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span> 
+  
+<span class="c"># 将格式字符串转换为时间戳</span>
+<span class="n">a</span> <span class="o">=</span> <span class="s">"Sat Mar 28 22:24:24 2016"</span>
+<span class="k">print</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">"</span><span class="si">%</span><span class="s">a </span><span class="si">%</span><span class="s">b </span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S </span><span class="si">%</span><span class="s">Y"</span><span class="p">))</span></code></pre></div>
+
+<h3 id="section">日期格式化符号</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">%</span><span class="n">y</span> <span class="err">两位数的年份表示（</span><span class="mo">00</span><span class="o">-</span><span class="mi">99</span><span class="err">）</span>
+<span class="o">%</span><span class="n">Y</span> <span class="err">四位数的年份表示（</span><span class="mo">000</span><span class="o">-</span><span class="mi">9999</span><span class="err">）</span>
+<span class="o">%</span><span class="n">m</span> <span class="err">月份（</span><span class="mo">01</span><span class="o">-</span><span class="mi">12</span><span class="err">）</span>
+<span class="o">%</span><span class="n">d</span> <span class="err">月内中的一天（</span><span class="mi">0</span><span class="o">-</span><span class="mi">31</span><span class="err">）</span>
+<span class="o">%</span><span class="n">H</span> <span class="mi">24</span><span class="err">小时制小时数（</span><span class="mi">0</span><span class="o">-</span><span class="mi">23</span><span class="err">）</span>
+<span class="o">%</span><span class="n">I</span> <span class="mi">12</span><span class="err">小时制小时数（</span><span class="mo">01</span><span class="o">-</span><span class="mi">12</span><span class="err">）</span>
+<span class="o">%</span><span class="n">M</span> <span class="err">分钟数（</span><span class="mo">00</span><span class="o">=</span><span class="mi">59</span><span class="err">）</span>
+<span class="o">%</span><span class="n">S</span> <span class="err">秒（</span><span class="mo">00</span><span class="o">-</span><span class="mi">59</span><span class="err">）</span>
+<span class="o">%</span><span class="n">a</span> <span class="err">本地简化星期名称</span>
+<span class="o">%</span><span class="n">A</span> <span class="err">本地完整星期名称</span>
+<span class="o">%</span><span class="n">b</span> <span class="err">本地简化的月份名称</span>
+<span class="o">%</span><span class="n">B</span> <span class="err">本地完整的月份名称</span>
+<span class="o">%</span><span class="n">c</span> <span class="err">本地相应的日期表示和时间表示</span>
+<span class="o">%</span><span class="n">j</span> <span class="err">年内的一天（</span><span class="mo">001</span><span class="o">-</span><span class="mi">366</span><span class="err">）</span>
+<span class="o">%</span><span class="n">p</span> <span class="err">本地</span><span class="n">A</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="err">或</span><span class="n">P</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="err">的等价符</span>
+<span class="o">%</span><span class="n">U</span> <span class="err">一年中的星期数（</span><span class="mo">00</span><span class="o">-</span><span class="mi">53</span><span class="err">）星期天为星期的开始</span>
+<span class="o">%</span><span class="n">w</span> <span class="err">星期（</span><span class="mi">0</span><span class="o">-</span><span class="mi">6</span><span class="err">），星期天为星期的开始</span>
+<span class="o">%</span><span class="n">W</span> <span class="err">一年中的星期数（</span><span class="mo">00</span><span class="o">-</span><span class="mi">53</span><span class="err">）星期一为星期的开始</span>
+<span class="o">%</span><span class="n">x</span> <span class="err">本地相应的日期表示</span>
+<span class="o">%</span><span class="n">X</span> <span class="err">本地相应的时间表示</span>
+<span class="o">%</span><span class="n">Z</span> <span class="err">当前时区的名称</span>
+<span class="o">%%</span> <span class="o">%</span><span class="err">号本身</span></code></pre></div>
+
+<h3 id="time">Time模块</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">1</span>	<span class="n">time</span><span class="o">.</span><span class="n">altzone</span>
+<span class="err">返回格林威治西部的夏令时地区的偏移秒数。如果该地区在格林威治东部会返回负值（如西欧，包括英国）。对夏令时启用地区才能使用。</span>
+<span class="mi">2</span>	<span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">([</span><span class="n">tupletime</span><span class="p">])</span>
+<span class="err">接受时间元组并返回一个可读的形式为</span><span class="s">"Tue Dec 11 18:07:14 2008"</span><span class="err">（</span><span class="mi">2008</span><span class="err">年</span><span class="mi">12</span><span class="err">月</span><span class="mi">11</span><span class="err">日</span> <span class="err">周二</span><span class="mi">18</span><span class="err">时</span><span class="mo">07</span><span class="err">分</span><span class="mi">14</span><span class="err">秒）的</span><span class="mi">24</span><span class="err">个字符的字符串。</span>
+<span class="mi">3</span>	<span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">(</span> <span class="p">)</span>
+<span class="err">用以浮点数计算的秒数返回当前的</span><span class="n">CPU</span><span class="err">时间。用来衡量不同程序的耗时，比</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="err">更有用。</span>
+<span class="mi">4</span>	<span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">([</span><span class="n">secs</span><span class="p">])</span>
+<span class="err">作用相当于</span><span class="n">asctime</span><span class="p">(</span><span class="n">localtime</span><span class="p">(</span><span class="n">secs</span><span class="p">))</span><span class="err">，未给参数相当于</span><span class="n">asctime</span><span class="p">()</span>
+<span class="mi">5</span>	<span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">([</span><span class="n">secs</span><span class="p">])</span>
+<span class="err">接收时间辍（</span><span class="mi">1970</span><span class="err">纪元后经过的浮点秒数）并返回格林威治天文时间下的时间元组</span><span class="n">t</span><span class="err">。注：</span><span class="n">t</span><span class="o">.</span><span class="n">tm_isdst</span><span class="err">始终为</span><span class="mi">0</span>
+<span class="mi">6</span>	<span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">([</span><span class="n">secs</span><span class="p">])</span>
+<span class="err">接收时间辍（</span><span class="mi">1970</span><span class="err">纪元后经过的浮点秒数）并返回当地时间下的时间元组</span><span class="n">t</span><span class="err">（</span><span class="n">t</span><span class="o">.</span><span class="n">tm_isdst</span><span class="err">可取</span><span class="mi">0</span><span class="err">或</span><span class="mi">1</span><span class="err">，取决于当地当时是不是夏令时）。</span>
+<span class="mi">7</span>	<span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">tupletime</span><span class="p">)</span>
+<span class="err">接受时间元组并返回时间辍（</span><span class="mi">1970</span><span class="err">纪元后经过的浮点秒数）。</span>
+<span class="mi">8</span>	<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">secs</span><span class="p">)</span>
+<span class="err">推迟调用线程的运行，</span><span class="n">secs</span><span class="err">指秒数。</span>
+<span class="mi">9</span>	<span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">fmt</span><span class="p">[,</span><span class="n">tupletime</span><span class="p">])</span>
+<span class="err">接收以时间元组，并返回以可读字符串表示的当地时间，格式由</span><span class="n">fmt</span><span class="err">决定。</span>
+<span class="mi">10</span>	<span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s">'</span><span class="si">%</span><span class="s">a </span><span class="si">%</span><span class="s">b </span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S </span><span class="si">%</span><span class="s">Y'</span><span class="p">)</span>
+<span class="err">根据</span><span class="n">fmt</span><span class="err">的格式把一个时间字符串解析为时间元组。</span>
+<span class="mi">11</span>	<span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(</span> <span class="p">)</span>
+<span class="err">返回当前时间的时间戳（</span><span class="mi">1970</span><span class="err">纪元后经过的浮点秒数）。</span>
+<span class="mi">12</span>	<span class="n">time</span><span class="o">.</span><span class="n">tzset</span><span class="p">()</span>
+<span class="err">根据环境变量</span><span class="n">TZ</span><span class="err">重新初始化时间相关设置。</span></code></pre></div>
+
+<h3 id="calendar">日历（Calendar）模块</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">1</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="err">返回一个多行字符串格式的</span><span class="n">year</span><span class="err">年年历，</span><span class="mi">3</span><span class="err">个月一行，间隔距离为</span><span class="n">c</span><span class="err">。</span> <span class="err">每日宽度间隔为</span><span class="n">w</span><span class="err">字符。每行长度为</span><span class="mi">21</span><span class="o">*</span> <span class="n">W</span><span class="o">+</span><span class="mi">18</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span> <span class="n">C</span><span class="err">。</span><span class="n">l</span><span class="err">是每星期行数。</span>
+<span class="mi">2</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">firstweekday</span><span class="p">(</span> <span class="p">)</span>
+<span class="err">返回当前每周起始日期的设置。默认情况下，首次载入</span><span class="n">caendar</span><span class="err">模块时返回</span><span class="mi">0</span><span class="err">，即星期一。</span>
+<span class="mi">3</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">isleap</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+<span class="err">是闰年返回</span><span class="bp">True</span><span class="err">，否则为</span><span class="n">false</span><span class="err">。</span>
+<span class="mi">4</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">leapdays</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
+<span class="err">返回在</span><span class="n">Y1</span><span class="err">，</span><span class="n">Y2</span><span class="err">两年之间的闰年总数。</span>
+<span class="mi">5</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">month</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="err">返回一个多行字符串格式的</span><span class="n">year</span><span class="err">年</span><span class="n">month</span><span class="err">月日历，两行标题，一周一行。每日宽度间隔为</span><span class="n">w</span><span class="err">字符。每行的长度为</span><span class="mi">7</span><span class="o">*</span> <span class="n">w</span><span class="o">+</span><span class="mi">6</span><span class="err">。</span><span class="n">l</span><span class="err">是每星期的行数。</span>
+<span class="mi">6</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">monthcalendar</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">month</span><span class="p">)</span>
+<span class="err">返回一个整数的单层嵌套列表。每个子列表装载代表一个星期的整数。</span><span class="n">Year</span><span class="err">年</span><span class="n">month</span><span class="err">月外的日期都设为</span><span class="mi">0</span><span class="p">;</span><span class="err">范围内的日子都由该月第几日表示，从</span><span class="mi">1</span><span class="err">开始。</span>
+<span class="mi">7</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">month</span><span class="p">)</span>
+<span class="err">返回两个整数。第一个是该月的星期几的日期码，第二个是该月的日期码。日从</span><span class="mi">0</span><span class="err">（星期一）到</span><span class="mi">6</span><span class="err">（星期日）</span><span class="p">;</span><span class="err">月从</span><span class="mi">1</span><span class="err">到</span><span class="mi">12</span><span class="err">。</span>
+<span class="mi">8</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">prcal</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="err">相当于</span> <span class="k">print</span> <span class="n">calendar</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">.</span>
+<span class="mi">9</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">prmonth</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="err">相当于</span> <span class="k">print</span> <span class="n">calendar</span><span class="o">.</span><span class="n">calendar</span><span class="err">（</span><span class="n">year</span><span class="err">，</span><span class="n">w</span><span class="err">，</span><span class="n">l</span><span class="err">，</span><span class="n">c</span><span class="err">）。</span>
+<span class="mi">10</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">setfirstweekday</span><span class="p">(</span><span class="n">weekday</span><span class="p">)</span>
+<span class="err">设置每周的起始日期码。</span><span class="mi">0</span><span class="err">（星期一）到</span><span class="mi">6</span><span class="err">（星期日）。</span>
+<span class="mi">11</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">tupletime</span><span class="p">)</span>
+<span class="err">和</span><span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="err">相反：接受一个时间元组形式，返回该时刻的时间辍（</span><span class="mi">1970</span><span class="err">纪元后经过的浮点秒数）。</span>
+<span class="mi">12</span>	<span class="n">calendar</span><span class="o">.</span><span class="n">weekday</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="n">day</span><span class="p">)</span>
+<span class="err">返回给定日期的日期码。</span><span class="mi">0</span><span class="err">（星期一）到</span><span class="mi">6</span><span class="err">（星期日）。月份为</span> <span class="mi">1</span><span class="err">（一月）</span> <span class="err">到</span> <span class="mi">12</span><span class="err">（</span><span class="mi">12</span><span class="err">月）。</span></code></pre></div>
+
+<h2 id="python-1">Python函数</h2>
+
+<h3 id="section-1">定义函数规则</h3>
+<ul>
+  <li>函数代码块以 def 关键词开头，后接函数标识符名称和圆括号()。</li>
+  <li>任何传入参数和自变量必须放在圆括号中间。圆括号之间可以用于定义参数。</li>
+  <li>函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明。</li>
+  <li>函数内容以冒号起始，并且缩进。</li>
+  <li>return [表达式] 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None。</li>
+</ul>
+
+<h3 id="section-2">语法</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">functionname</span><span class="p">(</span> <span class="n">parameters</span> <span class="p">):</span>
+    <span class="s">"函数_文档字符串"</span>
+    <span class="n">function_suite</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">expression</span><span class="p">]</span></code></pre></div>
+
+<h3 id="section-3">按值传递参数和按引用传递参数</h3>
+<ul>
+  <li>所有参数（自变量）在Python中都是按引用传递，在函数内修改参数，调用函数后，原始参数被改变</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c"># 可写函数说明</span>
+<span class="k">def</span> <span class="nf">changeme</span><span class="p">(</span> <span class="n">mylist</span> <span class="p">):</span>
+   <span class="s">"修改传入的列表"</span>
+   <span class="n">mylist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]);</span>
+   <span class="k">print</span> <span class="s">"函数内取值: "</span><span class="p">,</span> <span class="n">mylist</span>
+   <span class="k">return</span>
+ 
+<span class="c"># 调用changeme函数</span>
+<span class="n">mylist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">];</span>
+<span class="n">changeme</span><span class="p">(</span> <span class="n">mylist</span> <span class="p">);</span>
+<span class="k">print</span> <span class="s">"函数外取值: "</span><span class="p">,</span> <span class="n">mylist</span></code></pre></div>
+
+<p>结果：</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="err">函数内取值</span><span class="p">:</span>  <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="err">函数外取值</span><span class="p">:</span>  <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span></code></pre></div>
+
+<h3 id="section-4">　参数</h3>
+<ul>
+  <li>必备参数     必备参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样。</li>
+  <li>关键字参数   关键字参数和函数调用关系紧密，函数调用使用关键字参数来确定传入的参数值。调用顺序可和声明不一致</li>
+  <li>默认参数     调用函数时，缺省参数的值如果没有传入，则被认为是默认值。</li>
+  <li>不定长参数</li>
+</ul>
+
+<p>关键字参数</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c">#可写函数说明</span>
+<span class="k">def</span> <span class="nf">printme</span><span class="p">(</span> <span class="nb">str</span> <span class="p">):</span>
+    <span class="s">"打印任何传入的字符串"</span>
+    <span class="k">print</span> <span class="nb">str</span><span class="p">;</span>
+    <span class="k">return</span><span class="p">;</span>
+ 
+<span class="c">#调用printme函数</span>
+<span class="n">printme</span><span class="p">(</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">"My string"</span><span class="p">);</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c">#可写函数说明</span>
+<span class="k">def</span> <span class="nf">printinfo</span><span class="p">(</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span> <span class="p">):</span>
+    <span class="s">"打印任何传入的字符串"</span>
+    <span class="k">print</span> <span class="s">"Name: "</span><span class="p">,</span> <span class="n">name</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">"Age "</span><span class="p">,</span> <span class="n">age</span><span class="p">;</span>
+    <span class="k">return</span><span class="p">;</span>
+ 
+<span class="c">#调用printinfo函数</span>
+<span class="n">printinfo</span><span class="p">(</span> <span class="n">age</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"miki"</span> <span class="p">);</span></code></pre></div>
+
+<p>默认参数</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c">#可写函数说明</span>
+<span class="k">def</span> <span class="nf">printinfo</span><span class="p">(</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">35</span> <span class="p">):</span>
+    <span class="s">"打印任何传入的字符串"</span>
+    <span class="k">print</span> <span class="s">"Name: "</span><span class="p">,</span> <span class="n">name</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">"Age "</span><span class="p">,</span> <span class="n">age</span><span class="p">;</span>
+    <span class="k">return</span><span class="p">;</span>
+ 
+<span class="c">#调用printinfo函数</span>
+<span class="n">printinfo</span><span class="p">(</span> <span class="n">age</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"miki"</span> <span class="p">);</span>
+<span class="n">printinfo</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s">"miki"</span> <span class="p">);</span></code></pre></div>
+
+<p>不定长参数</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">functionname</span><span class="p">([</span><span class="n">formal_args</span><span class="p">,]</span> <span class="o">*</span><span class="n">var_args_tuple</span> <span class="p">):</span>
+    <span class="s">"函数_文档字符串"</span>
+    <span class="n">function_suite</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">expression</span><span class="p">]</span>
+    
+    
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c"># 可写函数说明</span>
+<span class="k">def</span> <span class="nf">printinfo</span><span class="p">(</span> <span class="n">arg1</span><span class="p">,</span> <span class="o">*</span><span class="n">vartuple</span> <span class="p">):</span>
+    <span class="s">"打印任何传入的参数"</span>
+    <span class="k">print</span> <span class="s">"输出: "</span>
+    <span class="k">print</span> <span class="n">arg1</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">vartuple</span><span class="p">:</span>
+      <span class="k">print</span> <span class="n">var</span>
+    <span class="k">return</span><span class="p">;</span>
+ 
+<span class="c"># 调用printinfo 函数</span>
+<span class="n">printinfo</span><span class="p">(</span> <span class="mi">10</span> <span class="p">);</span>
+<span class="n">printinfo</span><span class="p">(</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">50</span> <span class="p">);</span></code></pre></div>
+
+<h3 id="section-5">匿名函数</h3>
+<ul>
+  <li>lambda只是一个表达式，函数体比def简单很多。</li>
+  <li>lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。</li>
+  <li>lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数。</li>
+  <li>虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用栈内存从而增加运行效率。</li>
+</ul>
+
+<p>语法</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">lambda</span> <span class="p">[</span><span class="n">arg1</span> <span class="p">[,</span><span class="n">arg2</span><span class="p">,</span><span class="o">.....</span><span class="n">argn</span><span class="p">]]:</span><span class="n">expression</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c"># 可写函数说明</span>
+<span class="nb">sum</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">:</span> <span class="n">arg1</span> <span class="o">+</span> <span class="n">arg2</span><span class="p">;</span>
+ 
+<span class="c"># 调用sum函数</span>
+<span class="k">print</span> <span class="s">"相加后的值为 : "</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span> <span class="p">)</span>
+<span class="k">print</span> <span class="s">"相加后的值为 : "</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span> <span class="p">)</span></code></pre></div>
+
+<h3 id="section-6">变量作用域</h3>
+<p>定义在函数内部的变量拥有一个局部作用域，定义在函数外的拥有全局作用域</p>
+
+<ul>
+  <li>全局变量</li>
+  <li>局部变量</li>
+</ul>
+
+<h2 id="python-">Python 模块</h2>
+<p>模块就是一个保存了Python代码的文件，如一个叫做aname的模块里的Python代码一般都能在一个叫aname.py的文件中找到。</p>
+
+<h3 id="section-7">语法</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#import语句   如果模块在当前搜索路径就会被导入</span>
+<span class="kn">import</span> <span class="nn">module1</span><span class="p">[,</span> <span class="n">module2</span><span class="p">[,</span><span class="o">...</span> <span class="n">moduleN</span><span class="p">]</span>
+
+<span class="c">#From…import语句   从模块中导入一个指定的部分到当前的命名空间</span>
+<span class="kn">from</span> <span class="nn">modname</span> <span class="kn">import</span> <span class="n">name1</span><span class="p">[,</span> <span class="n">name2</span><span class="p">[,</span> <span class="o">...</span> <span class="n">nameN</span><span class="p">]]</span>
+
+<span class="n">From</span><span class="err">…</span><span class="k">import</span><span class="o">*</span><span class="err">语句</span>
+<span class="kn">from</span> <span class="nn">modname</span> <span class="kn">import</span> <span class="o">*</span></code></pre></div>
+
+<h3 id="section-8">定位模块</h3>
+<p>Python解释器对模块的搜索顺序：</p>
+
+<ul>
+  <li>当前目录</li>
+  <li>如果不在当前目录，Python 则搜索在 shell 变量 PYTHONPATH 下的每个目录。</li>
+  <li>如果都找不到，Python会察看默认路径。UNIX下，默认路径一般为/usr/local/lib/python/。</li>
+</ul>
+
+<h2 id="pythonio">Python文件/IO</h2>
+
+<h3 id="section-9">读取键盘输入</h3>
+<ul>
+  <li>raw_input([prompt]) 函数从标准输入读取一个行，并返回一个字符串（去掉结尾的换行符）</li>
+  <li>input([prompt]) 函数和 raw_input([prompt]) 函数基本类似，但是 input 可以接收一个Python表达式作为输入，并将运算结果返回。</li>
+</ul>
+
+<h3 id="section-10">打开关闭文件</h3>
+
+<h3 id="section-11">打开文件</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nb">file</span> <span class="nb">object</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span> <span class="p">[,</span> <span class="n">access_mode</span><span class="p">][,</span> <span class="n">buffering</span><span class="p">])</span></code></pre></div>
+
+<ul>
+  <li>file_name：file_name变量是一个包含了你要访问的文件名称的字符串值。</li>
+  <li>access_mode：access_mode决定了打开文件的模式：只读，写入，追加等。</li>
+  <li>buffering:如果buffering的值被设为0，就不会有寄存。如果buffering的值取1，访问文件时会寄存行。如果将buffering的值设为大于1的整数，表明了这就是的寄存区的缓冲大小。如果取负值，寄存区的缓冲大小则为系统默认。</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="err">模式</span>	<span class="err">描述</span>
+<span class="n">r</span>	<span class="err">以只读方式打开文件。文件的指针将会放在文件的开头。这是默认模式。</span>
+<span class="n">rb</span>	<span class="err">以二进制格式打开一个文件用于只读。文件指针将会放在文件的开头。这是默认模式。</span>
+<span class="n">r</span><span class="o">+</span>	<span class="err">打开一个文件用于读写。文件指针将会放在文件的开头。</span>
+<span class="n">rb</span><span class="o">+</span>	<span class="err">以二进制格式打开一个文件用于读写。文件指针将会放在文件的开头。</span>
+<span class="n">w</span>	<span class="err">打开一个文件只用于写入。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</span>
+<span class="n">wb</span>	<span class="err">以二进制格式打开一个文件只用于写入。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</span>
+<span class="n">w</span><span class="o">+</span>	<span class="err">打开一个文件用于读写。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</span>
+<span class="n">wb</span><span class="o">+</span>	<span class="err">以二进制格式打开一个文件用于读写。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</span>
+<span class="n">a</span>	<span class="err">打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</span>
+<span class="n">ab</span>	<span class="err">以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</span>
+<span class="n">a</span><span class="o">+</span>	<span class="err">打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。</span>
+<span class="n">ab</span><span class="o">+</span>	<span class="err">以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。如果该文件不存在，创建新文件用于读写。</span></code></pre></div>
+
+<p>一个文件被打开后，你有一个file对象，你可以得到有关该文件的各种信息。</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="err">属性</span>	<span class="err">描述</span>
+<span class="nb">file</span><span class="o">.</span><span class="n">closed</span>	<span class="err">返回</span><span class="n">true</span><span class="err">如果文件已被关闭，否则返回</span><span class="n">false</span><span class="err">。</span>
+<span class="nb">file</span><span class="o">.</span><span class="n">mode</span>	<span class="err">返回被打开文件的访问模式。</span>
+<span class="nb">file</span><span class="o">.</span><span class="n">name</span>	<span class="err">返回文件的名称。</span>
+<span class="nb">file</span><span class="o">.</span><span class="n">softspace</span>	<span class="err">如果用</span><span class="k">print</span><span class="err">输出后，必须跟一个空格符，则返回</span><span class="n">false</span><span class="err">。否则返回</span><span class="n">true</span><span class="err">。</span></code></pre></div>
+
+<h3 id="section-12">关闭文件</h3>
+<p>File 对象的 close（）方法刷新缓冲区里任何还没写入的信息，并关闭该文件，这之后便不能再进行写入。</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">fileObject</span><span class="o">.</span><span class="n">close</span><span class="p">();</span></code></pre></div>
+
+<h3 id="section-13">写入</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">fileObject</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">string</span><span class="p">);</span></code></pre></div>
+
+<h3 id="section-14">读出</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">fileObject</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="n">count</span><span class="p">]);</span></code></pre></div>
+
+<p>注意：Python字符串可以是二进制数据，而不是仅仅是文字。</p>
+
+<h3 id="section-15">文件定位</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+ 
+<span class="c"># 打开一个文件</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"foo.txt"</span><span class="p">,</span> <span class="s">"r+"</span><span class="p">)</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"读取的字符串是 : "</span><span class="p">,</span> <span class="nb">str</span>
+ 
+<span class="c"># 查找当前位置</span>
+<span class="n">position</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">tell</span><span class="p">();</span>
+<span class="k">print</span> <span class="s">"当前文件位置 : "</span><span class="p">,</span> <span class="n">position</span>
+ 
+<span class="c"># 把指针再次重新定位到文件开头</span>
+<span class="n">position</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"重新读取字符串 : "</span><span class="p">,</span> <span class="nb">str</span>
+<span class="c"># 关闭打开的文件</span>
+<span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></code></pre></div>
+
+<h3 id="section-16">重命名和删除文件</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#语法</span>
+<span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">current_file_name</span><span class="p">,</span> <span class="n">new_file_name</span><span class="p">)</span>
+
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+ 
+<span class="c"># 重命名文件test1.txt到test2.txt。</span>
+<span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span> <span class="s">"test1.txt"</span><span class="p">,</span> <span class="s">"test2.txt"</span> <span class="p">)</span>
+
+
+
+<span class="c">#语法</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+ 
+<span class="c"># 删除一个已经存在的文件test2.txt</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"test2.txt"</span><span class="p">)</span></code></pre></div>
+
+<h3 id="section-17">目录操作</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#创建</span>
+<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s">"newdir"</span><span class="p">)</span>
+
+<span class="c">#改变当前目录</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">"newdir"</span><span class="p">)</span>
+
+<span class="c">#显示当前的工作目录</span>
+<span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+<span class="c">#删除目录</span>
+<span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="s">'dirname'</span><span class="p">)</span></code></pre></div>
+
+<h3 id="python-file">Python File方法</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="err">序号</span>	<span class="err">方法及描述</span>
+<span class="mi">1</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="err">关闭文件。关闭后文件不能再进行读写操作。</span>
+<span class="mi">2</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="err">刷新文件内部缓冲，直接把内部缓冲区的数据立刻写入文件</span><span class="p">,</span> <span class="err">而不是被动的等待输出缓冲区写入。</span>
+<span class="mi">3</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="err">返回一个整型的文件描述符</span><span class="p">(</span><span class="nb">file</span> <span class="n">descriptor</span> <span class="n">FD</span> <span class="err">整型</span><span class="p">),</span> <span class="err">可以用在如</span><span class="n">os</span><span class="err">模块的</span><span class="n">read</span><span class="err">方法等一些底层操作上。</span>
+<span class="mi">4</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span>
+<span class="err">如果文件连接到一个终端设备返回</span> <span class="bp">True</span><span class="err">，否则返回</span> <span class="bp">False</span><span class="err">。</span>
+<span class="mi">5</span>	
+<span class="nb">file</span><span class="o">.</span><span class="nb">next</span><span class="p">()</span>
+<span class="err">返回文件下一行。</span>
+<span class="mi">6</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="n">size</span><span class="p">])</span>
+<span class="err">从文件读取指定的字节数，如果未给定或为负则读取所有。</span>
+<span class="mi">7</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">readline</span><span class="p">([</span><span class="n">size</span><span class="p">])</span>
+<span class="err">读取整行，包括</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="err">字符。</span>
+<span class="mi">8</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">([</span><span class="n">sizehint</span><span class="p">])</span>
+<span class="err">读取所有行并返回列表，若给定</span><span class="n">sizeint</span><span class="o">&gt;</span><span class="mi">0</span><span class="err">，返回总和大约为</span><span class="n">sizeint</span><span class="err">字节的行</span><span class="p">,</span> <span class="err">实际读取值可能比</span><span class="n">sizhint</span><span class="err">较大</span><span class="p">,</span> <span class="err">因为需要填充缓冲区。</span>
+<span class="mi">9</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">[,</span> <span class="n">whence</span><span class="p">])</span>
+<span class="err">设置文件当前位置</span>
+<span class="mi">10</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+<span class="err">返回文件当前位置。</span>
+<span class="mi">11</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">truncate</span><span class="p">([</span><span class="n">size</span><span class="p">])</span>
+<span class="err">截取文件，截取的字节通过</span><span class="n">size</span><span class="err">指定，默认为当前文件位置。</span>
+<span class="mi">12</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="err">将字符串写入文件，没有返回值。</span>
+<span class="mi">13</span>	
+<span class="nb">file</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="err">向文件写入一个序列字符串列表，如果需要换行则要自己加入每行的换行符。</span></code></pre></div>
+
+<h2 id="python-2">Python异常处理</h2>
+<p>语法</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">try</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="err">语句</span><span class="o">&gt;</span>        <span class="c">#运行别的代码</span>
+<span class="k">except</span> <span class="o">&lt;</span><span class="err">名字</span><span class="o">&gt;</span><span class="err">：</span>
+<span class="o">&lt;</span><span class="err">语句</span><span class="o">&gt;</span>        <span class="c">#如果在try部份引发了'name'异常</span>
+<span class="k">except</span> <span class="o">&lt;</span><span class="err">名字</span><span class="o">&gt;</span><span class="err">，</span><span class="o">&lt;</span><span class="err">数据</span><span class="o">&gt;</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="err">语句</span><span class="o">&gt;</span>        <span class="c">#如果引发了'name'异常，获得附加的数据</span>
+<span class="k">else</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="err">语句</span><span class="o">&gt;</span>        <span class="c">#如果没有异常发生</span></code></pre></div>
+
+<p>实例</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fh</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"testfile"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">)</span>
+    <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"这是一个测试文件，用于测试异常!!"</span><span class="p">)</span>
+<span class="k">except</span> <span class="nb">IOError</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Error: 没有找到文件或读取文件失败"</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"内容写入文件成功"</span>
+    <span class="n">fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></code></pre></div>
+
+<p>try-finally 语句</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">try</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="err">语句</span><span class="o">&gt;</span>
+<span class="k">finally</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="err">语句</span><span class="o">&gt;</span>    <span class="c">#退出try时总会执行</span>
+<span class="k">raise</span></code></pre></div>
+
+<p>触发异常</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">raise</span> <span class="p">[</span><span class="nb">Exception</span> <span class="p">[,</span> <span class="n">args</span> <span class="p">[,</span> <span class="n">traceback</span><span class="p">]]]</span></code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#python-ref">
+    		python <span>4</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#Python-ref">Python <span>4</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/python/2014/03/01/Python-notes1" title="Python学习笔记（一）">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/python/2014/03/01/Python-notes3" title="Python学习笔记（三）">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/python/2014/03/01/Python-notes2"  data-title="Python学习笔记（二） - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

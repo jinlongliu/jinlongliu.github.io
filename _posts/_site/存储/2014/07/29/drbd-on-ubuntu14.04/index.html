@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>基于Ubuntu 14.04 的DRBD配置</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>基于Ubuntu 14.04 的DRBD配置 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-29</span>
+    </div>
+    <div class="content">
+      
+<p>
+安装DRBD软件：
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># apt-get install -y --force-yes drbd8-utils</span>
+<span class="no">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="no">Done</span>
+<span class="no">Building</span> <span class="n">dependency</span> <span class="n">tree</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span>   
+  
+<span class="c1"># 查看drbd状态</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># service drbd status</span>
+<span class="n">drbd</span> <span class="n">driver</span> <span class="n">loaded</span> <span class="no">OK</span><span class="p">;</span> <span class="n">device</span> <span class="ss">status:
+version: </span><span class="mi">8</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">3</span> <span class="p">(</span><span class="n">api</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="n">proto</span><span class="p">:</span><span class="mi">86</span><span class="o">-</span><span class="mi">101</span><span class="p">)</span>
+<span class="ss">srcversion: </span><span class="no">F97798065516C94BE0F27DC</span> 
+<span class="n">m</span><span class="ss">:res</span>  <span class="n">cs</span>  <span class="n">ro</span>  <span class="n">ds</span>  <span class="nb">p</span>  <span class="n">mounted</span>  <span class="n">fstype</span>
+<span class="c1">#drbd属于两节点，需要在另外一节点安装一样的软件</span></code></pre></div>
+
+<p>
+配置Drbd资源
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># cd /etc/drbd.d/</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">drbd</span><span class="p">.</span><span class="nf">d</span><span class="c1"># ls</span>
+<span class="n">global_common</span><span class="p">.</span><span class="nf">conf</span>  <span class="n">mysql</span><span class="p">.</span><span class="nf">res</span>
+<span class="c1">#进入drbd配置目录，可以看到global_common.conf配置文件，上述mysql.res为笔者后来创建文件 </span>
+  
+<span class="c1">#创建Drbd设备资源配置文件，创建并且编辑文件</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">drbd</span><span class="p">.</span><span class="nf">d</span><span class="c1"># touch mysql.res</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">drbd</span><span class="p">.</span><span class="nf">d</span><span class="c1"># vim mysql.res&amp;nbsp;</span>
+  
+<span class="c1">#资源配置格式，如下文实际文件</span>
+<span class="n">resource</span> <span class="n">mysql</span> <span class="p">{</span>
+    <span class="n">device</span> <span class="n">minor</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">disk</span> <span class="s2">"/dev/sdb5"</span><span class="p">;</span>
+    <span class="n">meta</span><span class="o">-</span><span class="n">disk</span> <span class="n">internal</span><span class="p">;</span>
+    <span class="n">on</span> <span class="n">controller1</span> <span class="p">{</span>
+        <span class="n">address</span> <span class="n">ipv4</span> <span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">11</span><span class="p">:</span><span class="mi">7700</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">on</span> <span class="n">controller2</span> <span class="p">{</span>
+        <span class="n">address</span> <span class="n">ipv4</span> <span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">:</span><span class="mi">7700</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+  
+<span class="n">resource</span> <span class="err">资源名</span> <span class="p">{</span>
+    <span class="n">device</span> <span class="n">minor</span> <span class="mi">0</span><span class="p">;</span>    <span class="err">设备号</span>  
+    <span class="n">disk</span> <span class="s2">"/dev/sdb5"</span><span class="p">;</span>  <span class="err">底层实际使用的设备，两个节点可以有差异</span>
+    <span class="n">meta</span><span class="o">-</span><span class="n">disk</span> <span class="n">internal</span><span class="p">;</span>
+<span class="err">节点信息，</span><span class="n">controller1</span><span class="err">，</span><span class="n">controller2</span><span class="err">为两节点</span><span class="n">hostname</span>
+    <span class="n">on</span> <span class="n">controller1</span> <span class="p">{</span>
+        <span class="n">address</span> <span class="n">ipv4</span> <span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">11</span><span class="p">:</span><span class="mi">7700</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">on</span> <span class="n">controller2</span> <span class="p">{</span>
+        <span class="n">address</span> <span class="n">ipv4</span> <span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">:</span><span class="mi">7700</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>
+启动设备资源
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">当两个节点的配置文件都创建完毕后</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">drbd</span><span class="p">.</span><span class="nf">d</span><span class="c1"># drbdadm create-md mysql</span>
+<span class="no">You</span> <span class="n">want</span> <span class="n">me</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">v08</span> <span class="n">style</span> <span class="n">flexible</span><span class="o">-</span><span class="n">size</span> <span class="n">internal</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">block</span><span class="o">.</span>
+<span class="no">There</span> <span class="n">appears</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">v08</span> <span class="n">flexible</span><span class="o">-</span><span class="n">size</span> <span class="n">internal</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">block</span>
+<span class="n">already</span> <span class="k">in</span> <span class="n">place</span> <span class="n">on</span> <span class="sr">/dev/s</span><span class="n">db5</span> <span class="n">at</span> <span class="n">byte</span> <span class="n">offset</span> <span class="mi">5368705024</span>
+<span class="no">Do</span> <span class="n">you</span> <span class="n">really</span> <span class="n">want</span> <span class="n">to</span> <span class="n">overwrite</span> <span class="n">the</span> <span class="n">existing</span> <span class="n">v08</span> <span class="n">meta</span><span class="o">-</span><span class="n">data?</span>
+<span class="p">[</span><span class="n">need</span> <span class="n">to</span> <span class="n">type</span> <span class="s1">'yes'</span> <span class="n">to</span> <span class="n">confirm</span><span class="p">]</span> <span class="n">yes</span>
+  
+<span class="no">Writing</span> <span class="n">meta</span> <span class="n">data</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">md_offset</span> <span class="mi">5368705024</span>
+<span class="n">al_offset</span> <span class="mi">5368672256</span>
+<span class="n">bm_offset</span> <span class="mi">5368508416</span>
+  
+<span class="no">Found</span> <span class="n">xfs</span> <span class="n">filesystem</span>
+     <span class="mi">5242684</span> <span class="n">kB</span> <span class="n">data</span> <span class="n">area</span> <span class="n">apparently</span> <span class="n">used</span>
+     <span class="mi">5242684</span> <span class="n">kB</span> <span class="n">left</span> <span class="n">usable</span> <span class="n">by</span> <span class="n">current</span> <span class="n">configuration</span>
+  
+<span class="no">Even</span> <span class="n">though</span> <span class="n">it</span> <span class="n">looks</span> <span class="n">like</span> <span class="n">this</span> <span class="n">would</span> <span class="n">place</span> <span class="n">the</span> <span class="kp">new</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">into</span>
+<span class="n">unused</span> <span class="n">space</span><span class="p">,</span> <span class="n">you</span> <span class="n">still</span> <span class="n">need</span> <span class="n">to</span> <span class="n">confirm</span><span class="p">,</span> <span class="n">as</span> <span class="n">this</span> <span class="n">is</span> <span class="n">only</span> <span class="n">a</span> <span class="n">guess</span><span class="o">.</span>
+  
+<span class="no">Do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">proceed?</span>
+<span class="p">[</span><span class="n">need</span> <span class="n">to</span> <span class="n">type</span> <span class="s1">'yes'</span> <span class="n">to</span> <span class="n">confirm</span><span class="p">]</span> <span class="n">yes</span>
+  
+<span class="n">initializing</span> <span class="n">activity</span> <span class="n">log</span>
+<span class="no">NOT</span> <span class="n">initializing</span> <span class="n">bitmap</span>
+<span class="no">New</span> <span class="n">drbd</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">block</span> <span class="n">successfully</span> <span class="n">created</span><span class="o">.</span>
+  
+<span class="c1">#启用设备</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">drbd</span><span class="p">.</span><span class="nf">d</span><span class="c1"># drbdadm up mysql </span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">drbd</span><span class="p">.</span><span class="nf">d</span><span class="c1"># drbd-overview </span>
+  <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span>  <span class="no">WFConnection</span> <span class="no">Secondary</span><span class="o">/</span><span class="no">Unknown</span> <span class="no">Inconsistent</span><span class="o">/</span><span class="no">DUnknown</span> <span class="no">C</span> <span class="n">r</span><span class="o">----</span><span class="n">s</span>
+
+<span class="c1">#强制为主节点，只需要在一个节点上操作</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># drbdadm -- --force primary mysql</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># drbd-overview </span>
+  <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span>  <span class="no">WFConnection</span> <span class="no">Primary</span><span class="o">/</span><span class="no">Unknown</span> <span class="no">UpToDate</span><span class="o">/</span><span class="no">Outdated</span> <span class="no">C</span> <span class="n">r</span><span class="o">----</span><span class="n">s</span>
+  
+<span class="c1">#drbd-overview 可以查看drbd设备状态，另外drbd设备符</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">dev</span><span class="o">/</span><span class="n">drbd</span><span class="c1"># ls</span>
+<span class="n">by</span><span class="o">-</span><span class="n">disk</span>  <span class="n">by</span><span class="o">-</span><span class="n">res</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">dev</span><span class="o">/</span><span class="n">drbd</span><span class="c1"># ls -al by-disk/</span>
+<span class="n">total</span> <span class="mi">0</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">60</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="p">.</span>
+<span class="nf">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">80</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="p">.</span><span class="nf">.</span>
+<span class="n">lrwxrwxrwx</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">11</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">22</span> <span class="n">sdb5</span> <span class="o">-&gt;</span> <span class="p">.</span><span class="nf">.</span><span class="o">/</span><span class="p">.</span><span class="nf">.</span><span class="o">/</span><span class="n">drbd0</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">dev</span><span class="o">/</span><span class="n">drbd</span><span class="c1"># ls -al by-res/</span>
+<span class="n">total</span> <span class="mi">0</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">3</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">60</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="p">.</span>
+<span class="nf">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">80</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="p">.</span><span class="nf">.</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">60</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="n">mysql</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">dev</span><span class="o">/</span><span class="n">drbd</span><span class="c1"># ls -al by-res/mysql/</span>
+<span class="n">total</span> <span class="mi">0</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">60</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="p">.</span>
+<span class="nf">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">3</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">60</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="p">.</span><span class="nf">.</span>
+<span class="n">lrwxrwxrwx</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">14</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">13</span><span class="p">:</span><span class="mi">22</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="p">.</span><span class="nf">.</span><span class="o">/</span><span class="p">.</span><span class="nf">.</span><span class="o">/</span><span class="p">.</span><span class="nf">.</span><span class="o">/</span><span class="n">drbd0</span>
+<span class="c1">#实际的设备/dev/drbd0   设备号0为配置文件中</span>
+  
+<span class="c1">#拷贝文件至drbd设备</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># mount /dev/drbd0 /mnt/</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># cp -prf /var/lib/mysql/* /mnt/</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># drbd-overview </span>
+  <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span>  <span class="no">WFConnection</span> <span class="no">Primary</span><span class="o">/</span><span class="no">Unknown</span> <span class="no">UpToDate</span><span class="o">/</span><span class="no">Outdated</span> <span class="no">C</span> <span class="n">r</span><span class="o">----</span><span class="n">s</span> <span class="sr">/mnt xfs 5.0G 112M 4.9G 3%
+  
+# 此时另外一个节点处于outdated状态，只需要在另外节点创建并启用，两者即会同步
+root@controller2:~# drbdadm create-md mysql&amp;nbsp;
+You want me to create a v08 style flexible-size internal meta data block.
+There appears to be a v08 flexible-size internal meta data block
+already in place on /</span><span class="n">dev</span><span class="o">/</span><span class="n">sda5</span> <span class="n">at</span> <span class="n">byte</span> <span class="n">offset</span> <span class="mi">5368705024</span>
+<span class="no">Do</span> <span class="n">you</span> <span class="n">really</span> <span class="n">want</span> <span class="n">to</span> <span class="n">overwrite</span> <span class="n">the</span> <span class="n">existing</span> <span class="n">v08</span> <span class="n">meta</span><span class="o">-</span><span class="n">data?</span>
+<span class="p">[</span><span class="n">need</span> <span class="n">to</span> <span class="n">type</span> <span class="s1">'yes'</span> <span class="n">to</span> <span class="n">confirm</span><span class="p">]</span> <span class="n">yes</span>
+  
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+<span class="no">New</span> <span class="n">drbd</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">block</span> <span class="n">successfully</span> <span class="n">created</span><span class="p">.</span>
+<span class="nf">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbd-overview </span>
+  <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span>  <span class="no">Unconfigured</span> <span class="p">.</span> <span class="nf">.</span> <span class="p">.</span> <span class="nf">.</span> 
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm up mysql </span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbd-overview&amp;nbsp;</span>
+<span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span><span class="no">SyncTarget</span> <span class="no">Secondary</span><span class="o">/</span><span class="no">Primary</span> <span class="no">Inconsistent</span><span class="o">/</span><span class="no">UpToDate</span> <span class="no">C</span> <span class="n">r</span><span class="o">-----&amp;</span><span class="n">nbsp</span><span class="p">;</span>
+<span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="p">[</span><span class="o">&gt;</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">]</span> <span class="n">sync</span><span class="err">'</span><span class="ss">ed: </span><span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span><span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="o">%</span> <span class="p">(</span><span class="mi">5088</span><span class="o">/</span><span class="mi">5116</span><span class="p">)</span><span class="no">Mfinish</span><span class="p">:</span> <span class="mi">0</span><span class="p">:</span><span class="mo">02</span><span class="p">:</span><span class="mi">42</span> <span class="ss">speed: </span><span class="mi">31</span><span class="p">,</span><span class="mi">744</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span><span class="mi">744</span><span class="p">)</span> <span class="ss">want: </span><span class="mi">30</span><span class="p">,</span><span class="mi">800</span> <span class="no">K</span><span class="o">/</span><span class="n">sec</span></code></pre></div>
+
+<p>
+Drbd脑裂行为解决
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#如上我们看到节点2上数据处于standalone状态，即发生了脑裂。【因为该环境之前本身就有数据】</span>
+<span class="c1">#此时可以通过，使得次节点数据不可靠，让其主动同主节点同步</span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm secondary mysql</span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm  -- --discard-my-data connect mysql</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># drbdadm connect mysql</span>
+  
+<span class="c1"># 如果此种情况节点2，仍然是StandAlone，则可以完全重建节点2。</span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm detach mysql </span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm down mysql </span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm create-md mysql </span>
+<span class="no">You</span> <span class="n">want</span> <span class="n">me</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">v08</span> <span class="n">style</span> <span class="n">flexible</span><span class="o">-</span><span class="n">size</span> <span class="n">internal</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">block</span><span class="o">.</span>
+<span class="no">There</span> <span class="n">appears</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">v08</span> <span class="n">flexible</span><span class="o">-</span><span class="n">size</span> <span class="n">internal</span> <span class="n">meta</span> <span class="n">data</span> <span class="n">block</span>
+<span class="n">already</span> <span class="k">in</span> <span class="n">place</span> <span class="n">on</span> <span class="sr">/dev/s</span><span class="n">da5</span> <span class="n">at</span> <span class="n">byte</span> <span class="n">offset</span> <span class="mi">5368705024</span>
+<span class="no">Do</span> <span class="n">you</span> <span class="n">really</span> <span class="n">want</span> <span class="n">to</span> <span class="n">overwrite</span> <span class="n">the</span> <span class="n">existing</span> <span class="n">v08</span> <span class="n">meta</span><span class="o">-</span><span class="n">data?</span>
+<span class="p">[</span><span class="n">need</span> <span class="n">to</span> <span class="n">type</span> <span class="s1">'yes'</span> <span class="n">to</span> <span class="n">confirm</span><span class="p">]</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbdadm up mysql&amp;nbsp;</span>
+<span class="n">root</span><span class="vi">@controller2</span><span class="ss">:~</span><span class="c1"># drbd-overview&amp;nbsp;</span>
+<span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span><span class="no">SyncTarget</span> <span class="no">Secondary</span><span class="o">/</span><span class="no">Primary</span> <span class="no">Inconsistent</span><span class="o">/</span><span class="no">UpToDate</span> <span class="no">C</span> <span class="n">r</span><span class="o">-----&amp;</span><span class="n">nbsp</span><span class="p">;</span>
+<span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">nbsp</span><span class="p">;</span> <span class="p">[</span><span class="o">&gt;</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span><span class="p">]</span> <span class="n">sync</span><span class="s1">'ed: &amp;nbsp;1.5% (5044/5116)Mfinish: 0:01:07 speed: 75,776 (75,776) want: 91,600 K/sec
+  
+#经过一段时间同步后，同步完成。
+root@controller1:/# drbd-overview 
+  0:mysql/0  SyncSource Primary/Secondary UpToDate/Inconsistent C r----- /mnt xfs 5.0G 112M 4.9G 3% 
+        [================&gt;...] sync'</span><span class="ss">ed: </span><span class="mi">86</span><span class="o">.</span><span class="mi">2</span><span class="o">%</span> <span class="p">(</span><span class="mi">708</span><span class="o">/</span><span class="mi">5116</span><span class="p">)</span><span class="no">Mfinish</span><span class="p">:</span> <span class="mi">0</span><span class="p">:</span><span class="mo">00</span><span class="p">:</span><span class="mi">13</span> <span class="ss">speed: </span><span class="mi">54</span><span class="p">,</span><span class="mi">484</span> <span class="p">(</span><span class="mi">54</span><span class="p">,</span><span class="mi">420</span><span class="p">)</span> <span class="no">K</span><span class="o">/</span><span class="n">sec</span>
+  
+<span class="c1">#两个节点同步时，一个状态为SyncSource一个状态为SyncTarget</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="c1"># drbd-overview </span>
+  <span class="mi">0</span><span class="ss">:mysql</span><span class="o">/</span><span class="mi">0</span>  <span class="no">Connected</span> <span class="no">Primary</span><span class="o">/</span><span class="no">Secondary</span> <span class="no">UpToDate</span><span class="o">/</span><span class="no">UpToDate</span> <span class="no">C</span> <span class="n">r</span><span class="o">-----</span> <span class="sr">/mnt xfs 5.0G 112M 4.9G 3%
+  
+#同步完成状态为Connected</span></code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+     
+    	<li><a href="/20-tags.html#运维-ref">运维 <span>5</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E8%BF%90%E7%BB%B4/2014/07/28/iSCSI-on-ubuntu14.04" title="基于Ubuntu 14.04的iSCSI存储配置--Target创建，Initiator连接">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E8%BF%90%E7%BB%B4/2014/07/30/HA" title="基于Ubuntu 14.04 Pacemaker+Corosync+Drbd+Mysql主备">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/29/drbd-on-ubuntu14.04"  data-title="基于Ubuntu 14.04 的DRBD配置 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

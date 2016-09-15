@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>LVM2 Logical Volume Manager 详解（二）--LVM剖析</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>LVM2 Logical Volume Manager 详解（二）--LVM剖析 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-27</span>
+    </div>
+    <div class="content">
+      
+<p>
+概念：<br />
+Volume Group 卷组 LVM中高抽象的概念，其组合逻辑卷和物理卷成为一个可管理的单元。<br />
+Physical Volume 物理卷 通常意义上的硬件磁盘，当然也可以是一个看起来像硬件磁盘的设备，比如软RAID设备。<br />
+Logical Volume 逻辑卷 等效于非LVM系统上的磁盘分区，LV（逻辑卷）被视为一个块设备，可以包含文件系统挂载到指定目录。<br />
+Physical Extent 物理块 每一个物理卷被划分为若干数据块，被作为物理块，这些物理块拥有和卷组的逻辑块同样的大小。<br />
+Logical Extent 逻辑块 逻辑卷被划分为若干数据块，被作为逻辑块，在卷组中所有逻辑卷的逻辑块大小是一致的。<br />
+Volume Group Descriptor Area 卷组描述符区域  和非LVM系统将包含分区信息的元数据保存在位于分区的起始位置的分区表中一样，逻辑卷以及卷组相关的数据也是保存在位于物理卷起始处的VGDA（卷组描述符区域）中。VGDA包括以下内容：PV描述符、VG描述符、LV描述符、和一些PE描述符。<br />
+系统启动LVM时激活VG，并将VGDA加载至内存，来识别LV的实际物理存储位置。当系统进行I/O操作时，就会根据VGDA建立的映射机制来访问实际的物理位置。<br />
+</p>
+<p>逻辑关系</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">hda1</span>   <span class="n">hdc1</span>      <span class="p">(</span><span class="no">PV</span><span class="ss">:s</span> <span class="n">on</span> <span class="n">partitions</span> <span class="n">or</span> <span class="n">whole</span> <span class="n">disks</span><span class="p">)</span>                        
+       <span class="p">\</span>   <span class="sr">/                                                                    
+        \ /</span>                                                                     
+       <span class="n">diskvg</span>        <span class="p">(</span><span class="no">VG</span><span class="p">)</span>                                                       
+       <span class="sr">/  |  \                                                                  
+      /</span>   <span class="o">|</span>   <span class="p">\</span>                                                                 
+  <span class="n">usrlv</span> <span class="n">rootlv</span> <span class="n">varlv</span> <span class="p">(</span><span class="no">LV</span><span class="ss">:s</span><span class="p">)</span>
+    <span class="o">|</span>      <span class="o">|</span>     <span class="o">|</span>                                                              
+ <span class="n">ext2</span>  <span class="n">reiserfs</span>  <span class="n">xfs</span> <span class="p">(</span><span class="n">filesystems</span><span class="p">)</span></code></pre></div>
+
+<p>
+我们来总结一下：<br />
+一个VG1的卷组Volume Group，物理块Physical Extent为4MB。在这个卷组中我们引入2个硬件磁盘分区，/dev/sda1和/dev/sdb1。这些磁盘分区将成为物理卷Physical Volume   PV1和PV2，也可以命名为其它可读名称。PV被划分为4M的块，这个大小由VG的PE决定。加入我们从PV1上获取99个块，从PV2上获取248个块。现在我们就可以创建逻辑卷Logical Volume，可以在1到347（99+248）之间的任何一个大小。当LV创建时，相当于创建了一个逻辑块和物理块之间的映射关系。例如逻辑块1可以映射到物理卷的物理块51上。写入逻辑卷的第一个4MB数据相当于写入到PV1的第51个PE物理块中。
+</p>
+<p>
+映射模式：线性/条带<br />
+线性映射：按照顺序的分配一定数量的物理块PE到一个逻辑卷的范围内。例如逻辑块LE1-99映射到物理卷PV1，逻辑块LE100-347映射到物理卷PV2。<br />
+条带映射：逻辑块单元交错分布于一定数量的物理卷PV。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="mi">1</span><span class="n">st</span> <span class="n">chunk</span> <span class="n">of</span> <span class="no">LE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="no">PV1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="mi">2</span><span class="n">nd</span> <span class="n">chunk</span> <span class="n">of</span> <span class="no">LE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="no">PV2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="mi">3</span><span class="n">rd</span> <span class="n">chunk</span> <span class="n">of</span> <span class="no">LE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="no">PV3</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="mi">4</span><span class="n">th</span> <span class="n">chunk</span> <span class="n">of</span> <span class="no">LE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="no">PV1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span></code></pre></div>
+
+<p>
+在相应场景下，这种策略可以提高逻辑卷LV的性能。
+LVM1中条带化创建的逻辑卷不可以被扩展。
+在LVM2中条带化的逻辑卷可以连接另外的设备集合到之前的集合之后。所以此时你可以创建一个逻辑卷由一个2条带的集合线性连接一个4条带的集合。
+</p>
+<h3>快照</h3>
+<p>
+快照允许管理员创建新的块设备，该设备和指定逻辑卷【在某一时间冻结】为精确拷贝。快照主要用来作为备份，但是不需要你终止运行的系统。当快照设备已经被完成，原始设备是可以被管理移除的。这个措施要求逻辑卷上的数据处于一致状态时创建快照，LVM1中的VFS-lock会确保当快照创建时文件系统自动完成，2.6内核的文件系统会自动完成当不打补丁创建快照时。<br />
+
+如果快照逻辑卷成为全量将被丢弃，所以指定足够的空间是至关重要的。快照的使用和空间的大小是独立的，所以没有解决方案，如果快照大小等于原始大小，它将永不溢出。<br />
+
+LVM1拥有只读快照，通过一个异常表来工作，异常表用来跟踪哪些块被更改。如果一个原始块被更改，它首先拷贝到快照上，并在异常表上标记为拷贝的，然后新数据写入到原始卷。<br />
+
+LVM2中快照是默认可读写的。读写快照工作起来像一个只读快照，带有额外的属性，数据写到快照上，在异常表中标记那个块为使用的，并且不在从原始卷中拷贝数据。这是得产生许多LVM1不会发生的可能。比如快照一个卷，挂载快照，运行一些实验程序修改卷上的数据。或者是快照一个卷，并修改快照作为某一实例数据。在原始数据上再快照一个，修改作为另外的实例数据。我们修改的只是某一个块，原始数据的大部分仍然是被两个实例共享的。<br />
+从当前的LVM2/device-mapper 代码，原始盘可以增长但是不可缩小。对于LVM1，原始盘不可改动大小。
+</p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-1" title="LVM2 Logical Volume Manager 详解（一）--介绍">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-3" title="LVM2 Logical Volume Manager 详解（三）--VGDA卷组描述区域">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-2"  data-title="LVM2 Logical Volume Manager 详解（二）--LVM剖析 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

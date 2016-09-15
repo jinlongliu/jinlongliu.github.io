@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>LVM2 Logical Volume Manager 详解（一）--介绍</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>LVM2 Logical Volume Manager 详解（一）--介绍 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-27</span>
+    </div>
+    <div class="content">
+      
+<p>
+1.什么是LVM？<br />
+LVM是Linux操作系统上的“逻辑卷管理器”。目前有两个Linux版本的LVM。
+LVM2 目前最新的Linux版本。LVM 2是几乎完全向后兼容卷创建LVM 1。当从LVM1升级为LVM2时必须移除卷组快照。
+LVM1针对2.4系列内核的版本。
+</p>
+<p>
+2.什么是“逻辑卷管理器”?<br />
+LVM提供一个相对于传统磁盘和分区的视图更为高级的一种磁盘存储视图。这使管理员在给应用和用户分配存储时更加灵活。
+LVM控制下创建的存储卷可以几乎随意的更改和移动。当然可能需要一些升级的文件系统工具。
+LVM同时可以允许以用户定义的组方式来管理存储卷，使得系统管理员可以更易感知卷组，例如卷组名“development”，“saleman”而不是物理磁盘名例如“sda”，“sdc”等。
+</p>
+<p>
+3.为什么使用LVM？<br />
+逻辑卷管理是传统上用于包含许多磁盘的大型设施,但它同样适合于单个或者两个磁盘的小系统。
+</p>
+<p>
+4.在小系统上使用LVM的好处<br />
+对于用户新装系统，决定系统分区是一个比较头痛的问题。前期规划不当，当某个分区即将写满时，如何扩展容量将是比较麻烦的问题。然而LVM在解决这样的问题是却相对容易或者说更方便。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/boot     /</span><span class="n">dev</span><span class="o">/</span><span class="n">hda1</span>        <span class="mi">10</span> <span class="no">Megabytes</span>
+<span class="n">swap</span>      <span class="sr">/dev/</span><span class="n">vg00</span><span class="o">/</span><span class="n">swap</span>   <span class="mi">256</span> <span class="no">Megabytes</span>
+<span class="sr">/         /</span><span class="n">dev</span><span class="o">/</span><span class="n">vg00</span><span class="o">/</span><span class="n">root</span>     <span class="mi">2</span> <span class="no">Gigabytes</span>
+<span class="sr">/home     /</span><span class="n">dev</span><span class="o">/</span><span class="n">vg00</span><span class="o">/</span><span class="n">home</span>     <span class="mi">6</span> <span class="no">Gigabytes</span></code></pre></div>
+
+<p>
+/boot目录不包含于LV（逻辑卷），因为bootloaders尚未识别LVM的卷组。可能会可以工作，但是有可能导致系统无法启动。root目录存放于逻辑卷，需要初始镜像激活root的逻辑卷。如果内核升级未编译必要的初始镜像，内核将无法启动。
+
+解决上述某个目录磁盘将满的情况，只需要从有空间的逻辑卷从调用部分到不足的卷组即可，或者直接将新增磁盘纳入相应逻辑卷组。
+</p>
+<p>
+5.在大型系统上使用LVM的好处<br />
+
+不同大小的磁盘管理，已经磁盘之间的平衡。
+逻辑卷组可以随着需求增加，同时可以热备份。
+当新的磁盘加入系统不需要，移动数据简单加入存在的逻辑组，相应扩展逻辑卷。
+</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E8%BF%90%E7%BB%B4/2014/07/26/login-fail-with-root-on-ubuntu14.04" title="Ubuntu 14.04 SSH无法登录">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-2" title="LVM2 Logical Volume Manager 详解（二）--LVM剖析">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-1"  data-title="LVM2 Logical Volume Manager 详解（一）--介绍 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

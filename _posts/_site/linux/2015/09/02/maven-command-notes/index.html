@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Maven常用命令</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>Maven常用命令 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2015-09-02</span>
+    </div>
+    <div class="content">
+      
+<h2>Maven常用命令记录</h2>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">Maven常用命令： 
+1. 创建Maven的普通java项目： 
+   mvn archetype:create 
+   -DgroupId<span class="o">=</span>packageName 
+   -DartifactId<span class="o">=</span>projectName  
+2. 创建Maven的Web项目：   
+    mvn archetype:create 
+    -DgroupId<span class="o">=</span>packageName    
+    -DartifactId<span class="o">=</span>webappName 
+    -DarchetypeArtifactId<span class="o">=</span>maven-archetype-webapp    
+3. 编译源代码： mvn compile 
+4. 编译测试代码：mvn <span class="nb">test</span>-compile    
+5. 运行测试：mvn <span class="nb">test   
+</span>6. 产生site：mvn site   
+7. 打包：mvn package   
+8. 在本地Repository中安装jar：mvn install 
+9. 清除产生的项目：mvn clean   
+10. 生成eclipse项目：mvn eclipse:eclipse  
+11. 生成idea项目：mvn idea:idea  
+12. 组合使用goal命令，如只打包不测试：mvn -Dtest package   
+13. 编译测试的内容：mvn <span class="nb">test</span>-compile  
+14. 只打jar包: mvn jar:jar  
+15. 只测试而不编译，也不测试编译：mvn <span class="nb">test</span> -skipping compile -skipping <span class="nb">test</span>-compile 
+      <span class="o">(</span> -skipping 的灵活运用，当然也可以用于其他组合命令<span class="o">)</span>  
+16. 清除eclipse的一些系统设置:mvn eclipse:clean 
+17. 跳过测试: mvn package -DskipTests
+18. 跳过测试且跳过测试编译:  mvn package -Dmaven.test.skip<span class="o">=</span><span class="nb">true
+
+
+</span>PS:
+一般使用情况是这样，首先通过cvs或svn下载代码到本机，然后执行mvn eclipse:eclipse生成ecllipse项目文件，然后导入到eclipse就行了；修改代码后执行mvn compile或mvn test检验，也可以下载eclipse的maven插件。
+  
+mvn -version/-v               显示版本信息 
+mvn archetype:generate        创建mvn项目 
+mvn archetype:create -DgroupId<span class="o">=</span>com.oreilly -DartifactId<span class="o">=</span>my-app   创建mvn项目
+  
+mvn package              生成target目录，编译、测试代码，生成测试报告，生成jar/war文件 
+mvn jetty:run            运行项目于jetty上, 
+mvn compile              编译 
+mvn <span class="nb">test                 </span>编译并测试 
+mvn clean                清空生成的文件 
+mvn site                 生成项目相关信息的网站 
+mvn -Dwtpversion<span class="o">=</span>1.0 eclipse:eclipse        生成Wtp插件的Web项目 
+mvn -Dwtpversion<span class="o">=</span>1.0 eclipse:clean          清除Eclipse项目的配置信息<span class="o">(</span>Web项目<span class="o">)</span> 
+mvn eclipse:eclipse                         将项目转化为Eclipse项目
+  
+mvn deploy:deploy-file -DgroupId<span class="o">=</span>com -DartifactId<span class="o">=</span>client -Dversion<span class="o">=</span>0.1.0 -Dpackaging<span class="o">=</span>jar -Dfile<span class="o">=</span>d:<span class="se">\c</span>lient-0.1.0.jar -DrepositoryId<span class="o">=</span>maven-repository-inner -Durl<span class="o">=</span>ftp://xxxxxxx/opt/maven/repository/
+  
+发布第三方Jar到本地库中：
+mvn install:install-file -DgroupId<span class="o">=</span>com -DartifactId<span class="o">=</span>client -Dversion<span class="o">=</span>0.1.0 -Dpackaging<span class="o">=</span>jar -Dfile<span class="o">=</span>d:<span class="se">\c</span>lient-0.1.0.jar
+-DdownloadSources<span class="o">=</span><span class="nb">true</span>
+  
+-DdownloadJavadocs<span class="o">=</span><span class="nb">true
+  
+</span>mvn -e              显示详细错误 信息. 
+mvn validate        验证工程是否正确，所有需要的资源是否可用。 
+mvn <span class="nb">test</span>-compile    编译项目测试代码。 。 
+mvn integration-test     在集成测试可以运行的环境中处理和发布包。 
+mvn verify               运行任何检查，验证包是否有效且达到质量标准。     
+mvn generate-sources     产生应用需要的任何额外的源代码，如xdoclet。
+  
+mvn -v 显示版本 
+mvn <span class="nb">help</span>:describe -Dplugin<span class="o">=</span><span class="nb">help </span>使用 <span class="nb">help </span>插件的  describe 目标来输出 Maven Help 插件的信息。 
+mvn <span class="nb">help</span>:describe -Dplugin<span class="o">=</span><span class="nb">help</span> -Dfull 使用Help 插件输出完整的带有参数的目标列 
+mvn <span class="nb">help</span>:describe -Dplugin<span class="o">=</span>compiler -Dmojo<span class="o">=</span>compile -Dfull 获取单个目标的信息,设置  mojo 参数和  plugin 参数。此命令列出了Compiler 插件的compile 目标的所有信息 
+mvn <span class="nb">help</span>:describe -Dplugin<span class="o">=</span><span class="nb">exec</span> -Dfull 列出所有 Maven Exec 插件可用的目标 
+mvn <span class="nb">help</span>:effective-pom 看这个“有效的 <span class="o">(</span>effective<span class="o">)</span>”POM，它暴露了 Maven的默认设置
+  
+mvn archetype:create -DgroupId<span class="o">=</span>org.sonatype.mavenbook.ch03 -DartifactId<span class="o">=</span>simple -DpackageName<span class="o">=</span>org.sonatype.mavenbook 创建Maven的普通java项目，在命令行使用Maven Archetype 插件 
+mvn <span class="nb">exec</span>:java -Dexec.mainClass<span class="o">=</span>org.sonatype.mavenbook.weather.Main Exec 插件让我们能够在不往 classpath 载入适当的依赖的情况下，运行这个程序 
+mvn dependency:resolve 打印出已解决依赖的列表 
+mvn dependency:tree 打印整个依赖树
+  
+mvn install -X 想要查看完整的依赖踪迹，包含那些因为冲突或者其它原因而被拒绝引入的构件，打开 Maven 的调试标记运行 
+mvn install -Dmaven.test.skip<span class="o">=</span><span class="nb">true </span>给任何目标添加maven.test.skip 属性就能跳过测试 
+mvn install assembly:assembly 构建装配Maven Assembly 插件是一个用来创建你应用程序特有分发包的插件
+  
+mvn jetty:run     调用 Jetty 插件的 Run 目标在 Jetty Servlet 容器中启动 web 应用 
+mvn compile       编译你的项目 
+mvn clean install 删除再编译
+  
+mvn hibernate3:hbm2ddl 使用 Hibernate3 插件构造数据库</code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#linux-ref">
+    		linux <span>12</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#Linux-ref">Linux <span>5</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/onos/2015/08/28/notes-for-learning-karaf" title="Karaf学习笔记">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%85%B6%E5%AE%83/2016/05/24/jekyll-on-centos7" title="CentOS7安装Jekyll">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/linux/2015/09/02/maven-command-notes"  data-title="Maven常用命令 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

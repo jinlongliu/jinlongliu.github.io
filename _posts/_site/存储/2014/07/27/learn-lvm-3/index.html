@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>LVM2 Logical Volume Manager 详解（三）--VGDA卷组描述区域</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>LVM2 Logical Volume Manager 详解（三）--VGDA卷组描述区域 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-27</span>
+    </div>
+    <div class="content">
+      
+<p>
+VGDA(Volume Group Descriptor Area)，VG中包含了哪些PV都写在了VG中的一个区域，这个区域就是VGDA，VGDA记录了VG的很多重要相关信息，包括VG中包含的PV的PV ID。<br />
+VGDA非常重要，所以被保存了多份。<br />
+
+如果VG中只有一块磁盘，则该磁盘上保存2份VGDA；<br />
+VG包含2块磁盘，则第1块磁盘包含2份VGDA，第2块只包含1份；<br />
+VG中包含3块磁盘，则每个磁盘都保存有1份VGDA。<br />
+</p>
+<p>
+完好的VGDA与VG中总磁盘总数之比为Quorum，如果Quorum小于50%，此VG不能被继续访问，如果已经被激活，则自动关闭。由于每一块磁盘上至少有一份VGDA，所以在一个新小型机上，只要给出未知VG中一块磁盘，就可以正确识别全部VG的信息，并注册到新小型机上，这个过程叫Import
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">importvg</span> <span class="o">-</span><span class="n">y</span> <span class="n">vg_name</span> <span class="n">hdiskx</span></code></pre></div>
+
+<p>
+vg_name是希望的VG名,在执行importvg时可以自定义VG名,因此系统中并没有更改VG名称的命令,如果想更改VG的名称,需要先执行exporrtvg命令,此命令没有对磁盘进行任何操作,磁盘上数据依然存在,只是将此VG在小型机系统中的定义删除了,任何时候可以重新Import回来. 在执行importvg时候,系统可以从指定磁盘上读到VG中所有磁盘的定义,但如果VG中一些磁盘没有被系统识别到,(通过PV ID找寻到,VGDA中包含某个PVID在操作系统中所有磁盘设备上都找不到,可能的原因既包括该磁盘不存在,也可能是PVID没有正确读出来).那么系统将计算Quorum,大于50%,可以执行,但会有警告,小于50%,不允许improt此VG.系统管理PV完全是靠PVID,尽管HDISKX设备号可变,但PVID不会变.拿到另一台机器也是如此,如果用命令改变了PVID,系统将认为原来的磁盘消失了,不能再找回来.更不巧的是,如果原有的PV还属于某个VG,那么这个VG再也发现不了他原来的成员盘,这个盘上的数据就无法找回,虽然磁盘和数据都存在.
+</p>
+<p>
+1台主机hdisk2的VGDA信息丢失，恢复的步骤：
+datavg包含hdisk1 hdisk4 hdisk2，
+hdisk2的VGDA信息丢失，（判断方法:lqueryvg -Atp hdisk2，无法得到结果）
+导致hdisk2中的LV全部不能MOUNT。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#lsvg -p datavg</span>
+<span class="n">hdisk1</span>    <span class="n">active</span>    <span class="n">datavg</span>
+<span class="n">hdisk2</span>    <span class="n">missing</span>   <span class="n">datavg</span>
+<span class="n">hdisk4</span>    <span class="n">active</span>    <span class="n">datavg</span></code></pre></div>
+
+<p>
+exportvg 以后,rmdev -dl hdisk2，此时hdisk2的PVID也没有了
+
+#lspv
+hdisk2   none  None
+要恢复hdisk2中的LV信息，首先要把hdisk2想办法加入到datavg中。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># chdev -l hdisk2 -a pv=yes        此时，hdisk2又恢复了以前的PVID了。</span>
+<span class="c1"># synclvodm datavg                   将把hdisk2加入到datavg中，（因为系统的ODM库中，知道PVID=hdisk2是DATAVG的PV）</span>
+<span class="c1"># lspv</span>
+<span class="n">hdisk2</span>  <span class="mo">000203</span><span class="mi">9490</span><span class="n">ef</span>  <span class="n">datavg</span>
+<span class="c1"># exportvg datavg  (从ODM库中删除VGDA的信息）</span>
+<span class="c1"># importvg -y  datavg hdisk4  （不要HDISK2，因为此时HDISK2的VGDA是坏的）</span></code></pre></div>
+
+<p>
+importvg 的时候，系统会再次做synclvodm,这次将会把系统ODM中VGDA的信息同步到hdisk2上。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># lsvg -p datavg</span>
+<span class="n">hdisk1</span>    <span class="n">active</span>   <span class="n">datavg</span>
+<span class="n">hdisk2</span>    <span class="n">active</span>   <span class="n">datavg</span>
+<span class="n">hdisk4</span>    <span class="n">active</span>   <span class="n">datavg</span></code></pre></div>
+
+<p>
+此时，HDISK2上的VGDA信息又恢复了。里面的LV可以读写了。不过对于HDISK2上的文件系统，需要做个fsck。
+</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-2" title="LVM2 Logical Volume Manager 详解（二）--LVM剖析">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-4" title="LVM2 Logical Volume Manager 详解（四）--常规任务实战">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-3"  data-title="LVM2 Logical Volume Manager 详解（三）--VGDA卷组描述区域 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

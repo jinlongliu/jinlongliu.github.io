@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Ubuntu 14.04 64bits安装ONOS[源码]</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>Ubuntu 14.04 64bits安装ONOS[源码] </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2015-01-08</span>
+    </div>
+    <div class="content">
+      
+<p>
+英文安装参见：https://wiki.onosproject.org/display/ONOS/Installing+and+Running+ONOS <br />
+下载源码: <br />
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone https://gerrit.onosproject.org/onos
+<span class="gp">$ </span><span class="nb">cd </span>onos
+<span class="gp">$ </span>git checkout 1.0.0</code></pre></div>
+
+<p>
+上述需要从国外下载源码速度有限，可以从ONOS技术群[425319659]共享中心下载1.0.0源码 <br />
+ONOS技术群[425319659]共享中心：http://pan.baidu.com/s/1i3tHPZJ
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -xvf onos-1.0.0-src.tar.gz
+<span class="nb">cd </span>onos</code></pre></div>
+
+<p>
+官方推荐配置: <br />
+1.Ubuntu Server 14.04 LTS 64-bit <br />
+2.2GB or more RAM  <br />
+3.2 or more processors
+</p>
+<p>
+依赖软件：<br />
+1.Java 8 JDK(推荐Oracle Java, OpenJDK未完全测试) 【开发环境JDK】 <br />
+2.Apache Maven(3.0+) 【编译打包工具】<br />
+3.Apache Karaf(3.0.2+) 【部署运行容器】<br />
+4.git(用于获取源码，如果源码已下载可不安装)
+</p>
+<p>
+参考文档：<br />
+1.Ubuntu 14.04 64bits安装JDK8        http://jinlongliu.github.io/linux/2015/01/06/install-jdk8-on-ubuntu14.04lts/   <br />
+2.Ubuntu 14.04 64bits安装Maven3.2.5      http://jinlongliu.github.io/linux/2015/01/06/install-apache-maven-on-ubuntu14.04lts/  <br />
+3.Ubuntu 14.04 64bits安装Apache Karaf    http://jinlongliu.github.io/linux/2015/01/06/install-apache-karaf-on-ubuntu14.04lts/   <br />
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">验证上述安装
+<span class="gp">root@king:/# </span>java -version
+java version <span class="s2">"1.8.0_25"</span>
+Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.8.0_25-b17<span class="o">)</span>
+Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 25.25-b02, mixed mode<span class="o">)</span>
+  
+<span class="gp">root@king:/# </span>mvn --version
+Apache Maven 3.2.5 <span class="o">(</span>12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-15T01:29:23+08:00<span class="o">)</span>
+Maven home: /usr/local/apache-maven
+Java version: 1.8.0_25, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-8-oracle/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: <span class="s2">"linux"</span>, version: <span class="s2">"3.13.0-24-generic"</span>, arch: <span class="s2">"amd64"</span>, family: <span class="s2">"unix"</span>
+    
+<span class="gp">root@king:/# </span>karaf clean
+        __ __                  ____      
+       / //_/____ __________ _/ __/      
+      / ,&lt;  / __ <span class="sb">`</span>/ ___/ __ <span class="sb">`</span>/ /_        
+     / /| |/ /_/ / /  / /_/ / __/        
+    /_/ |_|<span class="se">\_</span>_,_/_/   <span class="se">\_</span>_,_/_/         
+  
+  Apache Karaf <span class="o">(</span>3.0.2<span class="o">)</span>
+  
+Hit <span class="s1">'&lt;tab&gt;'</span> <span class="k">for </span>a list of available commands
+and <span class="s1">'[cmd] --help'</span> <span class="k">for </span><span class="nb">help </span>on a specific command.
+Hit <span class="s1">'&lt;ctrl-d&gt;'</span> or <span class="nb">type</span> <span class="s1">'system:shutdown'</span> or <span class="s1">'logout'</span> to shutdown Karaf.
+  
+karaf@root<span class="o">()</span>&gt;</code></pre></div>
+
+<p>
+下载ONOS Maven库文件 <br />
+ONOS技术群[425319659]共享中心: http://pan.baidu.com/s/1mgwZ6YG
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -xvf onos-maven-repos.tar.gz   解压生成目录repos</code></pre></div>
+
+<p>
+将Maven本地库设置指向，上述解压路径。设置方法参见：http://jinlongliu.github.io/linux/2015/01/06/install-apache-maven-on-ubuntu14.04lts/
+</p>
+<p>
+编译安装ONOS源码
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$cd</span> onos
+<span class="nv">$export</span> <span class="nv">ONOS_ROOT</span><span class="o">=</span>./
+<span class="nv">$source</span> <span class="nv">$ONOS_ROOT</span>/tools/dev/bash_profile   此处导入各种变量，会导入KARAF_ROOT,如果之前未设置，需要修改此文件默认值
+  
+<span class="nv">$mvn</span> clean install	此处如果设置了本地仓储，编译安装是很快的。
+.......
+.......
+<span class="o">[</span>INFO] --- maven-bundle-plugin:2.5.3:install <span class="o">(</span>default-install<span class="o">)</span> @ onos-branding ---
+<span class="o">[</span>INFO] Installing org/onosproject/onos-branding/1.0.0/onos-branding-1.0.0.jar
+<span class="o">[</span>INFO] Writing OBR metadata
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] Reactor Summary:
+<span class="o">[</span>INFO] 
+<span class="o">[</span>INFO] onos ............................................... SUCCESS <span class="o">[</span>  2.065 s]
+<span class="o">[</span>INFO] onlab-utils ........................................ SUCCESS <span class="o">[</span>  1.438 s]
+<span class="o">[</span>INFO] onlab-junit ........................................ SUCCESS <span class="o">[</span>  4.572 s]
+<span class="o">[</span>INFO] onlab-misc ......................................... SUCCESS <span class="o">[</span>  7.871 s]
+<span class="o">[</span>INFO] onlab-netty ........................................ SUCCESS <span class="o">[</span>  1.490 s]
+<span class="o">[</span>INFO] onlab-nio .......................................... SUCCESS <span class="o">[</span>  1.906 s]
+<span class="o">[</span>INFO] onlab-osgi ......................................... SUCCESS <span class="o">[</span>  0.548 s]
+<span class="o">[</span>INFO] onlab-rest ......................................... SUCCESS <span class="o">[</span>  0.547 s]
+<span class="o">[</span>INFO] onlab-thirdparty ................................... SUCCESS <span class="o">[</span>  1.101 s]
+<span class="o">[</span>INFO] onos-core .......................................... SUCCESS <span class="o">[</span>  0.296 s]
+<span class="o">[</span>INFO] onos-api ........................................... SUCCESS <span class="o">[</span>  5.976 s]
+<span class="o">[</span>INFO] onos-core-store .................................... SUCCESS <span class="o">[</span>  0.415 s]
+<span class="o">[</span>INFO] onos-core-trivial .................................. SUCCESS <span class="o">[</span>  2.801 s]
+<span class="o">[</span>INFO] onos-core-net ...................................... SUCCESS <span class="o">[</span>  6.533 s]
+<span class="o">[</span>INFO] onos-core-serializers .............................. SUCCESS <span class="o">[</span>  2.443 s]
+<span class="o">[</span>INFO] onos-core-dist ..................................... SUCCESS <span class="o">[</span> 20.423 s]
+<span class="o">[</span>INFO] onos-json .......................................... SUCCESS <span class="o">[</span>  0.428 s]
+<span class="o">[</span>INFO] onos-web ........................................... SUCCESS <span class="o">[</span>  0.281 s]
+<span class="o">[</span>INFO] onos-gui ........................................... SUCCESS <span class="o">[</span>  0.810 s]
+<span class="o">[</span>INFO] onos-rest .......................................... SUCCESS <span class="o">[</span>  1.427 s]
+<span class="o">[</span>INFO] onos-cli ........................................... SUCCESS <span class="o">[</span>  0.986 s]
+<span class="o">[</span>INFO] onos-of ............................................ SUCCESS <span class="o">[</span>  0.456 s]
+<span class="o">[</span>INFO] onos-of-api ........................................ SUCCESS <span class="o">[</span>  6.997 s]
+<span class="o">[</span>INFO] onos-providers ..................................... SUCCESS <span class="o">[</span>  0.295 s]
+<span class="o">[</span>INFO] onos-of-providers .................................. SUCCESS <span class="o">[</span>  0.342 s]
+<span class="o">[</span>INFO] onos-of-provider-device ............................ SUCCESS <span class="o">[</span>  1.814 s]
+<span class="o">[</span>INFO] onos-of-provider-link .............................. SUCCESS <span class="o">[</span>  1.630 s]
+<span class="o">[</span>INFO] onos-of-provider-host .............................. SUCCESS <span class="o">[</span>  1.430 s]
+<span class="o">[</span>INFO] onos-of-provider-packet ............................ SUCCESS <span class="o">[</span>  2.114 s]
+<span class="o">[</span>INFO] onos-of-provider-flow .............................. SUCCESS <span class="o">[</span>  0.960 s]
+<span class="o">[</span>INFO] onos-lldp-provider ................................. SUCCESS <span class="o">[</span>  2.129 s]
+<span class="o">[</span>INFO] onos-host-provider ................................. SUCCESS <span class="o">[</span>  1.324 s]
+<span class="o">[</span>INFO] onos-of-drivers .................................... SUCCESS <span class="o">[</span>  0.599 s]
+<span class="o">[</span>INFO] onos-of-ctl ........................................ SUCCESS <span class="o">[</span>  1.758 s]
+<span class="o">[</span>INFO] onos-apps .......................................... SUCCESS <span class="o">[</span>  0.312 s]
+<span class="o">[</span>INFO] onos-app-tvue ...................................... SUCCESS <span class="o">[</span>  0.489 s]
+<span class="o">[</span>INFO] onos-app-fwd ....................................... SUCCESS <span class="o">[</span>  0.422 s]
+<span class="o">[</span>INFO] onos-app-ifwd ...................................... SUCCESS <span class="o">[</span>  0.376 s]
+<span class="o">[</span>INFO] onos-app-mobility .................................. SUCCESS <span class="o">[</span>  0.384 s]
+<span class="o">[</span>INFO] onos-app-proxyarp .................................. SUCCESS <span class="o">[</span>  0.351 s]
+<span class="o">[</span>INFO] onos-app-config .................................... SUCCESS <span class="o">[</span>  0.388 s]
+<span class="o">[</span>INFO] onos-app-sdnip ..................................... SUCCESS <span class="o">[</span>  5.384 s]
+<span class="o">[</span>INFO] onos-app-calendar .................................. SUCCESS <span class="o">[</span>  0.435 s]
+<span class="o">[</span>INFO] onos-app-optical ................................... SUCCESS <span class="o">[</span>  0.578 s]
+<span class="o">[</span>INFO] onos-app-metrics ................................... SUCCESS <span class="o">[</span>  0.261 s]
+<span class="o">[</span>INFO] onos-app-metrics-intent ............................ SUCCESS <span class="o">[</span>  0.503 s]
+<span class="o">[</span>INFO] onos-app-metrics-topology .......................... SUCCESS <span class="o">[</span>  0.595 s]
+<span class="o">[</span>INFO] onos-app-oecfg ..................................... SUCCESS <span class="o">[</span>  1.315 s]
+<span class="o">[</span>INFO] onos-app-demo ...................................... SUCCESS <span class="o">[</span>  0.535 s]
+<span class="o">[</span>INFO] onos-app-election .................................. SUCCESS <span class="o">[</span>  0.470 s]
+<span class="o">[</span>INFO] onos-features ...................................... SUCCESS <span class="o">[</span>  0.524 s]
+<span class="o">[</span>INFO] onos-branding ...................................... SUCCESS <span class="o">[</span>  0.530 s]
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] BUILD SUCCESS
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] Total <span class="nb">time</span>: 01:41 min
+<span class="o">[</span>INFO] Finished at: 2015-01-08T14:58:06+08:00
+<span class="o">[</span>INFO] Final Memory: 91M/326M
+<span class="o">[</span>INFO] ------------------------------------------------------------------------</code></pre></div>
+
+<p>
+如果想跳过测试可以使用如下，速度会更快一点.
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$mvn</span> clean install -Dmaven.test.skip<span class="o">=</span><span class="nb">true</span></code></pre></div>
+
+<p>
+修改Karaf配置，以加载ONOS
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">vim <span class="nv">$KARAF_ROOT</span>/etc/org.apache.karaf.features.cfg
+在featuresRepositories后添加mvn:org.onosproject/onos-features/1.0.0/xml/features 用逗号隔开
+在featuresBoot后添加onos-api,onos-core-trivial,onos-cli,onos-openflow,onos-app-fwd,onos-app-mobility,onos-gui 用逗号隔开
+  
+<span class="gp">root@king:/# </span>karaf clean
+Welcome to Open Network Operating System <span class="o">(</span>ONOS<span class="o">)</span>!
+     ____  _  ______  ____   
+    / __ <span class="se">\/</span> |/ / __ <span class="se">\/</span> __/    
+   / /_/ /    / /_/ /<span class="se">\ \ </span>      
+   <span class="se">\_</span>___/_/|_/<span class="se">\_</span>___/___/      
+                             
+  
+Hit <span class="s1">'&lt;tab&gt;'</span> <span class="k">for </span>a list of available commands
+and <span class="s1">'[cmd] --help'</span> <span class="k">for </span><span class="nb">help </span>on a specific command.
+Hit <span class="s1">'&lt;ctrl-d&gt;'</span> or <span class="nb">type</span> <span class="s1">'system:shutdown'</span> or <span class="s1">'logout'</span> to shutdown ONOS.
+  
+onos&gt;</code></pre></div>
+
+<p>
+正确加载后LOGO已经发生变化。<br />
+查看WebGui和控制器端口监听是否正常
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">root@king:/# </span>netstat -lnput |grep 8181
+tcp6       0      0 :::8181                 :::<span class="k">*</span>                    LISTEN      21716/java      
+<span class="gp">root@king:/# </span>netstat -lnput |grep 6633
+tcp6       0      0 :::6633                 :::<span class="k">*</span>                    LISTEN      21716/java</code></pre></div>
+
+<p>
+访问http://[your_ server_ip]:8181/onos/ui/index.html查看WebGui,请使用Chrome查看，笔者测试IE和QQ浏览器浮动窗口效果均有问题。 <br />
+使用Mininet建立拓扑，此时Mininet安装可以使用apt-get install mininet,不过似乎后面它会安装openvswitch可能会报错，忽略。service openvswitch-controller stop
+</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#onos-ref">
+    		onos <span>4</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#SDN-ref">SDN <span>4</span></a></li>
+     
+    	<li><a href="/20-tags.html#ONOS-ref">ONOS <span>6</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/radxa/2015/01/07/some-tips-about-resolution" title="Radxa分辨率修改零星笔记">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/onos/2015/01/08/install-onos-ubuntu14.04lts-2" title="Ubuntu 14.04 64bits安装ONOS[非源码]">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/onos/2015/01/08/install-onos-on-ubuntu14.04lts"  data-title="Ubuntu 14.04 64bits安装ONOS[源码] - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

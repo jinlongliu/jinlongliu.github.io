@@ -21,6 +21,9 @@ EOF
 {% highlight bash %}
 yum install docker-engine
 service docker start
+
+[root@king ~]# docker -v
+Docker version 1.12.1, build 23cf638
 {% endhighlight %}
 
 ### 安装Docker compose

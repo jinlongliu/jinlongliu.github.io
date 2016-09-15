@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>基于Ubuntu 14.04 Pacemaker+Corosync+Drbd+Mysql主备</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>基于Ubuntu 14.04 Pacemaker+Corosync+Drbd+Mysql主备 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-30</span>
+    </div>
+    <div class="content">
+      
+<p>
+Drbd设备安装<br />
+<a href="/2014/07/29/drbd-on-ubuntu14.04/">基于Ubuntu 14.04 的DRBD配置</a>
+</p>
+<p>
+心跳程序Corosync<br />
+安装心跳程序，在两个节点均安装corosync
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">yes</span> <span class="n">corosync</span></code></pre></div>
+
+开启corosync。可能遇到的问题server corosync start 无响应
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># vim /etc/default/corosync</span>
+<span class="c1"># start corosync at boot [yes|no]</span>
+<span class="no">START</span><span class="o">=</span><span class="n">yes</span>
+  
+<span class="c1">#将原来默认的no，修改为yes，否则service corosync start 无反应</span></code></pre></div>
+
+</p>
+<p>
+配置Corosync
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># vim /etc/corosync/corosync.conf</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">totem</span> <span class="p">{</span>
+        <span class="ss">version: </span><span class="mi">2</span>
+  
+        <span class="c1"># How long before declaring a token lost (ms)</span>
+        <span class="ss">token: </span><span class="mi">3000</span>
+  
+        <span class="c1"># How many token retransmits before forming a new configuration</span>
+        <span class="ss">token_retransmits_before_loss_const: </span><span class="mi">10</span>
+<span class="c1"># Please read the openais.conf.5 manual page</span>
+  
+<span class="n">totem</span> <span class="p">{</span>
+        <span class="ss">version: </span><span class="mi">2</span>
+  
+        <span class="c1"># How long before declaring a token lost (ms)</span>
+        <span class="ss">token: </span><span class="mi">3000</span>
+  
+        <span class="c1"># How many token retransmits before forming a new configuration</span>
+        <span class="ss">token_retransmits_before_loss_const: </span><span class="mi">10</span>
+  
+        <span class="c1"># How long to wait for join messages in the membership protocol (ms)</span>
+        <span class="ss">join: </span><span class="mi">60</span>
+  
+        <span class="c1"># How long to wait for consensus to be achieved before starting a new round of membership configuration (ms)</span>
+        <span class="ss">consensus: </span><span class="mi">3600</span>
+  
+        <span class="c1"># Turn off the virtual synchrony filter</span>
+        <span class="ss">vsftype: </span><span class="n">none</span>
+  
+        <span class="c1"># Number of messages that may be sent by one processor on receipt of the token</span>
+        <span class="ss">max_messages: </span><span class="mi">20</span>
+  
+        <span class="c1"># Limit generated nodeids to 31-bits (positive signed integers)</span>
+        <span class="ss">clear_node_high_bit: </span><span class="n">yes</span>
+  
+        <span class="c1"># Disable encryption</span>
+        <span class="ss">secauth: </span><span class="n">off</span>
+  
+        <span class="c1"># How many threads to use for encryption/decryption</span>
+        <span class="ss">threads: </span><span class="mi">0</span>
+  
+        <span class="c1"># Optionally assign a fixed node id (integer)</span>
+        <span class="c1"># nodeid: 1234</span>
+  
+        <span class="c1"># This specifies the mode of redundant ring, which may be none, active, or passive.</span>
+        <span class="ss">rrp_mode: </span><span class="n">active</span>
+  
+        <span class="n">interface</span> <span class="p">{</span>
+                <span class="c1"># The following values need to be set based on your environment </span>
+                <span class="ss">ringnumber: </span><span class="mi">0</span>
+                <span class="ss">bindnetaddr: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">11</span>
+                <span class="ss">mcastaddr: </span><span class="mi">226</span><span class="o">.</span><span class="mi">94</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
+                <span class="ss">mcastport: </span><span class="mi">5405</span>
+        <span class="p">}</span>
+        <span class="n">interface</span> <span class="p">{</span>
+                <span class="ss">ringnumber: </span><span class="mi">1</span>
+                <span class="ss">bindnetaddr: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">99</span><span class="o">.</span><span class="mi">2</span>
+                <span class="ss">mcastaddr: </span><span class="mi">226</span><span class="o">.</span><span class="mi">94</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
+                <span class="n">mcastport</span><span class="p">:</span><span class="mi">5405</span>
+        <span class="p">}</span>
+  
+<span class="p">}</span>
+  
+<span class="n">amf</span> <span class="p">{</span>
+        <span class="ss">mode: </span><span class="n">disabled</span>
+<span class="p">}</span>
+  
+<span class="n">quorum</span> <span class="p">{</span>
+        <span class="c1"># Quorum for the Pacemaker Cluster Resource Manager</span>
+        <span class="ss">provider: </span><span class="n">corosync_votequorum</span>
+        <span class="ss">expected_votes: </span><span class="mi">1</span>
+<span class="p">}</span>
+  
+<span class="n">aisexec</span> <span class="p">{</span>
+        <span class="ss">user:   </span><span class="n">root</span>
+        <span class="ss">group:  </span><span class="n">root</span>
+<span class="p">}</span>
+  
+<span class="n">logging</span> <span class="p">{</span>
+        <span class="ss">fileline: </span><span class="n">off</span>
+        <span class="ss">to_stderr: </span><span class="n">yes</span>
+        <span class="ss">to_logfile: </span><span class="n">yes</span>
+        <span class="ss">logfile: </span><span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">corosync</span><span class="o">/</span><span class="n">corosync</span><span class="p">.</span><span class="nf">log</span>
+        <span class="ss">to_syslog: </span><span class="n">yes</span>
+        <span class="ss">syslog_facility: </span><span class="n">daemon</span>
+        <span class="ss">debug: </span><span class="n">off</span>
+        <span class="ss">timestamp: </span><span class="n">on</span>
+        <span class="n">logger_subsys</span> <span class="p">{</span>
+                <span class="ss">subsys: </span><span class="no">AMF</span>
+                <span class="ss">debug: </span><span class="n">off</span>
+                <span class="ss">tags: </span><span class="n">enter</span><span class="o">|</span><span class="n">leave</span><span class="o">|</span><span class="n">trace1</span><span class="o">|</span><span class="n">trace2</span><span class="o">|</span><span class="n">trace3</span><span class="o">|</span><span class="n">trace4</span><span class="o">|</span><span class="n">trace6</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># Now this is just for test, add a comment</span></code></pre></div>
+
+<p>
+ 需要修改配置的地方为totem域内的interface
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="ss">rrp_mode: </span><span class="n">active</span>
+  
+        <span class="n">interface</span> <span class="p">{</span>
+                <span class="c1"># The following values need to be set based on your environment </span>
+                <span class="ss">ringnumber: </span><span class="mi">0</span>
+                <span class="ss">bindnetaddr: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">11</span>
+                <span class="ss">mcastaddr: </span><span class="mi">226</span><span class="o">.</span><span class="mi">94</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
+                <span class="ss">mcastport: </span><span class="mi">5405</span>
+        <span class="p">}</span>
+        <span class="n">interface</span> <span class="p">{</span>
+                <span class="ss">ringnumber: </span><span class="mi">1</span>
+                <span class="ss">bindnetaddr: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">99</span><span class="o">.</span><span class="mi">2</span>
+                <span class="ss">mcastaddr: </span><span class="mi">226</span><span class="o">.</span><span class="mi">94</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
+                <span class="n">mcastport</span><span class="p">:</span><span class="mi">5405</span>
+        <span class="p">}</span></code></pre></div>
+
+<p>
+可以配置多个心跳接口，ringnumber不要写成一样的即可。bindnetaddr为绑定的IP，还有就是广播IP。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#查看心跳集群情况，如下为在节点查看情况</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># corosync-cmapctl |grep members</span>
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752395</span><span class="p">.</span><span class="nf">config_version</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752395</span><span class="p">.</span><span class="nf">ip</span> <span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">ip</span><span class="p">(</span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">11</span><span class="p">)</span> <span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">ip</span><span class="p">(</span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">99</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span> 
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752395</span><span class="p">.</span><span class="nf">join_count</span> <span class="p">(</span><span class="n">u32</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752395</span><span class="p">.</span><span class="nf">status</span> <span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">=</span> <span class="n">joined</span>
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752396</span><span class="p">.</span><span class="nf">config_version</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752396</span><span class="p">.</span><span class="nf">ip</span> <span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">ip</span><span class="p">(</span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">)</span> <span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">ip</span><span class="p">(</span><span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span> 
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752396</span><span class="p">.</span><span class="nf">join_count</span> <span class="p">(</span><span class="n">u32</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">runtime</span><span class="p">.</span><span class="nf">totem</span><span class="p">.</span><span class="nf">pg</span><span class="p">.</span><span class="nf">mrp</span><span class="p">.</span><span class="nf">srp</span><span class="p">.</span><span class="nf">members</span><span class="o">.</span><span class="mi">1084752396</span><span class="p">.</span><span class="nf">status</span> <span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">=</span> <span class="n">joined</span></code></pre></div>
+
+<p>
+安装Pacemaker
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">yes</span> <span class="n">pacemaker</span></code></pre></div>
+
+<p>
+配置Pacemaker 
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#ocf日志配置</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ocf</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">heartbeat</span><span class="c1"># ls</span>
+<span class="n">apache</span><span class="o">-</span><span class="n">conf</span><span class="p">.</span><span class="nf">sh</span>  <span class="n">ocf</span><span class="o">-</span><span class="n">binaries</span>     <span class="n">ocf</span><span class="o">-</span><span class="n">rarun</span>        <span class="n">ocf</span><span class="o">-</span><span class="n">shellfuncs</span>  <span class="n">sapdb</span><span class="o">-</span><span class="n">nosha</span><span class="p">.</span><span class="nf">sh</span>
+<span class="n">http</span><span class="o">-</span><span class="n">mon</span><span class="p">.</span><span class="nf">sh</span>     <span class="n">ocf</span><span class="o">-</span><span class="n">directories</span>  <span class="n">ocf</span><span class="o">-</span><span class="n">returncodes</span>  <span class="n">ora</span><span class="o">-</span><span class="n">common</span><span class="p">.</span><span class="nf">sh</span>   <span class="n">sapdb</span><span class="p">.</span><span class="nf">sh</span>
+  
+<span class="c1">#配置ocf-directories文件</span>
+<span class="c1"># Binaries and binary options for use in Resource Agents</span>
+
+<span class="n">prefix</span><span class="o">=</span><span class="sr">/usr
+exec_prefix=/us</span><span class="n">r</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">INITDIR</span><span class="p">:</span><span class="o">=</span><span class="sr">/etc/ini</span><span class="n">t</span><span class="p">.</span><span class="nf">d</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_DIR</span><span class="p">:</span><span class="o">=</span><span class="sr">/etc/</span><span class="n">ha</span><span class="p">.</span><span class="nf">d</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_RCDIR</span><span class="p">:</span><span class="o">=</span><span class="vg">$HA_DIR</span><span class="o">/</span><span class="n">rc</span><span class="p">.</span><span class="nf">d</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_CONFDIR</span><span class="o">=</span><span class="vg">$HA_DIR</span><span class="o">/</span><span class="n">conf</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_CF</span><span class="p">:</span><span class="o">=</span><span class="vg">$HA_DIR</span><span class="o">/</span><span class="n">ha</span><span class="p">.</span><span class="nf">cf</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_VARLIB</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">heartbeat</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_RSCTMP</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">run</span><span class="o">/</span><span class="n">resource</span><span class="o">-</span><span class="n">agents</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_RSCTMP_OLD</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">run</span><span class="o">/</span><span class="n">heartbeat</span><span class="o">/</span><span class="n">rsctmp</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_FIFO</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">heartbeat</span><span class="o">/</span><span class="n">fifo</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_BIN</span><span class="p">:</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">lib</span><span class="o">/</span><span class="n">heartbeat</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_SBIN_DIR</span><span class="p">:</span><span class="o">=</span><span class="sr">/usr/s</span><span class="n">bin</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_DATEFMT</span><span class="p">:</span><span class="o">=</span><span class="s2">"%Y/%m/%d_%T "</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_DEBUGLOG</span><span class="p">:</span><span class="o">=</span><span class="sr">/dev/nu</span><span class="n">ll</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_RESOURCEDIR</span><span class="p">:</span><span class="o">=</span><span class="vg">$HA_DIR</span><span class="o">/</span><span class="n">resource</span><span class="p">.</span><span class="nf">d</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_DOCDIR</span><span class="p">:</span><span class="o">=</span><span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">doc</span><span class="o">/</span><span class="n">heartbeat</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="n">__SCRIPT_NAME</span><span class="p">:</span><span class="o">=</span><span class="sb">`basename $0`</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_VARRUN</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">run</span><span class="o">/</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_VARLOCK</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">lock</span><span class="o">/</span><span class="n">subsys</span><span class="o">/</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_LOGFILE</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">ha</span><span class="o">/</span><span class="n">ha</span><span class="p">.</span><span class="nf">log</span><span class="p">}</span>
+<span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="no">HA_DEBUGLOG</span><span class="p">:</span><span class="o">=</span><span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">ha</span><span class="o">/</span><span class="n">ha_debug</span><span class="p">.</span><span class="nf">log</span><span class="p">}</span>
+  
+<span class="c1"># 新增最后两行，并在/var/log下创建ha目录，当使用ocf资源时会生成日志。</span></code></pre></div>
+
+<p>
+配置Pacemaker服务资源
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#crm status  查看集群情况</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ocf</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">heartbeat</span><span class="c1"># crm status</span>
+<span class="no">Last</span> <span class="ss">updated: </span><span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">30</span> <span class="mi">13</span><span class="p">:</span><span class="mo">03</span><span class="p">:</span><span class="mi">46</span> <span class="mi">2014</span>
+<span class="no">Last</span> <span class="ss">change: </span><span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">30</span> <span class="mi">12</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mi">21</span> <span class="mi">2014</span> <span class="n">via</span> <span class="n">crm_attribute</span> <span class="n">on</span> <span class="n">controller2</span>
+<span class="no">Stack</span><span class="p">:</span> <span class="n">corosync</span>
+<span class="no">Current</span> <span class="no">DC</span><span class="p">:</span> <span class="n">controller1</span> <span class="p">(</span><span class="mi">1084752395</span><span class="p">)</span> <span class="o">-</span> <span class="n">partition</span> <span class="n">with</span> <span class="n">quorum</span>
+<span class="no">Version</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">10</span><span class="o">-</span><span class="mi">42</span><span class="n">f2063</span>
+<span class="mi">2</span> <span class="no">Nodes</span> <span class="n">configured</span>
+<span class="mi">20</span> <span class="no">Resources</span> <span class="n">configured</span>
+  
+  
+<span class="no">Node</span> <span class="n">controller2</span> <span class="p">(</span><span class="mi">1084752396</span><span class="p">):</span> <span class="n">standby</span>
+<span class="no">Online</span><span class="p">:</span> <span class="p">[</span> <span class="n">controller1</span> <span class="p">]</span>
+  
+<span class="c1">#ontroller2 被笔者认为设置为standby，初始状态应该两者都为online。</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># crm ra</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">ra</span><span class="c1"># classes</span>
+<span class="n">lsb</span>
+<span class="n">ocf</span> <span class="o">/</span> <span class="n">heartbeat</span> <span class="n">linbit</span> <span class="n">openstack</span> <span class="n">pacemaker</span> <span class="n">rabbitmq</span> <span class="n">redhat</span>
+<span class="n">service</span>
+<span class="n">stonith</span>
+<span class="n">upstart</span>
+  
+<span class="c1">#查看pacemaker资源脚本，这些脚本控制着服务</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">ra</span><span class="c1"># help</span>
+  
+<span class="no">This</span> <span class="n">level</span> <span class="n">contains</span> <span class="n">commands</span> <span class="n">which</span> <span class="n">show</span> <span class="n">various</span> <span class="n">information</span> <span class="n">about</span>
+<span class="n">the</span> <span class="n">installed</span> <span class="n">resource</span> <span class="n">agents</span><span class="o">.</span> <span class="no">It</span> <span class="n">is</span> <span class="n">available</span> <span class="n">both</span> <span class="n">at</span> <span class="n">the</span> <span class="n">top</span>
+<span class="n">level</span> <span class="n">and</span> <span class="n">at</span> <span class="n">the</span> <span class="sb">`configure`</span> <span class="n">level</span><span class="o">.</span>
+  
+<span class="no">Available</span> <span class="ss">commands:
+
+        </span><span class="n">classes</span>          <span class="n">list</span> <span class="n">classes</span> <span class="n">and</span> <span class="n">providers</span>
+        <span class="n">list</span>             <span class="n">list</span> <span class="no">RA</span> <span class="k">for</span> <span class="n">a</span> <span class="k">class</span> <span class="p">(</span><span class="n">and</span> <span class="n">provider</span><span class="p">)</span>
+        <span class="n">meta</span>             <span class="n">show</span> <span class="n">meta</span> <span class="n">data</span> <span class="k">for</span> <span class="n">a</span> <span class="no">RA</span>
+        <span class="n">providers</span>        <span class="n">show</span> <span class="n">providers</span> <span class="k">for</span> <span class="n">a</span> <span class="no">RA</span> <span class="n">and</span> <span class="n">a</span> <span class="k">class</span>
+        <span class="n">help</span>             <span class="n">show</span> <span class="n">help</span> <span class="p">(</span><span class="n">help</span> <span class="n">topics</span> <span class="k">for</span> <span class="n">list</span> <span class="n">of</span> <span class="n">topics</span><span class="p">)</span>
+        <span class="k">end</span>              <span class="n">go</span> <span class="n">back</span> <span class="n">one</span> <span class="n">level</span>
+        <span class="n">quit</span>             <span class="nb">exit</span> <span class="n">the</span> <span class="n">program</span>
+  
+<span class="c1">#其中crm(live)ra# meta IPaddr2 是作为虚拟IP绑定的资源。</span>
+<span class="c1">#配置服务资源</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># crm configure</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">configure</span><span class="c1"># </span>
+  
+<span class="c1">#为交换命令可以用help查看命令帮助</span>
+<span class="no">Available</span> <span class="ss">commands:
+  
+        </span><span class="n">node</span>             <span class="n">define</span> <span class="n">a</span> <span class="n">cluster</span> <span class="n">node</span>
+        <span class="n">primitive</span>        <span class="n">define</span> <span class="n">a</span> <span class="n">resource</span>
+        <span class="n">monitor</span>          <span class="n">add</span> <span class="n">monitor</span> <span class="n">operation</span> <span class="n">to</span> <span class="n">a</span> <span class="n">primitive</span>
+        <span class="n">group</span>            <span class="n">define</span> <span class="n">a</span> <span class="n">group</span>
+        <span class="nb">clone</span>            <span class="n">define</span> <span class="n">a</span> <span class="nb">clone</span>
+        <span class="n">ms</span>               <span class="n">define</span> <span class="n">a</span> <span class="n">master</span><span class="o">-</span><span class="n">slave</span> <span class="n">resource</span>
+        <span class="n">rsc_template</span>     <span class="n">define</span> <span class="n">a</span> <span class="n">resource</span> <span class="n">template</span>
+        <span class="n">location</span>         <span class="n">a</span> <span class="n">location</span> <span class="n">preference</span>
+        <span class="n">colocation</span>       <span class="n">colocate</span> <span class="n">resources</span>
+        <span class="n">order</span>            <span class="n">order</span> <span class="n">resources</span>
+        <span class="n">rsc_ticket</span>       <span class="n">resources</span> <span class="n">ticket</span> <span class="n">dependency</span>
+        <span class="n">property</span>         <span class="n">set</span> <span class="n">a</span> <span class="n">cluster</span> <span class="n">property</span>
+        <span class="n">rsc_defaults</span>     <span class="n">set</span> <span class="n">resource</span> <span class="n">defaults</span>
+        <span class="n">fencing_topology</span> <span class="n">node</span> <span class="n">fencing</span> <span class="n">order</span>
+        <span class="n">role</span>             <span class="n">define</span> <span class="n">role</span> <span class="n">access</span> <span class="n">rights</span>
+        <span class="n">user</span>             <span class="n">define</span> <span class="n">user</span> <span class="n">access</span> <span class="n">rights</span>
+        <span class="n">op_defaults</span>      <span class="n">set</span> <span class="n">resource</span> <span class="n">operations</span> <span class="n">defaults</span>
+        <span class="n">schema</span>           <span class="n">set</span> <span class="n">or</span> <span class="nb">display</span> <span class="n">current</span> <span class="no">CIB</span> <span class="no">RNG</span> <span class="n">schema</span>
+        <span class="n">show</span>             <span class="nb">display</span> <span class="no">CIB</span> <span class="n">objects</span>
+        <span class="n">edit</span>             <span class="n">edit</span> <span class="no">CIB</span> <span class="n">objects</span>
+        <span class="n">filter</span>           <span class="n">filter</span> <span class="no">CIB</span> <span class="n">objects</span>
+        <span class="n">delete</span>           <span class="n">delete</span> <span class="no">CIB</span> <span class="n">objects</span>
+        <span class="n">default</span><span class="o">-</span><span class="n">timeouts</span> <span class="n">set</span> <span class="n">timeouts</span> <span class="k">for</span> <span class="n">operations</span> <span class="n">to</span> <span class="n">minimums</span> <span class="n">from</span> <span class="n">the</span> <span class="n">meta</span><span class="o">-</span><span class="n">data</span>
+        <span class="n">rename</span>           <span class="n">rename</span> <span class="n">a</span> <span class="no">CIB</span> <span class="n">object</span>
+        <span class="n">modgroup</span>         <span class="n">modify</span> <span class="n">group</span>
+        <span class="n">refresh</span>          <span class="n">refresh</span> <span class="n">from</span> <span class="no">CIB</span>
+        <span class="n">erase</span>            <span class="n">erase</span> <span class="n">the</span> <span class="no">CIB</span>
+        <span class="n">ptest</span>            <span class="n">show</span> <span class="n">cluster</span> <span class="n">actions</span> <span class="k">if</span> <span class="n">changes</span> <span class="n">were</span> <span class="n">committed</span>
+        <span class="n">rsctest</span>          <span class="nb">test</span> <span class="n">resources</span> <span class="n">as</span> <span class="n">currently</span> <span class="n">configured</span>
+        <span class="n">cib</span>              <span class="no">CIB</span> <span class="n">shadow</span> <span class="n">management</span>
+        <span class="n">cibstatus</span>        <span class="no">CIB</span> <span class="n">status</span> <span class="n">management</span> <span class="n">and</span> <span class="n">editing</span>
+        <span class="n">template</span>         <span class="n">edit</span> <span class="n">and</span> <span class="n">import</span> <span class="n">a</span> <span class="n">configuration</span> <span class="n">from</span> <span class="n">a</span> <span class="n">template</span>
+        <span class="n">commit</span>           <span class="n">commit</span> <span class="n">the</span> <span class="n">changes</span> <span class="n">to</span> <span class="n">the</span> <span class="no">CIB</span>
+        <span class="n">verify</span>           <span class="n">verify</span> <span class="n">the</span> <span class="no">CIB</span> <span class="n">with</span> <span class="n">crm_verify</span>
+        <span class="n">upgrade</span>          <span class="n">upgrade</span> <span class="n">the</span> <span class="no">CIB</span> <span class="n">to</span> <span class="n">version</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+        <span class="n">save</span>             <span class="n">save</span> <span class="n">the</span> <span class="no">CIB</span> <span class="n">to</span> <span class="n">a</span> <span class="n">file</span>
+        <span class="nb">load</span>             <span class="n">import</span> <span class="n">the</span> <span class="no">CIB</span> <span class="n">from</span> <span class="n">a</span> <span class="n">file</span>
+        <span class="n">graph</span>            <span class="n">generate</span> <span class="n">a</span> <span class="n">directed</span> <span class="n">graph</span>
+        <span class="n">xml</span>              <span class="n">raw</span> <span class="n">xml</span>
+        <span class="n">help</span>             <span class="n">show</span> <span class="n">help</span> <span class="p">(</span><span class="n">help</span> <span class="n">topics</span> <span class="k">for</span> <span class="n">list</span> <span class="n">of</span> <span class="n">topics</span><span class="p">)</span>
+        <span class="k">end</span>              <span class="n">go</span> <span class="n">back</span> <span class="n">one</span> <span class="n">level</span>
+<span class="p">:</span>
+  
+<span class="c1">#需要说明的primitive为定义一个资源，group将多个资源定义为组，方便多操作。location定义资源节点黏性，即优先运行于哪个节点，colocation定义多个服务运行于同一节点，或者不能运行于同一节点，order定义服务节点顺序。</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">configure</span><span class="c1"># show</span>
+<span class="n">node</span> <span class="vg">$id</span><span class="o">=</span><span class="s2">"1084752395"</span> <span class="n">controller1</span> <span class="p">\</span>
+	<span class="n">attributes</span> <span class="n">standby</span><span class="o">=</span><span class="s2">"off"</span>
+<span class="n">node</span> <span class="vg">$id</span><span class="o">=</span><span class="s2">"1084752396"</span> <span class="n">controller2</span> <span class="p">\</span>
+	<span class="n">attributes</span> <span class="n">standby</span><span class="o">=</span><span class="s2">"on"</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  
+<span class="nf">primitive</span> <span class="n">p_api_ip</span> <span class="n">ocf</span><span class="ss">:heartbeat:IPaddr2</span> <span class="p">\</span>
+	<span class="n">params</span> <span class="n">ip</span><span class="o">=</span><span class="s2">"192.168.99.3"</span> <span class="n">cidr_netmask</span><span class="o">=</span><span class="s2">"24"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">monitor</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"30s"</span>
+<span class="n">primitive</span> <span class="n">p_fs_mysql</span> <span class="n">ocf</span><span class="ss">:heartbeat:Filesystem</span> <span class="p">\</span>
+	<span class="n">params</span> <span class="n">device</span><span class="o">=</span><span class="s2">"/share-s/mysql"</span> <span class="n">directory</span><span class="o">=</span><span class="s2">"/var/lib/mysql"</span> <span class="n">fstype</span><span class="o">=</span><span class="s2">"ext4"</span> <span class="n">options</span><span class="o">=</span><span class="s2">"relatime"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">start</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"120s"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">stop</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"180s"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">monitor</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"60s"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"120s"</span> <span class="p">\</span>
+	<span class="n">meta</span> <span class="n">target</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s2">"Started"</span>
+<span class="n">primitive</span> <span class="n">p_mysql</span> <span class="n">ocf</span><span class="ss">:heartbeat:mysql</span> <span class="p">\</span>
+	<span class="n">params</span> <span class="n">additional_parameters</span><span class="o">=</span><span class="s2">"--bind-address=0.0.0.0"</span> <span class="n">config</span><span class="o">=</span><span class="s2">"/etc/mysql/my.cnf"</span> <span class="n">pid</span><span class="o">=</span><span class="s2">"/var/run/mysqld/mysqld.pid"</span> <span class="n">socket</span><span class="o">=</span><span class="s2">"/var/run/mysqld/mysqld.sock"</span> <span class="n">log</span><span class="o">=</span><span class="s2">"/var/log/mysql/mysqld.log"</span>
+<span class="n">primitive</span> <span class="n">p_drbd_mysql</span> <span class="n">ocf</span><span class="ss">:linbit:drbd</span> <span class="p">\</span>
+	<span class="n">params</span> <span class="n">drbd_resource</span><span class="o">=</span><span class="s2">"mysql"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">start</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"240s"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">stop</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"180s"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">promote</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"180s"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">demote</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">timeout</span><span class="o">=</span><span class="s2">"180s"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">monitor</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"30s"</span> <span class="n">role</span><span class="o">=</span><span class="s2">"Slave"</span> <span class="p">\</span>
+	<span class="n">op</span> <span class="n">monitor</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"29s"</span> <span class="n">role</span><span class="o">=</span><span class="s2">"Master"</span>
+  
+<span class="n">group</span> <span class="n">g_1_mysql</span> <span class="n">p_ip_admin</span> <span class="n">p_fs_mysql</span> <span class="n">p_mysql</span>
+<span class="n">ms</span> <span class="n">ms_drbd_mysql</span> <span class="n">p_drbd_mysql</span> <span class="p">\</span>
+<span class="o">&lt;</span><span class="n">span</span> <span class="n">style</span><span class="o">=</span><span class="s2">"white-space:pre"</span><span class="o">&gt;</span>	<span class="o">&lt;</span><span class="sr">/span&gt;meta notify="true" clone-max="2"
+colocation c_mysql_on_drbd inf: g_1_mysql ms_drbd_mysql:Master
+order o_drbd_before_mysql inf: ms_drbd_mysql:promote g_1_mysql:start
+  
+#如上，定义了Drbd资源，虚拟IP资源，文件系统挂载资源，MySQL启动资源。
+#当定义好资源后可以在交互命令里面验证，提交。
+root@controller1:~# crm configure
+crm(live)configure# verify 
+WARNING: p_mysql: default timeout 20s for start is smaller than the advised 120
+WARNING: p_mysql: default timeout 20s for stop is smaller than the advised 120
+crm(live)configure# commit 
+INFO: apparently there is nothing to commit
+INFO: try changing something first
+  
+# 提交以后资源就会在Pacemaker内运行了，可以通过crm status或者crm_mon查看。
+Last updated: Wed Jul 30 13:20:54 2014
+Last change: Wed Jul 30 12:39:21 2014 via crm_attribute on controller2
+Stack: corosync
+Current DC: controller1 (1084752395) - partition with quorum
+Version: 1.1.10-42f2063
+2 Nodes configured
+20 Resources configured
+  
+  
+Node controller2 (1084752396): standby
+Online: [ controller1 ]
+  
+ Resource Group: g_1_mysql
+     p_ip_admin (ocf::heartbeat:IPaddr2):       Started controller1
+     p_fs_mysql (ocf::heartbeat:Filesystem):    Started controller1
+     p_mysql    (ocf::heartbeat:mysql): Started controller1
+  
+#如果可以看到相关资源，当然Drbd也会显示在里面，但是由于笔者的测试环境已经切换为iSCSI共享存储，所以相关数据就没有了。</span></code></pre></div>
+
+<p>
+Pacermaker维护<br />
+Pacermaker restart时，资源会进行迁移，同时可以在资源执行节点#crm node standby设置节点为备用，如果要恢复#crm node online<br />
+重启某个服务#crm resource restart  <rsc>   例如#crm resource restart g_1_mysql  所有mysql资源会重启，#crm resource stop p_mysql   MySQL即会关闭。
+&lt;/p&gt;
+<p>
+配置STONITH注意事项<br />
+pacemaker提供fence机制，配置STONITH资源即可需要注意的时，要设置stonith-action，否则fence看不出效果。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">property</span> <span class="vg">$id</span><span class="o">=</span><span class="s2">"cib-bootstrap-options"</span> <span class="p">\</span>
+        <span class="n">dc</span><span class="o">-</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.10-42f2063"</span> <span class="p">\</span>
+        <span class="n">cluster</span><span class="o">-</span><span class="n">infrastructure</span><span class="o">=</span><span class="s2">"corosync"</span> <span class="p">\</span>
+        <span class="n">stonith</span><span class="o">-</span><span class="n">enabled</span><span class="o">=</span><span class="s2">"false"</span> <span class="p">\</span>
+        <span class="n">no</span><span class="o">-</span><span class="n">quorum</span><span class="o">-</span><span class="n">policy</span><span class="o">=</span><span class="s2">"ignore"</span> <span class="p">\</span>
+        <span class="n">stonith</span><span class="o">-</span><span class="n">action</span><span class="o">=</span><span class="s2">"reboot"</span>
+  
+<span class="c1"># 如果启用fence的stonith，将stonith-enabled设置为true，并且设置stonith-action，参数值可通过交互命令Tab知晓</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">configure</span><span class="c1"># property </span>
+<span class="n">batch</span><span class="o">-</span><span class="n">limit</span><span class="o">=</span>                  <span class="n">enable</span><span class="o">-</span><span class="n">startup</span><span class="o">-</span><span class="n">probes</span><span class="o">=</span>        <span class="n">pe</span><span class="o">-</span><span class="n">error</span><span class="o">-</span><span class="n">series</span><span class="o">-</span><span class="n">max</span><span class="o">=</span>          <span class="n">stonith</span><span class="o">-</span><span class="n">enabled</span><span class="o">=</span>
+<span class="n">cluster</span><span class="o">-</span><span class="n">delay</span><span class="o">=</span>                <span class="n">is</span><span class="o">-</span><span class="n">managed</span><span class="o">-</span><span class="n">default</span><span class="o">=</span>           <span class="n">pe</span><span class="o">-</span><span class="n">input</span><span class="o">-</span><span class="n">series</span><span class="o">-</span><span class="n">max</span><span class="o">=</span>          <span class="n">stonith</span><span class="o">-</span><span class="n">timeout</span><span class="o">=</span>
+<span class="n">cluster</span><span class="o">-</span><span class="n">recheck</span><span class="o">-</span><span class="n">interval</span><span class="o">=</span>     <span class="n">maintenance</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span>             <span class="n">pe</span><span class="o">-</span><span class="nb">warn</span><span class="o">-</span><span class="n">series</span><span class="o">-</span><span class="n">max</span><span class="o">=</span>           <span class="n">stop</span><span class="o">-</span><span class="n">all</span><span class="o">-</span><span class="n">resources</span><span class="o">=</span>
+<span class="n">crmd</span><span class="o">-</span><span class="n">transition</span><span class="o">-</span><span class="n">delay</span><span class="o">=</span>        <span class="n">migration</span><span class="o">-</span><span class="n">limit</span><span class="o">=</span>              <span class="n">placement</span><span class="o">-</span><span class="n">strategy</span><span class="o">=</span>           <span class="n">stop</span><span class="o">-</span><span class="n">orphan</span><span class="o">-</span><span class="n">actions</span><span class="o">=</span>
+<span class="n">dc</span><span class="o">-</span><span class="n">deadtime</span><span class="o">=</span>                  <span class="n">no</span><span class="o">-</span><span class="n">quorum</span><span class="o">-</span><span class="n">policy</span><span class="o">=</span>             <span class="n">remove</span><span class="o">-</span><span class="n">after</span><span class="o">-</span><span class="n">stop</span><span class="o">=</span>            <span class="n">stop</span><span class="o">-</span><span class="n">orphan</span><span class="o">-</span><span class="n">resources</span><span class="o">=</span>
+<span class="n">default</span><span class="o">-</span><span class="n">action</span><span class="o">-</span><span class="n">timeout</span><span class="o">=</span>       <span class="n">node</span><span class="o">-</span><span class="n">health</span><span class="o">-</span><span class="n">green</span><span class="o">=</span>            <span class="n">shutdown</span><span class="o">-</span><span class="n">escalation</span><span class="o">=</span>          <span class="n">symmetric</span><span class="o">-</span><span class="n">cluster</span><span class="o">=</span>
+<span class="n">default</span><span class="o">-</span><span class="n">resource</span><span class="o">-</span><span class="n">stickiness</span><span class="o">=</span>  <span class="n">node</span><span class="o">-</span><span class="n">health</span><span class="o">-</span><span class="n">red</span><span class="o">=</span>              <span class="n">start</span><span class="o">-</span><span class="n">failure</span><span class="o">-</span><span class="n">is</span><span class="o">-</span><span class="n">fatal</span><span class="o">=</span>       
+<span class="n">election</span><span class="o">-</span><span class="n">timeout</span><span class="o">=</span>             <span class="n">node</span><span class="o">-</span><span class="n">health</span><span class="o">-</span><span class="n">strategy</span><span class="o">=</span>         <span class="n">startup</span><span class="o">-</span><span class="n">fencing</span><span class="o">=</span>              
+<span class="n">enable</span><span class="o">-</span><span class="n">acl</span><span class="o">=</span>                   <span class="n">node</span><span class="o">-</span><span class="n">health</span><span class="o">-</span><span class="n">yellow</span><span class="o">=</span>           <span class="n">stonith</span><span class="o">-</span><span class="n">action</span><span class="o">=</span>               
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">configure</span><span class="c1"># property stonith-action=</span>
+<span class="n">stonith</span><span class="o">-</span><span class="n">action</span> <span class="p">(</span><span class="n">enum</span><span class="p">,</span> <span class="p">[</span><span class="n">reboot</span><span class="p">]):</span> <span class="no">Action</span> <span class="n">to</span> <span class="nb">send</span> <span class="n">to</span> <span class="no">STONITH</span> <span class="n">device</span>
+    <span class="no">Action</span> <span class="n">to</span> <span class="nb">send</span> <span class="n">to</span> <span class="no">STONITH</span> <span class="n">device</span>  <span class="no">Allowed</span> <span class="ss">values: </span><span class="n">reboot</span><span class="p">,</span> <span class="n">poweroff</span><span class="p">,</span> <span class="n">off</span>
+  
+<span class="c1"># 系统能提供哪些STONITH服务可通过命令查询</span>
+<span class="n">root</span><span class="vi">@controller1</span><span class="ss">:~</span><span class="c1"># crm ra</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">ra</span><span class="c1"># classes</span>
+<span class="n">lsb</span>
+<span class="n">ocf</span> <span class="o">/</span> <span class="n">heartbeat</span> <span class="n">linbit</span> <span class="n">openstack</span> <span class="n">pacemaker</span> <span class="n">rabbitmq</span> <span class="n">redhat</span>
+<span class="n">service</span>
+<span class="n">stonith</span>
+<span class="n">upstart</span>
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">ra</span><span class="c1"># list stonith</span>
+<span class="n">apcmaster</span>                   <span class="n">apcmastersnmp</span>               <span class="n">apcsmart</span>                    <span class="n">baytech</span>                     <span class="n">bladehpi</span>
+<span class="n">cyclades</span>                    <span class="n">drac3</span>                       <span class="n">external</span><span class="o">/</span><span class="n">drac5</span>              <span class="n">external</span><span class="o">/</span><span class="n">dracmc</span><span class="o">-</span><span class="n">telnet</span>      <span class="n">external</span><span class="o">/</span><span class="n">hetzner</span>
+<span class="n">external</span><span class="o">/</span><span class="n">hmchttp</span>            <span class="n">external</span><span class="o">/</span><span class="n">ibmrsa</span>             <span class="n">external</span><span class="o">/</span><span class="n">ibmrsa</span><span class="o">-</span><span class="n">telnet</span>      <span class="n">external</span><span class="o">/</span><span class="n">ipmi</span>               <span class="n">external</span><span class="o">/</span><span class="n">ippower9258</span>
+<span class="n">external</span><span class="o">/</span><span class="n">kdumpcheck</span>         <span class="n">external</span><span class="o">/</span><span class="n">libvirt</span>            <span class="n">external</span><span class="o">/</span><span class="n">nut</span>                <span class="n">external</span><span class="o">/</span><span class="n">rackpdu</span>            <span class="n">external</span><span class="o">/</span><span class="n">riloe</span>
+<span class="n">external</span><span class="o">/</span><span class="n">ssh</span>                <span class="n">external</span><span class="o">/</span><span class="n">vcenter</span>            <span class="n">external</span><span class="o">/</span><span class="n">vmware</span>             <span class="n">external</span><span class="o">/</span><span class="n">xen0</span>               <span class="n">external</span><span class="o">/</span><span class="n">xen0</span><span class="o">-</span><span class="n">ha</span>
+<span class="n">fence_legacy</span>                <span class="n">fence_pcmk</span>                  <span class="n">ibmhmc</span>                      <span class="n">ipmilan</span>                     <span class="n">meatware</span>
+<span class="n">null</span>                        <span class="n">nw_rpc100s</span>                  <span class="n">rcd_serial</span>                  <span class="n">rps10</span>                       <span class="n">ssh</span>
+<span class="n">suicide</span>                     <span class="n">wti_mpc</span>                     <span class="n">wti_nps</span> 
+  
+<span class="n">crm</span><span class="p">(</span><span class="n">live</span><span class="p">)</span><span class="n">ra</span><span class="c1"># meta stonith:ipmilan</span>
+<span class="c1">#查看配置参数</span></code></pre></div>
+
+</rsc></p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#运维-ref">
+    		运维 <span>12</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#Ubuntu14.04-ref">Ubuntu14.04 <span>4</span></a></li>
+     
+    	<li><a href="/20-tags.html#Pacemaker-ref">Pacemaker <span>1</span></a></li>
+     
+    	<li><a href="/20-tags.html#Corosync-ref">Corosync <span>1</span></a></li>
+     
+    	<li><a href="/20-tags.html#Drbd-ref">Drbd <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/29/drbd-on-ubuntu14.04" title="基于Ubuntu 14.04 的DRBD配置">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E8%BF%90%E7%BB%B4/2014/08/19/edit-network-logic-netface-name" title="Ubuntu 14.04 网卡逻辑名修改">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E8%BF%90%E7%BB%B4/2014/07/30/HA"  data-title="基于Ubuntu 14.04 Pacemaker+Corosync+Drbd+Mysql主备 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

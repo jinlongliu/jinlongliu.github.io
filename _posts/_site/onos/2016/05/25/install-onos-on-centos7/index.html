@@ -1,0 +1,931 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CentOS7 ONOS 离线编译安装</title>
+    <meta name="description" content="ONOS离线安装">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>CentOS7 ONOS 离线编译安装 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2016-05-25</span>
+    </div>
+    <div class="content">
+      <h4 id="centos7onosubuntu1404">本文主要记录CentOS7安装ONOS并汇总了需要的软件进行离线编译[应该适用Ubuntu14.04]</h4>
+<p>权威的官方链接：https://wiki.onosproject.org/display/ONOS/Installing+and+Running+ONOS</p>
+
+<h3 id="onos">ONOS编译主要需要如下组件</h3>
+<ul>
+  <li>JDK</li>
+  <li>Maven</li>
+  <li>Maven Dependency</li>
+  <li>Karaf</li>
+  <li>ONOS source code</li>
+</ul>
+
+<h3 id="section">下载离线包</h3>
+<p>http://pan.baidu.com/s/1bnfkIlx <br />
+01Software»02-ONOS»ONOS-offlive-build.tar.gz</p>
+
+<h4 id="onos-offlive-buildtargz">ONOS-offlive-build.tar.gz</h4>
+
+<h3 id="section-1">离线包解压</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller ~]# tar -xvf ONOS-offlive-build.tar.gz
+<span class="c">###############</span>
+<span class="o">[</span>root@controller ONOS-offlive-build]# ls -alh
+total 503M
+drwxr-xr-x   2 root root  154 Jun  1 14:42 .
+dr-xr-x---. 15 root root 4.0K Jun  1 14:43 ..
+-rw-r--r--.  1 root root  18M May 23 23:28 apache-karaf-3.0.5.tar.gz
+-rw-r--r--.  1 root root 8.1M May 23 23:28 apache-maven-3.3.9-bin.tar.gz
+-rw-r--r--.  1 root root 173M May 23 23:28 jdk-8u92-linux-x64.tar.gz
+-rw-r--r--.  1 root root 206M May 23 23:29 maven_repo.tar.gz
+-rw-r--r--.  1 root root  98M May 23 23:29 onos-1.5.1.tar.gz</code></pre></div>
+
+<h3 id="section-2">解压组件到指定目录</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller ONOS-offlive-build]# tar -xvf jdk-8u92-linux-x64.tar.gz -C /usr/local/share/
+<span class="o">[</span>root@controller ONOS-offlive-build]# tar -xvf apache-maven-3.3.9-bin.tar.gz -C /usr/local/share/
+<span class="o">[</span>root@controller ONOS-offlive-build]# tar -xvf maven_repo.tar.gz -C /
+<span class="o">[</span>root@controller ONOS-offlive-build]# tar -xvf apache-karaf-3.0.5.tar.gz -C /usr/local/share/
+<span class="o">[</span>root@controller ONOS-offlive-build]# tar -xvf onos-1.5.1.tar.gz -C /home/</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#目录/usr/local/share</span>
+<span class="o">[</span>root@controller share]# ls -al
+total 28
+drwxr-xr-x. 12 root root 4096 May 24 10:45 .
+drwxr-xr-x. 12 root root 4096 May 14 05:07 ..
+drwxr-xr-x. 10 root root 4096 May 23 23:54 apache-karaf-3.0.5
+drwxr-xr-x.  6 root root   92 May 23 23:38 apache-maven-3.3.9
+drwxr-xr-x.  8   10  143 4096 Apr  1 12:20 jdk1.8.0_92
+
+<span class="c">#目录/home</span>
+<span class="o">[</span>root@controller home]# ls -al
+total 224036
+drwxr-xr-x.  4 root root        46 May 23 23:28 .
+dr-xr-xr-x. 18 root root      4096 May 25 18:03 ..
+drwxr-xr-x. 16 root root      4096 May 23 23:47 onos</code></pre></div>
+
+<h3 id="section-3">配置环境变量</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller /]# vim ~/.bash_profile 
+<span class="c">##########新增如下内容</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/share/jdk1.8.0_92
+<span class="nb">export </span><span class="nv">JRE_HOME</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/jre
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/lib:<span class="k">${</span><span class="nv">JRE_HOME</span><span class="k">}</span>/lib
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/bin
+
+<span class="nb">export </span><span class="nv">M2_HOME</span><span class="o">=</span>/usr/local/share/apache-maven-3.3.9
+<span class="nb">export </span><span class="nv">M2</span><span class="o">=</span><span class="nv">$M2_HOME</span>/bin
+<span class="nb">export </span><span class="nv">M2_REPO</span><span class="o">=</span>/maven_repo
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$M2</span>:<span class="nv">$PATH</span>
+
+<span class="nb">export </span><span class="nv">KARAF_ROOT</span><span class="o">=</span>/usr/local/share/apache-karaf-3.0.5
+<span class="nb">export </span><span class="nv">KARAF</span><span class="o">=</span><span class="nv">$KARAF_ROOT</span>/bin
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$KARAF</span>:<span class="nv">$PATH</span>
+
+<span class="nb">export </span><span class="nv">ONOS_ROOT</span><span class="o">=</span>/home/onos
+<span class="nb">source</span> <span class="nv">$ONOS_ROOT</span>/tools/dev/bash_profile
+<span class="c">###########导入变量，下次登录会自动导入</span>
+<span class="o">[</span>root@controller /]# <span class="nb">source</span> ~/.bash_profile
+
+<span class="c">###########验证</span>
+<span class="o">[</span>root@controller /]# java -version
+java version <span class="s2">"1.8.0_92"</span>
+Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.8.0_92-b14<span class="o">)</span>
+Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 25.92-b14, mixed mode<span class="o">)</span>
+
+<span class="o">[</span>root@controller /]# mvn -version
+Apache Maven 3.3.9 <span class="o">(</span>bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00<span class="o">)</span>
+Maven home: /usr/local/share/apache-maven-3.3.9
+Java version: 1.8.0_92, vendor: Oracle Corporation
+Java home: /usr/local/share/jdk1.8.0_92/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: <span class="s2">"linux"</span>, version: <span class="s2">"3.10.0-327.18.2.el7.x86_64"</span>, arch: <span class="s2">"amd64"</span>, family: <span class="s2">"unix"</span></code></pre></div>
+
+<h3 id="maven">设置Maven本地库</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller /]# vim /usr/local/share/apache-maven-3.3.9/conf/settings.xml
+<span class="c">#################################</span>
+&lt;settings <span class="nv">xmlns</span><span class="o">=</span><span class="s2">"http://maven.apache.org/SETTINGS/1.0.0"</span>
+          xmlns:xsi<span class="o">=</span><span class="s2">"http://www.w3.org/2001/XMLSchema-instance"</span>
+          xsi:schemaLocation<span class="o">=</span><span class="s2">"http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"</span>&gt;
+  &lt;!-- localRepository
+   | The path to the <span class="nb">local </span>repository maven will use to store artifacts.
+   |
+   | Default: <span class="k">${</span><span class="nv">user</span><span class="p">.home</span><span class="k">}</span>/.m2/repository
+  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+  --&gt;
+  &lt;localRepository&gt;/maven_repo&lt;/localRepository&gt;
+  &lt;!-- interactiveMode
+   | This will determine whether maven prompts you when it needs input. If <span class="nb">set </span>to <span class="nb">false</span>,
+   | maven will use a sensible default value, perhaps based on some other setting, <span class="k">for</span>
+   | the parameter <span class="k">in </span>question.
+   |
+   | Default: <span class="nb">true</span>
+  &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;
+  --&gt;
+  ......
+<span class="c">#################################</span>
+&lt;localRepository&gt;/maven_repo&lt;/localRepository&gt;</code></pre></div>
+
+<h3 id="section-4">开始编译</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /home/onos
+<span class="o">[</span>root@controller onos]# mvn clean install
+<span class="o">[</span>INFO] --- maven-bundle-plugin:3.0.1:install <span class="o">(</span>default-install<span class="o">)</span> @ onos-branding ---
+<span class="o">[</span>INFO] Installing org/onosproject/onos-branding/1.5.1/onos-branding-1.5.1.jar
+<span class="o">[</span>INFO] Writing OBR metadata
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] Reactor Summary:
+<span class="o">[</span>INFO] 
+<span class="o">[</span>INFO] onos ............................................... SUCCESS <span class="o">[</span>  2.482 s]
+<span class="o">[</span>INFO] onlab-utils ........................................ SUCCESS <span class="o">[</span>  0.821 s]
+<span class="o">[</span>INFO] onlab-junit ........................................ SUCCESS <span class="o">[</span>  4.354 s]
+<span class="o">[</span>INFO] onlab-misc ......................................... SUCCESS <span class="o">[</span> 12.401 s]
+<span class="o">[</span>INFO] onos-yang-utils-plugin ............................. SUCCESS <span class="o">[</span>  9.430 s]
+<span class="o">[</span>INFO] onlab-osgi ......................................... SUCCESS <span class="o">[</span>  1.166 s]
+<span class="o">[</span>INFO] onlab-rest ......................................... SUCCESS <span class="o">[</span>  0.698 s]
+<span class="o">[</span>INFO] onlab-thirdparty ................................... SUCCESS <span class="o">[</span>  2.650 s]
+<span class="o">[</span>INFO] onlab-stc .......................................... SUCCESS <span class="o">[</span>  3.093 s]
+<span class="o">[</span>INFO] jdvue .............................................. SUCCESS <span class="o">[</span>  2.280 s]
+<span class="o">[</span>INFO] onlab-jnc-osgi ..................................... SUCCESS <span class="o">[</span>  0.348 s]
+<span class="o">[</span>INFO] utils.catalyst ..................................... SUCCESS <span class="o">[</span>  0.718 s]
+<span class="o">[</span>INFO] onos-core .......................................... SUCCESS <span class="o">[</span>  0.482 s]
+<span class="o">[</span>INFO] onos-api ........................................... SUCCESS <span class="o">[</span>  8.708 s]
+<span class="o">[</span>INFO] onos-core-common ................................... SUCCESS <span class="o">[</span>  3.972 s]
+<span class="o">[</span>INFO] onos-incubator ..................................... SUCCESS <span class="o">[</span>  0.188 s]
+<span class="o">[</span>INFO] onos-incubator-api ................................. SUCCESS <span class="o">[</span>  2.683 s]
+<span class="o">[</span>INFO] onos-cli ........................................... SUCCESS <span class="o">[</span>  1.543 s]
+<span class="o">[</span>INFO] onos-core-store .................................... SUCCESS <span class="o">[</span>  0.164 s]
+<span class="o">[</span>INFO] onos-core-serializers .............................. SUCCESS <span class="o">[</span>  2.175 s]
+<span class="o">[</span>INFO] onos-core-persistence .............................. SUCCESS <span class="o">[</span>  0.397 s]
+<span class="o">[</span>INFO] onos-core-dist ..................................... SUCCESS <span class="o">[</span>  5.506 s]
+<span class="o">[</span>INFO] onos-core-net ...................................... SUCCESS <span class="o">[</span>  7.879 s]
+<span class="o">[</span>INFO] onos-core-primitives ............................... SUCCESS <span class="o">[</span>  3.393 s]
+<span class="o">[</span>INFO] onos-security ...................................... SUCCESS <span class="o">[</span>  0.727 s]
+<span class="o">[</span>INFO] onos-web ........................................... SUCCESS <span class="o">[</span>  0.224 s]
+<span class="o">[</span>INFO] onos-gui ........................................... SUCCESS <span class="o">[</span>  1.861 s]
+<span class="o">[</span>INFO] onos-rest .......................................... SUCCESS <span class="o">[</span> 13.279 s]
+<span class="o">[</span>INFO] onos-protocols ..................................... SUCCESS <span class="o">[</span>  0.206 s]
+<span class="o">[</span>INFO] onos-of ............................................ SUCCESS <span class="o">[</span>  0.180 s]
+<span class="o">[</span>INFO] onos-of-api ........................................ SUCCESS <span class="o">[</span> 14.729 s]
+<span class="o">[</span>INFO] onos-of-ctl ........................................ SUCCESS <span class="o">[</span>  2.177 s]
+<span class="o">[</span>INFO] onos-netconf ....................................... SUCCESS <span class="o">[</span>  0.165 s]
+<span class="o">[</span>INFO] onos-netconf-api ................................... SUCCESS <span class="o">[</span>  0.318 s]
+<span class="o">[</span>INFO] onos-netconf-ctl ................................... SUCCESS <span class="o">[</span>  1.571 s]
+<span class="o">[</span>INFO] onos-apps .......................................... SUCCESS <span class="o">[</span>  0.176 s]
+<span class="o">[</span>INFO] onos-app-pcep-api .................................. SUCCESS <span class="o">[</span>  0.355 s]
+<span class="o">[</span>INFO] onos-pcep-controller ............................... SUCCESS <span class="o">[</span>  0.161 s]
+<span class="o">[</span>INFO] onos-pcepio ........................................ SUCCESS <span class="o">[</span>  3.892 s]
+<span class="o">[</span>INFO] onos-pcep-controller-api ........................... SUCCESS <span class="o">[</span>  0.315 s]
+<span class="o">[</span>INFO] onos-pcep-controller-impl .......................... SUCCESS <span class="o">[</span>  0.370 s]
+<span class="o">[</span>INFO] onos-ovsdb ......................................... SUCCESS <span class="o">[</span>  0.158 s]
+<span class="o">[</span>INFO] onos-ovsdb-rfc ..................................... SUCCESS <span class="o">[</span>  0.789 s]
+<span class="o">[</span>INFO] onos-ovsdb-api ..................................... SUCCESS <span class="o">[</span>  0.446 s]
+<span class="o">[</span>INFO] onos-ovsdb-ctl ..................................... SUCCESS <span class="o">[</span>  0.356 s]
+<span class="o">[</span>INFO] onos-bgp ........................................... SUCCESS <span class="o">[</span>  0.157 s]
+<span class="o">[</span>INFO] onos-bgpio ......................................... SUCCESS <span class="o">[</span>  2.713 s]
+<span class="o">[</span>INFO] onos-bgp-api ....................................... SUCCESS <span class="o">[</span>  0.312 s]
+<span class="o">[</span>INFO] onos-bgp-ctl ....................................... SUCCESS <span class="o">[</span>  1.524 s]
+<span class="o">[</span>INFO] onos-restsb ........................................ SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-restsb-api .................................... SUCCESS <span class="o">[</span>  0.289 s]
+<span class="o">[</span>INFO] onos-restsb-ctl .................................... SUCCESS <span class="o">[</span>  1.547 s]
+<span class="o">[</span>INFO] onos-ospf .......................................... SUCCESS <span class="o">[</span>  0.156 s]
+<span class="o">[</span>INFO] onos-ospf-api ...................................... SUCCESS <span class="o">[</span>  1.233 s]
+<span class="o">[</span>INFO] onos-ospf-protocol ................................. SUCCESS <span class="o">[</span> 33.014 s]
+<span class="o">[</span>INFO] onos-ospf-ctl ...................................... SUCCESS <span class="o">[</span> 11.064 s]
+<span class="o">[</span>INFO] onos-providers ..................................... SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-of-providers .................................. SUCCESS <span class="o">[</span>  0.184 s]
+<span class="o">[</span>INFO] onos-of-provider-device ............................ SUCCESS <span class="o">[</span>  1.583 s]
+<span class="o">[</span>INFO] onos-of-provider-packet ............................ SUCCESS <span class="o">[</span>  1.587 s]
+<span class="o">[</span>INFO] onos-of-provider-flow .............................. SUCCESS <span class="o">[</span>  0.871 s]
+<span class="o">[</span>INFO] onos-of-provider-group ............................. SUCCESS <span class="o">[</span>  1.655 s]
+<span class="o">[</span>INFO] onos-of-provider-meter ............................. SUCCESS <span class="o">[</span>  1.217 s]
+<span class="o">[</span>INFO] onos-drivers-general ............................... SUCCESS <span class="o">[</span>  0.174 s]
+<span class="o">[</span>INFO] onos-drivers ....................................... SUCCESS <span class="o">[</span>  2.161 s]
+<span class="o">[</span>INFO] onos-openflow-base ................................. SUCCESS <span class="o">[</span>  0.825 s]
+<span class="o">[</span>INFO] onos-openflow ...................................... SUCCESS <span class="o">[</span>  0.312 s]
+<span class="o">[</span>INFO] onos-cpman ......................................... SUCCESS <span class="o">[</span>  0.185 s]
+<span class="o">[</span>INFO] onos-app-cpman-api ................................. SUCCESS <span class="o">[</span>  1.155 s]
+<span class="o">[</span>INFO] onos-of-provider-message ........................... SUCCESS <span class="o">[</span>  1.202 s]
+<span class="o">[</span>INFO] onos-host-provider ................................. SUCCESS <span class="o">[</span>  1.572 s]
+<span class="o">[</span>INFO] onos-netcfg-host-provider .......................... SUCCESS <span class="o">[</span>  1.198 s]
+<span class="o">[</span>INFO] onos-netconf-providers ............................. SUCCESS <span class="o">[</span>  0.168 s]
+<span class="o">[</span>INFO] onos-netconf-provider-device ....................... SUCCESS <span class="o">[</span>  0.401 s]
+<span class="o">[</span>INFO] onos-netconf-app ................................... SUCCESS <span class="o">[</span>  0.184 s]
+<span class="o">[</span>INFO] onos-null-provider ................................. SUCCESS <span class="o">[</span>  0.491 s]
+<span class="o">[</span>INFO] onos-pcep-providers ................................ SUCCESS <span class="o">[</span>  0.160 s]
+<span class="o">[</span>INFO] onos-pcep-provider-topology ........................ SUCCESS <span class="o">[</span>  0.345 s]
+<span class="o">[</span>INFO] onos-incubator-store ............................... SUCCESS <span class="o">[</span>  0.621 s]
+<span class="o">[</span>INFO] onos-incubator-net ................................. SUCCESS <span class="o">[</span>  2.094 s]
+<span class="o">[</span>INFO] onos-pcep-provider-tunnel .......................... SUCCESS <span class="o">[</span>  1.500 s]
+<span class="o">[</span>INFO] onos-pcep .......................................... SUCCESS <span class="o">[</span>  0.203 s]
+<span class="o">[</span>INFO] onos-ovsdb-providers ............................... SUCCESS <span class="o">[</span>  0.161 s]
+<span class="o">[</span>INFO] onos-ovsdb-provider-device ......................... SUCCESS <span class="o">[</span>  1.234 s]
+<span class="o">[</span>INFO] onos-ovsdb-provider-host ........................... SUCCESS <span class="o">[</span>  1.197 s]
+<span class="o">[</span>INFO] onos-ovsdb-provider-tunnel ......................... SUCCESS <span class="o">[</span>  1.229 s]
+<span class="o">[</span>INFO] onos-ovsdatabase ................................... SUCCESS <span class="o">[</span>  0.274 s]
+<span class="o">[</span>INFO] onos-drivers-ovsdb ................................. SUCCESS <span class="o">[</span>  1.164 s]
+<span class="o">[</span>INFO] onos-ovsdb-base .................................... SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-bgp-providers ................................. SUCCESS <span class="o">[</span>  0.167 s]
+<span class="o">[</span>INFO] onos-bgp-provider-topology ......................... SUCCESS <span class="o">[</span>  1.123 s]
+<span class="o">[</span>INFO] onos-bgp-provider-cfg .............................. SUCCESS <span class="o">[</span>  0.327 s]
+<span class="o">[</span>INFO] onos-bgp-app ....................................... SUCCESS <span class="o">[</span>  0.193 s]
+<span class="o">[</span>INFO] onos-bgp-provider-flow ............................. SUCCESS <span class="o">[</span>  0.316 s]
+<span class="o">[</span>INFO] onos-snmp-providers ................................ SUCCESS <span class="o">[</span> 19.699 s]
+<span class="o">[</span>INFO] onos-snmp-provider-device .......................... SUCCESS <span class="o">[</span>  0.768 s]
+<span class="o">[</span>INFO] onos-snmp-provider-alarm ........................... SUCCESS <span class="o">[</span>  2.243 s]
+<span class="o">[</span>INFO] onos-snmp-app ...................................... SUCCESS <span class="o">[</span>  0.179 s]
+<span class="o">[</span>INFO] onos-restsb-providers .............................. SUCCESS <span class="o">[</span>  0.169 s]
+<span class="o">[</span>INFO] onos-restsb-provider-device ........................ SUCCESS <span class="o">[</span>  0.370 s]
+<span class="o">[</span>INFO] onos-restsb-app .................................... SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-lldp-provider-common .......................... SUCCESS <span class="o">[</span>  0.295 s]
+<span class="o">[</span>INFO] onos-lldp-provider ................................. SUCCESS <span class="o">[</span>  1.981 s]
+<span class="o">[</span>INFO] onos-netcfg-links-provider ......................... SUCCESS <span class="o">[</span>  1.429 s]
+<span class="o">[</span>INFO] onos-drivers-utilities ............................. SUCCESS <span class="o">[</span>  1.297 s]
+<span class="o">[</span>INFO] onos-drivers-ciena ................................. SUCCESS <span class="o">[</span>  0.313 s]
+<span class="o">[</span>INFO] onos-drivers-fujitsu ............................... SUCCESS <span class="o">[</span>  0.293 s]
+<span class="o">[</span>INFO] onos-drivers-cisco ................................. SUCCESS <span class="o">[</span>  0.305 s]
+<span class="o">[</span>INFO] onos-drivers-netconf ............................... SUCCESS <span class="o">[</span>  0.297 s]
+<span class="o">[</span>INFO] onos-drivers-lumentum .............................. SUCCESS <span class="o">[</span>  0.357 s]
+<span class="o">[</span>INFO] onos-app-aaa ....................................... SUCCESS <span class="o">[</span>  1.912 s]
+<span class="o">[</span>INFO] onos-app-acl ....................................... SUCCESS <span class="o">[</span>  1.261 s]
+<span class="o">[</span>INFO] onos-app-fm ........................................ SUCCESS <span class="o">[</span>  0.165 s]
+<span class="o">[</span>INFO] onos-app-fm-mgr .................................... SUCCESS <span class="o">[</span>  1.574 s]
+<span class="o">[</span>INFO] onos-app-fm-web .................................... SUCCESS <span class="o">[</span>  1.660 s]
+<span class="o">[</span>INFO] onos-app-fm-gui .................................... SUCCESS <span class="o">[</span>  0.409 s]
+<span class="o">[</span>INFO] onos-app-fm-cli .................................... SUCCESS <span class="o">[</span>  0.326 s]
+<span class="o">[</span>INFO] onos-app-fm-onosfw ................................. SUCCESS <span class="o">[</span>  0.179 s]
+<span class="o">[</span>INFO] onos-app-fwd ....................................... SUCCESS <span class="o">[</span>  0.387 s]
+<span class="o">[</span>INFO] onos-app-mobility .................................. SUCCESS <span class="o">[</span>  0.328 s]
+<span class="o">[</span>INFO] onos-app-proxyarp .................................. SUCCESS <span class="o">[</span>  0.307 s]
+<span class="o">[</span>INFO] onos-app-routing-api ............................... SUCCESS <span class="o">[</span>  1.519 s]
+<span class="o">[</span>INFO] onos-app-routing ................................... SUCCESS <span class="o">[</span>  2.905 s]
+<span class="o">[</span>INFO] onos-app-sdnip ..................................... SUCCESS <span class="o">[</span>  1.632 s]
+<span class="o">[</span>INFO] onos-app-optical ................................... SUCCESS <span class="o">[</span>  0.365 s]
+<span class="o">[</span>INFO] onos-app-metrics ................................... SUCCESS <span class="o">[</span>  0.388 s]
+<span class="o">[</span>INFO] onos-app-reactive-routing .......................... SUCCESS <span class="o">[</span>  0.397 s]
+<span class="o">[</span>INFO] onos-app-virtualbng ................................ SUCCESS <span class="o">[</span>  0.409 s]
+<span class="o">[</span>INFO] onos-app-bgprouter ................................. SUCCESS <span class="o">[</span>  0.343 s]
+<span class="o">[</span>INFO] onos-apps-test ..................................... SUCCESS <span class="o">[</span>  0.176 s]
+<span class="o">[</span>INFO] onos-app-election .................................. SUCCESS <span class="o">[</span>  0.329 s]
+<span class="o">[</span>INFO] onos-app-loadtest .................................. SUCCESS <span class="o">[</span>  0.350 s]
+<span class="o">[</span>INFO] onos-app-intent-perf ............................... SUCCESS <span class="o">[</span>  0.432 s]
+<span class="o">[</span>INFO] onos-app-messaging-perf ............................ SUCCESS <span class="o">[</span>  0.372 s]
+<span class="o">[</span>INFO] onos-app-demo ...................................... SUCCESS <span class="o">[</span>  0.382 s]
+<span class="o">[</span>INFO] onos-app-distributed-primitives .................... SUCCESS <span class="o">[</span>  0.414 s]
+<span class="o">[</span>INFO] onos-app-segmentrouting ............................ SUCCESS <span class="o">[</span>  2.147 s]
+<span class="o">[</span>INFO] onos-app-cordfabric ................................ SUCCESS <span class="o">[</span>  0.395 s]
+<span class="o">[</span>INFO] onos-app-xos-integration ........................... SUCCESS <span class="o">[</span>  0.486 s]
+<span class="o">[</span>INFO] onos-app-iptopology-api ............................ SUCCESS <span class="o">[</span>  0.451 s]
+<span class="o">[</span>INFO] onos-olt ........................................... SUCCESS <span class="o">[</span>  0.170 s]
+<span class="o">[</span>INFO] onos-app-olt-api ................................... SUCCESS <span class="o">[</span>  0.290 s]
+<span class="o">[</span>INFO] onos-app-olt ....................................... SUCCESS <span class="o">[</span>  0.471 s]
+<span class="o">[</span>INFO] onos-app-cip ....................................... SUCCESS <span class="o">[</span>  0.323 s]
+<span class="o">[</span>INFO] onos-app-flowanalyzer .............................. SUCCESS <span class="o">[</span>  1.187 s]
+<span class="o">[</span>INFO] onos-app-vtn ....................................... SUCCESS <span class="o">[</span>  0.175 s]
+<span class="o">[</span>INFO] onos-app-vtn-rsc ................................... SUCCESS <span class="o">[</span>  2.683 s]
+<span class="o">[</span>INFO] onos-app-sfc-mgr ................................... SUCCESS <span class="o">[</span>  1.545 s]
+<span class="o">[</span>INFO] onos-app-vtn-mgr ................................... SUCCESS <span class="o">[</span>  0.491 s]
+<span class="o">[</span>INFO] onos-app-vtn-web ................................... SUCCESS <span class="o">[</span>  5.221 s]
+<span class="o">[</span>INFO] onos-app-vtn-onosfw ................................ SUCCESS <span class="o">[</span>  0.180 s]
+<span class="o">[</span>INFO] onos-dhcp .......................................... SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-app-dhcp-api .................................. SUCCESS <span class="o">[</span>  1.218 s]
+<span class="o">[</span>INFO] onos-app-dhcp ...................................... SUCCESS <span class="o">[</span>  1.652 s]
+<span class="o">[</span>INFO] onos-app-openstackinterface ........................ SUCCESS <span class="o">[</span>  0.169 s]
+<span class="o">[</span>INFO] onos-app-openstackinterface-api .................... SUCCESS <span class="o">[</span>  0.381 s]
+<span class="o">[</span>INFO] onos-app-cordvtn ................................... SUCCESS <span class="o">[</span>  0.758 s]
+<span class="o">[</span>INFO] onos-app-mfwd ...................................... SUCCESS <span class="o">[</span>  0.347 s]
+<span class="o">[</span>INFO] onos-app-igmp ...................................... SUCCESS <span class="o">[</span>  0.464 s]
+<span class="o">[</span>INFO] onos-app-pim ....................................... SUCCESS <span class="o">[</span>  0.416 s]
+<span class="o">[</span>INFO] onos-app-mlb ....................................... SUCCESS <span class="o">[</span>  0.317 s]
+<span class="o">[</span>INFO] onos-app-pp ........................................ SUCCESS <span class="o">[</span>  0.344 s]
+<span class="o">[</span>INFO] onos-app-drivermatrix .............................. SUCCESS <span class="o">[</span>  0.322 s]
+<span class="o">[</span>INFO] onos-app-cpman ..................................... SUCCESS <span class="o">[</span>  3.492 s]
+<span class="o">[</span>INFO] onos-events ........................................ SUCCESS <span class="o">[</span>  0.356 s]
+<span class="o">[</span>INFO] onos-app-vrouter ................................... SUCCESS <span class="o">[</span>  0.298 s]
+<span class="o">[</span>INFO] onos-app-cord-mcast ................................ SUCCESS <span class="o">[</span>  0.515 s]
+<span class="o">[</span>INFO] onos-app-vpls ...................................... SUCCESS <span class="o">[</span>  1.451 s]
+<span class="o">[</span>INFO] onos-app-openstacknode ............................. SUCCESS <span class="o">[</span>  0.419 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking ....................... SUCCESS <span class="o">[</span>  0.170 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking-api ................... SUCCESS <span class="o">[</span>  0.288 s]
+<span class="o">[</span>INFO] onos-app-openstackswitching ........................ SUCCESS <span class="o">[</span>  0.436 s]
+<span class="o">[</span>INFO] onos-app-openstackrouting .......................... SUCCESS <span class="o">[</span>  0.438 s]
+<span class="o">[</span>INFO] onos-app-openstackinterface-app .................... SUCCESS <span class="o">[</span>  0.428 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking-web ................... SUCCESS <span class="o">[</span>  0.381 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking-app ................... SUCCESS <span class="o">[</span>  0.170 s]
+<span class="o">[</span>INFO] onos-incubator-core ................................ SUCCESS <span class="o">[</span>  0.330 s]
+<span class="o">[</span>INFO] onos-incubator-rpc ................................. SUCCESS <span class="o">[</span>  1.169 s]
+<span class="o">[</span>INFO] onos-incubator-rpc-grpc ............................ SUCCESS <span class="o">[</span>  7.955 s]
+<span class="o">[</span>INFO] onos-features ...................................... SUCCESS <span class="o">[</span>  0.526 s]
+<span class="o">[</span>INFO] onos-archetypes .................................... SUCCESS <span class="o">[</span>  0.021 s]
+<span class="o">[</span>INFO] onos-api-archetype ................................. SUCCESS <span class="o">[</span>  0.568 s]
+<span class="o">[</span>INFO] onos-bundle-archetype .............................. SUCCESS <span class="o">[</span>  0.036 s]
+<span class="o">[</span>INFO] onos-cli-archetype ................................. SUCCESS <span class="o">[</span>  0.021 s]
+<span class="o">[</span>INFO] onos-rest-archetype ................................ SUCCESS <span class="o">[</span>  0.021 s]
+<span class="o">[</span>INFO] onos-ui-archetype .................................. SUCCESS <span class="o">[</span>  0.016 s]
+<span class="o">[</span>INFO] onos-uitab-archetype ............................... SUCCESS <span class="o">[</span>  0.016 s]
+<span class="o">[</span>INFO] onos-uitopo-archetype .............................. SUCCESS <span class="o">[</span>  0.061 s]
+<span class="o">[</span>INFO] onos-branding ...................................... SUCCESS <span class="o">[</span>  0.247 s]
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] BUILD SUCCESS
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] Total <span class="nb">time</span>: 04:54 min
+<span class="o">[</span>INFO] Finished at: 2016-06-01T15:25:04+08:00
+<span class="o">[</span>INFO] Final Memory: 319M/2078M
+<span class="c">###############################################################################</span>
+以上为i7 CPU 16G内存 PC编译执行时间04:54 min，首次编译的主要时间在于下载依赖，如果采用离线
+Maven依赖可以大大加速首次编译时间。</code></pre></div>
+
+<h3 id="test">跳过Test编译</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller onos]# mvn clean install -Dmaven.test.skip<span class="o">=</span><span class="nb">true</span>
+<span class="c">###############################################################################</span>
+<span class="o">[</span>INFO] --- maven-bundle-plugin:3.0.1:install <span class="o">(</span>default-install<span class="o">)</span> @ onos-branding ---
+<span class="o">[</span>INFO] Installing org/onosproject/onos-branding/1.5.1/onos-branding-1.5.1.jar
+<span class="o">[</span>INFO] Writing OBR metadata
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] Reactor Summary:
+<span class="o">[</span>INFO] 
+<span class="o">[</span>INFO] onos ............................................... SUCCESS <span class="o">[</span>  1.203 s]
+<span class="o">[</span>INFO] onlab-utils ........................................ SUCCESS <span class="o">[</span>  0.734 s]
+<span class="o">[</span>INFO] onlab-junit ........................................ SUCCESS <span class="o">[</span>  1.726 s]
+<span class="o">[</span>INFO] onlab-misc ......................................... SUCCESS <span class="o">[</span>  2.678 s]
+<span class="o">[</span>INFO] onos-yang-utils-plugin ............................. SUCCESS <span class="o">[</span>  5.413 s]
+<span class="o">[</span>INFO] onlab-osgi ......................................... SUCCESS <span class="o">[</span>  0.358 s]
+<span class="o">[</span>INFO] onlab-rest ......................................... SUCCESS <span class="o">[</span>  0.409 s]
+<span class="o">[</span>INFO] onlab-thirdparty ................................... SUCCESS <span class="o">[</span>  1.912 s]
+<span class="o">[</span>INFO] onlab-stc .......................................... SUCCESS <span class="o">[</span>  1.150 s]
+<span class="o">[</span>INFO] jdvue .............................................. SUCCESS <span class="o">[</span>  0.792 s]
+<span class="o">[</span>INFO] onlab-jnc-osgi ..................................... SUCCESS <span class="o">[</span>  0.331 s]
+<span class="o">[</span>INFO] utils.catalyst ..................................... SUCCESS <span class="o">[</span>  0.490 s]
+<span class="o">[</span>INFO] onos-core .......................................... SUCCESS <span class="o">[</span>  0.381 s]
+<span class="o">[</span>INFO] onos-api ........................................... SUCCESS <span class="o">[</span>  4.782 s]
+<span class="o">[</span>INFO] onos-core-common ................................... SUCCESS <span class="o">[</span>  1.290 s]
+<span class="o">[</span>INFO] onos-incubator ..................................... SUCCESS <span class="o">[</span>  0.161 s]
+<span class="o">[</span>INFO] onos-incubator-api ................................. SUCCESS <span class="o">[</span>  0.839 s]
+<span class="o">[</span>INFO] onos-cli ........................................... SUCCESS <span class="o">[</span>  1.350 s]
+<span class="o">[</span>INFO] onos-core-store .................................... SUCCESS <span class="o">[</span>  0.176 s]
+<span class="o">[</span>INFO] onos-core-serializers .............................. SUCCESS <span class="o">[</span>  0.481 s]
+<span class="o">[</span>INFO] onos-core-persistence .............................. SUCCESS <span class="o">[</span>  0.424 s]
+<span class="o">[</span>INFO] onos-core-dist ..................................... SUCCESS <span class="o">[</span>  2.685 s]
+<span class="o">[</span>INFO] onos-core-net ...................................... SUCCESS <span class="o">[</span>  2.609 s]
+<span class="o">[</span>INFO] onos-core-primitives ............................... SUCCESS <span class="o">[</span>  1.873 s]
+<span class="o">[</span>INFO] onos-security ...................................... SUCCESS <span class="o">[</span>  0.497 s]
+<span class="o">[</span>INFO] onos-web ........................................... SUCCESS <span class="o">[</span>  0.196 s]
+<span class="o">[</span>INFO] onos-gui ........................................... SUCCESS <span class="o">[</span>  1.654 s]
+<span class="o">[</span>INFO] onos-rest .......................................... SUCCESS <span class="o">[</span>  1.379 s]
+<span class="o">[</span>INFO] onos-protocols ..................................... SUCCESS <span class="o">[</span>  0.208 s]
+<span class="o">[</span>INFO] onos-of ............................................ SUCCESS <span class="o">[</span>  0.179 s]
+<span class="o">[</span>INFO] onos-of-api ........................................ SUCCESS <span class="o">[</span> 13.858 s]
+<span class="o">[</span>INFO] onos-of-ctl ........................................ SUCCESS <span class="o">[</span>  0.980 s]
+<span class="o">[</span>INFO] onos-netconf ....................................... SUCCESS <span class="o">[</span>  0.164 s]
+<span class="o">[</span>INFO] onos-netconf-api ................................... SUCCESS <span class="o">[</span>  0.306 s]
+<span class="o">[</span>INFO] onos-netconf-ctl ................................... SUCCESS <span class="o">[</span>  0.544 s]
+<span class="o">[</span>INFO] onos-apps .......................................... SUCCESS <span class="o">[</span>  0.169 s]
+<span class="o">[</span>INFO] onos-app-pcep-api .................................. SUCCESS <span class="o">[</span>  0.353 s]
+<span class="o">[</span>INFO] onos-pcep-controller ............................... SUCCESS <span class="o">[</span>  0.165 s]
+<span class="o">[</span>INFO] onos-pcepio ........................................ SUCCESS <span class="o">[</span>  2.077 s]
+<span class="o">[</span>INFO] onos-pcep-controller-api ........................... SUCCESS <span class="o">[</span>  0.301 s]
+<span class="o">[</span>INFO] onos-pcep-controller-impl .......................... SUCCESS <span class="o">[</span>  0.441 s]
+<span class="o">[</span>INFO] onos-ovsdb ......................................... SUCCESS <span class="o">[</span>  0.184 s]
+<span class="o">[</span>INFO] onos-ovsdb-rfc ..................................... SUCCESS <span class="o">[</span>  0.871 s]
+<span class="o">[</span>INFO] onos-ovsdb-api ..................................... SUCCESS <span class="o">[</span>  0.461 s]
+<span class="o">[</span>INFO] onos-ovsdb-ctl ..................................... SUCCESS <span class="o">[</span>  0.377 s]
+<span class="o">[</span>INFO] onos-bgp ........................................... SUCCESS <span class="o">[</span>  0.169 s]
+<span class="o">[</span>INFO] onos-bgpio ......................................... SUCCESS <span class="o">[</span>  1.225 s]
+<span class="o">[</span>INFO] onos-bgp-api ....................................... SUCCESS <span class="o">[</span>  0.347 s]
+<span class="o">[</span>INFO] onos-bgp-ctl ....................................... SUCCESS <span class="o">[</span>  0.604 s]
+<span class="o">[</span>INFO] onos-restsb ........................................ SUCCESS <span class="o">[</span>  0.163 s]
+<span class="o">[</span>INFO] onos-restsb-api .................................... SUCCESS <span class="o">[</span>  0.272 s]
+<span class="o">[</span>INFO] onos-restsb-ctl .................................... SUCCESS <span class="o">[</span>  0.369 s]
+<span class="o">[</span>INFO] onos-ospf .......................................... SUCCESS <span class="o">[</span>  0.164 s]
+<span class="o">[</span>INFO] onos-ospf-api ...................................... SUCCESS <span class="o">[</span>  0.328 s]
+<span class="o">[</span>INFO] onos-ospf-protocol ................................. SUCCESS <span class="o">[</span>  0.726 s]
+<span class="o">[</span>INFO] onos-ospf-ctl ...................................... SUCCESS <span class="o">[</span>  0.793 s]
+<span class="o">[</span>INFO] onos-providers ..................................... SUCCESS <span class="o">[</span>  0.161 s]
+<span class="o">[</span>INFO] onos-of-providers .................................. SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-of-provider-device ............................ SUCCESS <span class="o">[</span>  0.530 s]
+<span class="o">[</span>INFO] onos-of-provider-packet ............................ SUCCESS <span class="o">[</span>  0.522 s]
+<span class="o">[</span>INFO] onos-of-provider-flow .............................. SUCCESS <span class="o">[</span>  0.812 s]
+<span class="o">[</span>INFO] onos-of-provider-group ............................. SUCCESS <span class="o">[</span>  0.642 s]
+<span class="o">[</span>INFO] onos-of-provider-meter ............................. SUCCESS <span class="o">[</span>  0.469 s]
+<span class="o">[</span>INFO] onos-drivers-general ............................... SUCCESS <span class="o">[</span>  0.167 s]
+<span class="o">[</span>INFO] onos-drivers ....................................... SUCCESS <span class="o">[</span>  1.142 s]
+<span class="o">[</span>INFO] onos-openflow-base ................................. SUCCESS <span class="o">[</span>  0.826 s]
+<span class="o">[</span>INFO] onos-openflow ...................................... SUCCESS <span class="o">[</span>  0.315 s]
+<span class="o">[</span>INFO] onos-cpman ......................................... SUCCESS <span class="o">[</span>  0.162 s]
+<span class="o">[</span>INFO] onos-app-cpman-api ................................. SUCCESS <span class="o">[</span>  0.323 s]
+<span class="o">[</span>INFO] onos-of-provider-message ........................... SUCCESS <span class="o">[</span>  0.408 s]
+<span class="o">[</span>INFO] onos-host-provider ................................. SUCCESS <span class="o">[</span>  0.378 s]
+<span class="o">[</span>INFO] onos-netcfg-host-provider .......................... SUCCESS <span class="o">[</span>  0.334 s]
+<span class="o">[</span>INFO] onos-netconf-providers ............................. SUCCESS <span class="o">[</span>  0.163 s]
+<span class="o">[</span>INFO] onos-netconf-provider-device ....................... SUCCESS <span class="o">[</span>  0.336 s]
+<span class="o">[</span>INFO] onos-netconf-app ................................... SUCCESS <span class="o">[</span>  0.175 s]
+<span class="o">[</span>INFO] onos-null-provider ................................. SUCCESS <span class="o">[</span>  0.476 s]
+<span class="o">[</span>INFO] onos-pcep-providers ................................ SUCCESS <span class="o">[</span>  0.176 s]
+<span class="o">[</span>INFO] onos-pcep-provider-topology ........................ SUCCESS <span class="o">[</span>  0.347 s]
+<span class="o">[</span>INFO] onos-incubator-store ............................... SUCCESS <span class="o">[</span>  0.582 s]
+<span class="o">[</span>INFO] onos-incubator-net ................................. SUCCESS <span class="o">[</span>  0.587 s]
+<span class="o">[</span>INFO] onos-pcep-provider-tunnel .......................... SUCCESS <span class="o">[</span>  0.456 s]
+<span class="o">[</span>INFO] onos-pcep .......................................... SUCCESS <span class="o">[</span>  0.181 s]
+<span class="o">[</span>INFO] onos-ovsdb-providers ............................... SUCCESS <span class="o">[</span>  0.163 s]
+<span class="o">[</span>INFO] onos-ovsdb-provider-device ......................... SUCCESS <span class="o">[</span>  0.319 s]
+<span class="o">[</span>INFO] onos-ovsdb-provider-host ........................... SUCCESS <span class="o">[</span>  0.308 s]
+<span class="o">[</span>INFO] onos-ovsdb-provider-tunnel ......................... SUCCESS <span class="o">[</span>  0.339 s]
+<span class="o">[</span>INFO] onos-ovsdatabase ................................... SUCCESS <span class="o">[</span>  0.266 s]
+<span class="o">[</span>INFO] onos-drivers-ovsdb ................................. SUCCESS <span class="o">[</span>  0.342 s]
+<span class="o">[</span>INFO] onos-ovsdb-base .................................... SUCCESS <span class="o">[</span>  0.171 s]
+<span class="o">[</span>INFO] onos-bgp-providers ................................. SUCCESS <span class="o">[</span>  0.159 s]
+<span class="o">[</span>INFO] onos-bgp-provider-topology ......................... SUCCESS <span class="o">[</span>  0.302 s]
+<span class="o">[</span>INFO] onos-bgp-provider-cfg .............................. SUCCESS <span class="o">[</span>  0.340 s]
+<span class="o">[</span>INFO] onos-bgp-app ....................................... SUCCESS <span class="o">[</span>  0.179 s]
+<span class="o">[</span>INFO] onos-bgp-provider-flow ............................. SUCCESS <span class="o">[</span>  0.334 s]
+<span class="o">[</span>INFO] onos-snmp-providers ................................ SUCCESS <span class="o">[</span>  0.172 s]
+<span class="o">[</span>INFO] onos-snmp-provider-device .......................... SUCCESS <span class="o">[</span>  0.549 s]
+<span class="o">[</span>INFO] onos-snmp-provider-alarm ........................... SUCCESS <span class="o">[</span>  0.533 s]
+<span class="o">[</span>INFO] onos-snmp-app ...................................... SUCCESS <span class="o">[</span>  0.164 s]
+<span class="o">[</span>INFO] onos-restsb-providers .............................. SUCCESS <span class="o">[</span>  0.157 s]
+<span class="o">[</span>INFO] onos-restsb-provider-device ........................ SUCCESS <span class="o">[</span>  0.371 s]
+<span class="o">[</span>INFO] onos-restsb-app .................................... SUCCESS <span class="o">[</span>  0.167 s]
+<span class="o">[</span>INFO] onos-lldp-provider-common .......................... SUCCESS <span class="o">[</span>  0.300 s]
+<span class="o">[</span>INFO] onos-lldp-provider ................................. SUCCESS <span class="o">[</span>  0.485 s]
+<span class="o">[</span>INFO] onos-netcfg-links-provider ......................... SUCCESS <span class="o">[</span>  0.365 s]
+<span class="o">[</span>INFO] onos-drivers-utilities ............................. SUCCESS <span class="o">[</span>  0.293 s]
+<span class="o">[</span>INFO] onos-drivers-ciena ................................. SUCCESS <span class="o">[</span>  0.289 s]
+<span class="o">[</span>INFO] onos-drivers-fujitsu ............................... SUCCESS <span class="o">[</span>  0.335 s]
+<span class="o">[</span>INFO] onos-drivers-cisco ................................. SUCCESS <span class="o">[</span>  0.294 s]
+<span class="o">[</span>INFO] onos-drivers-netconf ............................... SUCCESS <span class="o">[</span>  0.325 s]
+<span class="o">[</span>INFO] onos-drivers-lumentum .............................. SUCCESS <span class="o">[</span>  0.363 s]
+<span class="o">[</span>INFO] onos-app-aaa ....................................... SUCCESS <span class="o">[</span>  0.392 s]
+<span class="o">[</span>INFO] onos-app-acl ....................................... SUCCESS <span class="o">[</span>  0.400 s]
+<span class="o">[</span>INFO] onos-app-fm ........................................ SUCCESS <span class="o">[</span>  0.159 s]
+<span class="o">[</span>INFO] onos-app-fm-mgr .................................... SUCCESS <span class="o">[</span>  0.458 s]
+<span class="o">[</span>INFO] onos-app-fm-web .................................... SUCCESS <span class="o">[</span>  0.350 s]
+<span class="o">[</span>INFO] onos-app-fm-gui .................................... SUCCESS <span class="o">[</span>  0.358 s]
+<span class="o">[</span>INFO] onos-app-fm-cli .................................... SUCCESS <span class="o">[</span>  0.308 s]
+<span class="o">[</span>INFO] onos-app-fm-onosfw ................................. SUCCESS <span class="o">[</span>  0.172 s]
+<span class="o">[</span>INFO] onos-app-fwd ....................................... SUCCESS <span class="o">[</span>  0.344 s]
+<span class="o">[</span>INFO] onos-app-mobility .................................. SUCCESS <span class="o">[</span>  0.288 s]
+<span class="o">[</span>INFO] onos-app-proxyarp .................................. SUCCESS <span class="o">[</span>  0.316 s]
+<span class="o">[</span>INFO] onos-app-routing-api ............................... SUCCESS <span class="o">[</span>  0.349 s]
+<span class="o">[</span>INFO] onos-app-routing ................................... SUCCESS <span class="o">[</span>  0.985 s]
+<span class="o">[</span>INFO] onos-app-sdnip ..................................... SUCCESS <span class="o">[</span>  0.500 s]
+<span class="o">[</span>INFO] onos-app-optical ................................... SUCCESS <span class="o">[</span>  0.361 s]
+<span class="o">[</span>INFO] onos-app-metrics ................................... SUCCESS <span class="o">[</span>  0.383 s]
+<span class="o">[</span>INFO] onos-app-reactive-routing .......................... SUCCESS <span class="o">[</span>  0.348 s]
+<span class="o">[</span>INFO] onos-app-virtualbng ................................ SUCCESS <span class="o">[</span>  0.464 s]
+<span class="o">[</span>INFO] onos-app-bgprouter ................................. SUCCESS <span class="o">[</span>  0.346 s]
+<span class="o">[</span>INFO] onos-apps-test ..................................... SUCCESS <span class="o">[</span>  0.162 s]
+<span class="o">[</span>INFO] onos-app-election .................................. SUCCESS <span class="o">[</span>  0.322 s]
+<span class="o">[</span>INFO] onos-app-loadtest .................................. SUCCESS <span class="o">[</span>  0.304 s]
+<span class="o">[</span>INFO] onos-app-intent-perf ............................... SUCCESS <span class="o">[</span>  0.435 s]
+<span class="o">[</span>INFO] onos-app-messaging-perf ............................ SUCCESS <span class="o">[</span>  0.391 s]
+<span class="o">[</span>INFO] onos-app-demo ...................................... SUCCESS <span class="o">[</span>  0.452 s]
+<span class="o">[</span>INFO] onos-app-distributed-primitives .................... SUCCESS <span class="o">[</span>  0.473 s]
+<span class="o">[</span>INFO] onos-app-segmentrouting ............................ SUCCESS <span class="o">[</span>  0.850 s]
+<span class="o">[</span>INFO] onos-app-cordfabric ................................ SUCCESS <span class="o">[</span>  0.409 s]
+<span class="o">[</span>INFO] onos-app-xos-integration ........................... SUCCESS <span class="o">[</span>  0.389 s]
+<span class="o">[</span>INFO] onos-app-iptopology-api ............................ SUCCESS <span class="o">[</span>  0.464 s]
+<span class="o">[</span>INFO] onos-olt ........................................... SUCCESS <span class="o">[</span>  0.166 s]
+<span class="o">[</span>INFO] onos-app-olt-api ................................... SUCCESS <span class="o">[</span>  0.297 s]
+<span class="o">[</span>INFO] onos-app-olt ....................................... SUCCESS <span class="o">[</span>  0.435 s]
+<span class="o">[</span>INFO] onos-app-cip ....................................... SUCCESS <span class="o">[</span>  0.297 s]
+<span class="o">[</span>INFO] onos-app-flowanalyzer .............................. SUCCESS <span class="o">[</span>  0.390 s]
+<span class="o">[</span>INFO] onos-app-vtn ....................................... SUCCESS <span class="o">[</span>  0.163 s]
+<span class="o">[</span>INFO] onos-app-vtn-rsc ................................... SUCCESS <span class="o">[</span>  1.222 s]
+<span class="o">[</span>INFO] onos-app-sfc-mgr ................................... SUCCESS <span class="o">[</span>  0.408 s]
+<span class="o">[</span>INFO] onos-app-vtn-mgr ................................... SUCCESS <span class="o">[</span>  0.495 s]
+<span class="o">[</span>INFO] onos-app-vtn-web ................................... SUCCESS <span class="o">[</span>  0.722 s]
+<span class="o">[</span>INFO] onos-app-vtn-onosfw ................................ SUCCESS <span class="o">[</span>  0.182 s]
+<span class="o">[</span>INFO] onos-dhcp .......................................... SUCCESS <span class="o">[</span>  0.162 s]
+<span class="o">[</span>INFO] onos-app-dhcp-api .................................. SUCCESS <span class="o">[</span>  0.286 s]
+<span class="o">[</span>INFO] onos-app-dhcp ...................................... SUCCESS <span class="o">[</span>  0.543 s]
+<span class="o">[</span>INFO] onos-app-openstackinterface ........................ SUCCESS <span class="o">[</span>  0.182 s]
+<span class="o">[</span>INFO] onos-app-openstackinterface-api .................... SUCCESS <span class="o">[</span>  0.370 s]
+<span class="o">[</span>INFO] onos-app-cordvtn ................................... SUCCESS <span class="o">[</span>  0.720 s]
+<span class="o">[</span>INFO] onos-app-mfwd ...................................... SUCCESS <span class="o">[</span>  0.325 s]
+<span class="o">[</span>INFO] onos-app-igmp ...................................... SUCCESS <span class="o">[</span>  0.369 s]
+<span class="o">[</span>INFO] onos-app-pim ....................................... SUCCESS <span class="o">[</span>  0.413 s]
+<span class="o">[</span>INFO] onos-app-mlb ....................................... SUCCESS <span class="o">[</span>  0.298 s]
+<span class="o">[</span>INFO] onos-app-pp ........................................ SUCCESS <span class="o">[</span>  0.335 s]
+<span class="o">[</span>INFO] onos-app-drivermatrix .............................. SUCCESS <span class="o">[</span>  0.298 s]
+<span class="o">[</span>INFO] onos-app-cpman ..................................... SUCCESS <span class="o">[</span>  0.655 s]
+<span class="o">[</span>INFO] onos-events ........................................ SUCCESS <span class="o">[</span>  0.353 s]
+<span class="o">[</span>INFO] onos-app-vrouter ................................... SUCCESS <span class="o">[</span>  0.292 s]
+<span class="o">[</span>INFO] onos-app-cord-mcast ................................ SUCCESS <span class="o">[</span>  0.363 s]
+<span class="o">[</span>INFO] onos-app-vpls ...................................... SUCCESS <span class="o">[</span>  0.369 s]
+<span class="o">[</span>INFO] onos-app-openstacknode ............................. SUCCESS <span class="o">[</span>  0.379 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking ....................... SUCCESS <span class="o">[</span>  0.163 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking-api ................... SUCCESS <span class="o">[</span>  0.277 s]
+<span class="o">[</span>INFO] onos-app-openstackswitching ........................ SUCCESS <span class="o">[</span>  0.424 s]
+<span class="o">[</span>INFO] onos-app-openstackrouting .......................... SUCCESS <span class="o">[</span>  0.461 s]
+<span class="o">[</span>INFO] onos-app-openstackinterface-app .................... SUCCESS <span class="o">[</span>  0.386 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking-web ................... SUCCESS <span class="o">[</span>  0.381 s]
+<span class="o">[</span>INFO] onos-app-openstacknetworking-app ................... SUCCESS <span class="o">[</span>  0.169 s]
+<span class="o">[</span>INFO] onos-incubator-core ................................ SUCCESS <span class="o">[</span>  0.292 s]
+<span class="o">[</span>INFO] onos-incubator-rpc ................................. SUCCESS <span class="o">[</span>  0.336 s]
+<span class="o">[</span>INFO] onos-incubator-rpc-grpc ............................ SUCCESS <span class="o">[</span>  3.581 s]
+<span class="o">[</span>INFO] onos-features ...................................... SUCCESS <span class="o">[</span>  0.211 s]
+<span class="o">[</span>INFO] onos-archetypes .................................... SUCCESS <span class="o">[</span>  0.021 s]
+<span class="o">[</span>INFO] onos-api-archetype ................................. SUCCESS <span class="o">[</span>  0.187 s]
+<span class="o">[</span>INFO] onos-bundle-archetype .............................. SUCCESS <span class="o">[</span>  0.008 s]
+<span class="o">[</span>INFO] onos-cli-archetype ................................. SUCCESS <span class="o">[</span>  0.006 s]
+<span class="o">[</span>INFO] onos-rest-archetype ................................ SUCCESS <span class="o">[</span>  0.007 s]
+<span class="o">[</span>INFO] onos-ui-archetype .................................. SUCCESS <span class="o">[</span>  0.009 s]
+<span class="o">[</span>INFO] onos-uitab-archetype ............................... SUCCESS <span class="o">[</span>  0.008 s]
+<span class="o">[</span>INFO] onos-uitopo-archetype .............................. SUCCESS <span class="o">[</span>  0.010 s]
+<span class="o">[</span>INFO] onos-branding ...................................... SUCCESS <span class="o">[</span>  0.241 s]
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] BUILD SUCCESS
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="o">[</span>INFO] Total <span class="nb">time</span>: 01:55 min
+<span class="o">[</span>INFO] Finished at: 2016-06-01T15:30:25+08:00
+<span class="o">[</span>INFO] Final Memory: 286M/2077M
+<span class="o">[</span>INFO] ------------------------------------------------------------------------
+<span class="c">###############################################################################</span>
+如果跳过测试，只编译原始代码，耗时01:55 min。</code></pre></div>
+
+<h5 id="onosmaven">目前只是把ONOS编译并且安装到Maven的本地库</h5>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">######mvn install 将目标安装到本地库</span>
+<span class="o">[</span>root@controller onos]# <span class="nb">pwd</span>
+/maven_repo/org/onosproject/onos</code></pre></div>
+
+<h3 id="karafonos">配置Karaf启动onos</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller etc]# <span class="nb">pwd</span>
+/usr/local/share/apache-karaf-3.0.5/etc
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="nv">featuresRepositories</span><span class="o">=</span>mvn:org.apache.karaf.features/standard/3.0.5/xml/features,mvn:org.apache.karaf.features/enterprise/3.0.5/xml/features,mvn:org.ops4j.pax.web/pax-web-features/3.2.6/xml/features,mvn:org.apache.karaf.features/spring/3.0.5/xml/features,mvn:org.onosproject/onos-features/1.5.1/xml/features
+
+<span class="c">#</span>
+<span class="c"># Comma separated list of features to install at startup</span>
+<span class="c">#</span>
+<span class="nv">featuresBoot</span><span class="o">=</span>config,standard,region,package,kar,ssh,management,webconsole,onos-api,onos-core,onos-incubator,onos-cli,onos-rest,onos-gui
+<span class="c">###############################################################################</span></code></pre></div>
+
+<ul>
+  <li>featuresRepositories    新增mvn:org.onosproject/onos-features/1.5.1/xml/features</li>
+  <li>featuresBoot	    新增onos-api,onos-core,onos-incubator,onos-cli,onos-rest,onos-gui</li>
+</ul>
+
+<h3 id="section-5">配置用户</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller etc]# vim /usr/local/share/apache-karaf-3.0.5/etc/users.properties
+<span class="c">################################################################################</span>
+<span class="c"># USER=PASSWORD,ROLE1,ROLE2,...</span>
+<span class="c"># with the name "karaf".</span>
+<span class="c">#</span>
+karaf <span class="o">=</span> karaf,_g_:admingroup
+onos <span class="o">=</span> rocks,_g_:admingroup
+_g_<span class="se">\:</span>admingroup <span class="o">=</span> group,admin,manager,viewer,webconsole</code></pre></div>
+
+<h3 id="onos-1">启动ONOS</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>root@controller ~]# karaf clean
+Welcome to Open Network Operating System <span class="o">(</span>ONOS<span class="o">)</span>!
+     ____  _  ______  ____     
+    / __ <span class="se">\/</span> |/ / __ <span class="se">\/</span> __/   
+   / /_/ /    / /_/ /<span class="se">\ \ </span>    
+   <span class="se">\_</span>___/_/|_/<span class="se">\_</span>___/___/     
+                               
+Documentation: wiki.onosproject.org      
+Tutorials:     tutorials.onosproject.org 
+Mailing lists: lists.onosproject.org     
+
+Come <span class="nb">help </span>out! Find out how at: contribute.onosproject.org 
+
+Hit <span class="s1">'&lt;tab&gt;'</span> <span class="k">for </span>a list of available commands
+and <span class="s1">'[cmd] --help'</span> <span class="k">for </span><span class="nb">help </span>on a specific command.
+Hit <span class="s1">'&lt;ctrl-d&gt;'</span> or <span class="nb">type</span> <span class="s1">'system:shutdown'</span> or <span class="s1">'logout'</span> to shutdown ONOS.
+
+<span class="gp">onos&gt; </span>
+<span class="gp">onos&gt; </span>list
+START LEVEL 100 , List Threshold: 50
+ ID | State  | Lvl | Version          | Name                                 
+-----------------------------------------------------------------------------
+ 40 | Active |  80 | 2.6              | Commons Lang                         
+ 41 | Active |  80 | 3.4.0            | Apache Commons Lang                  
+ 42 | Active |  80 | 1.10.0           | Apache Commons Configuration         
+ 43 | Active |  80 | 19.0.0           | Guava: Google Core Libraries <span class="k">for </span>Java
+ 44 | Active |  80 | 3.10.5.Final     | Netty                                
+ 45 | Active |  80 | 4.0.33.Final     | Netty/Common                         
+ 46 | Active |  80 | 4.0.33.Final     | Netty/Buffer                         
+ 47 | Active |  80 | 4.0.33.Final     | Netty/Transport                      
+ 48 | Active |  80 | 4.0.33.Final     | Netty/Handler                        
+ 49 | Active |  80 | 4.0.33.Final     | Netty/Codec                          
+ 50 | Active |  80 | 4.0.33.Final     | Netty/Transport/Native/Epoll         
+ 51 | Active |  80 | 1.6.0            | Commons Pool                         
+ 52 | Active |  80 | 3.2.0            | Commons Math                         
+ 53 | Active |  80 | 2.9              | Joda-Time                            
+ 54 | Active |  80 | 3.1.0            | Metrics Core                         
+ 55 | Active |  80 | 3.1.0            | Jackson Integration <span class="k">for </span>Metrics      
+ 56 | Active |  80 | 0.9.1            | minimal-json                         
+ 57 | Active |  80 | 3.0.0            | Kryo                                 
+ 58 | Active |  80 | 1.11.0           | ReflectASM                           
+ 59 | Active |  80 | 4.2              | ASM                                  
+ 60 | Active |  80 | 1.3.0            | MinLog                               
+ 61 | Active |  80 | 2.1.0            | Objenesis                            
+ 62 | Active |  80 | 2.7.0            | Jackson-core                         
+ 63 | Active |  80 | 2.7.0            | Jackson-annotations                  
+ 64 | Active |  80 | 2.7.0            | jackson-databind                     
+ 65 | Active |  80 | 3.2.1            | Commons Collections                  
+ 66 | Active |  80 | 1.2.1            | com.typesafe.config                  
+ 67 | Active |  80 | 1.5.1            | onlab-thirdparty                     
+ 68 | Active |  80 | 1.19.0           | jersey-client                        
+ 69 | Active |  80 | 1.0.7            | mapdb                                
+ 70 | Active |  80 | 1.5.1            | onlab-misc                           
+ 71 | Active |  80 | 1.5.1            | onlab-osgi                           
+ 72 | Active |  80 | 1.5.1            | onos-api                             
+ 73 | Active |  80 | 1.5.1            | onos-incubator-api                   
+ 74 | Active |  80 | 1.5.1            | onos-core-net                        
+ 75 | Active |  80 | 1.5.1            | onos-core-common                     
+ 76 | Active |  80 | 1.5.1            | onos-core-dist                       
+ 77 | Active |  80 | 1.5.1            | onos-core-primitives                 
+ 78 | Active |  80 | 1.5.1            | onos-core-persistence                
+ 79 | Active |  80 | 1.5.1            | onos-core-serializers                
+ 80 | Active |  80 | 1.5.1            | onos-incubator-net                   
+ 81 | Active |  80 | 1.5.1            | onos-incubator-core                  
+ 82 | Active |  80 | 1.5.1            | onos-incubator-store                 
+ 83 | Active |  80 | 1.5.1            | onos-incubator-rpc                   
+ 94 | Active |  80 | 1.5.1            | onos-cli                             
+127 | Active |  80 | 1.19.0           | jersey-core                          
+128 | Active |  80 | 1.19.0           | jersey-server                        
+129 | Active |  80 | 1.19.0           | jersey-servlet                       
+130 | Active |  80 | 1.19.0           | jersey-multipart                     
+131 | Active |  80 | 1.9.3            | MIME streaming extension             
+132 | Active |  80 | 1.1.1            | jsr311-api                           
+133 | Active |  80 | 1.5.1            | onlab-rest                           
+134 | Active |  80 | 1.5.1            | onos-rest                            
+153 | Active |  80 | 8.1.18.v20150929 | Jetty :: Websocket                   
+154 | Active |  80 | 1.5.1            | onos-gui                             
+162 | Active |  80 | 1.5.1            | onos-drivers                         
+163 | Active |  80 | 1.5.1            | onos-of-api                          
+164 | Active |  80 | 3.9.2.Final      | The Netty Project                    
+165 | Active |  80 | 1.5.1            | onos-of-ctl                          
+166 | Active |  80 | 1.5.1            | onos-of-provider-device              
+167 | Active |  80 | 1.5.1            | onos-of-provider-packet              
+168 | Active |  80 | 1.5.1            | onos-of-provider-flow                
+169 | Active |  80 | 1.5.1            | onos-of-provider-group               
+170 | Active |  80 | 1.5.1            | onos-of-provider-meter               
+171 | Active |  80 | 1.5.1            | onos-host-provider                   
+172 | Active |  80 | 1.5.1            | onos-lldp-provider                   
+173 | Active |  80 | 1.5.1            | onos-lldp-provider-common            
+174 | Active |  80 | 1.5.1            | onos-openflow                        
+175 | Active |  80 | 1.5.1            | onos-app-fwd                         
+176 | Active |  80 | 1.5.1            | onos-app-mobility                    
+177 | Active |  80 | 1.5.1            | onos-app-proxyarp</code></pre></div>
+
+<h3 id="web">访问Web控制台</h3>
+<p>http://192.168.100.142:8181/onos/ui/login.html <br />
+用户名密码均为karaf <br />
+或者用户onos 密码rocks 参见配置用户</p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#onos-ref">
+    		onos <span>4</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%85%B6%E5%AE%83/2016/05/24/jekyll-on-centos7" title="CentOS7安装Jekyll">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%85%B6%E5%AE%83/2016/06/01/L2TP-VPN-on-ubuntu14.40" title="Ubuntu14.04安装L2TP VPN">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/onos/2016/05/25/install-onos-on-centos7"  data-title="CentOS7 ONOS 离线编译安装 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

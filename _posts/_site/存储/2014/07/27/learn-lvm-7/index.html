@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>LVM2 Logical Volume Manager 详解（七）--LVM卷组Volume Group命令实战</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>LVM2 Logical Volume Manager 详解（七）--LVM卷组Volume Group命令实战 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-27</span>
+    </div>
+    <div class="content">
+      
+<p>
+卷组配置备份
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgcfgbackup --help</span>
+  <span class="ss">vgcfgbackup: </span><span class="no">Backup</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">configuration</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  
+<span class="n">vgcfgbackup</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">file</span> <span class="n">filename</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|-</span><span class="sc">?|</span><span class="o">--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">P</span><span class="o">|--</span><span class="n">partial</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+<span class="c1">#备份卷组的元数据，如果不指定卷组，那么将备份全部。备份将生成文件到/etc/lvm/backup，也可以用-f指定文件。</span></code></pre></div>
+
+<p>
+卷组配置恢复
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgcfgrestore --help</span>
+  <span class="ss">vgcfgrestore: </span><span class="no">Restore</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">configuration</span>
+  
+<span class="n">vgcfgrestore</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">file</span> <span class="n">filename</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">|--</span><span class="n">list</span> <span class="p">[</span><span class="o">--</span><span class="n">list</span><span class="p">]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">M</span><span class="o">|--</span><span class="n">metadatatype</span> <span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="p">]</span>     <span class="c1">#元数据类型lvm1或者lvm2</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="no">VolumeGroupName</span>
+  
+<span class="c1"># 从文件中恢复卷组</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">lvm</span><span class="o">/</span><span class="n">backup</span><span class="c1"># vgdisplay --partial --verbose</span>
+  
+<span class="c1">#显示缺失的PV的大小和UUID。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">lvm</span><span class="o">/</span><span class="n">backup</span><span class="c1">#pvcreate --restorefile filename --uuid uuid</span>
+<span class="c1">#创建PV利用restorefile中的指定UUID。</span></code></pre></div>
+
+<p>
+创建卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgcreate --help</span>
+  <span class="ss">vgcreate: </span><span class="no">Create</span> <span class="n">a</span> <span class="n">volume</span> <span class="n">group</span>
+  
+<span class="n">vgcreate</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">addtag</span> <span class="no">Tag</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">alloc</span> <span class="no">AllocationPolicy</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="o">|--</span><span class="n">clustered</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span>                  <span class="c1">#在集群上其它节点可见</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="o">|--</span><span class="n">maxlogicalvolumes</span> <span class="no">MaxLogicalVolumes</span><span class="p">]</span>         <span class="c1">#卷组内逻辑卷最大数目，可有vgchange修改。LVM1最大255，LVM2默认为0，即没有限制。</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">M</span><span class="o">|--</span><span class="n">metadatatype</span> <span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="p">]</span>                            <span class="c1">#元数据格式类型LVM1，LVM2</span>
+        <span class="p">[</span><span class="o">--</span><span class="p">[</span><span class="n">vg</span><span class="p">]</span><span class="n">metadatacopies</span> <span class="c1">#copies]                     #卷组内元数据拷贝份数</span>
+        <span class="p">[</span><span class="o">-</span><span class="nb">p</span><span class="o">|--</span><span class="n">maxphysicalvolumes</span> <span class="no">MaxPhysicalVolumes</span><span class="p">]</span>       <span class="c1">#卷组内物理卷最大数据，</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="o">|--</span><span class="n">physicalextentsize</span> <span class="no">PhysicalExtentSize</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]]</span>     <span class="c1">#卷组内物理卷物理块大小，默认4MB，最小1KB</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="p">[</span> <span class="no">PHYSICAL</span> <span class="no">DEVICE</span> <span class="no">OPTIONS</span> <span class="p">]</span> 
+        <span class="no">VolumeGroupName</span> <span class="no">PhysicalDevicePath</span> <span class="p">[</span><span class="no">PhysicalDevicePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+<span class="c1"># 内核2.4最大块设备大小2TB。LVM1最大PE256GB。</span></code></pre></div>
+
+<p>
+删除卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgremove --help</span>
+  <span class="ss">vgremove: </span><span class="no">Remove</span> <span class="n">volume</span> <span class="n">group</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  
+<span class="n">vgremove</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">force</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">noudevsync</span><span class="p">]</span>       <span class="c1">#禁用udev同步，进程将不等待udev的通知。</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">VolumeGroupName</span> <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span></code></pre></div>
+
+<p>
+修改卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgchange --help</span>
+  <span class="ss">vgchange: </span><span class="no">Change</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">attributes</span>
+  
+<span class="n">vgchange</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span>           <span class="c1">#元数据修改后，自动备份元数据</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">alloc</span> <span class="no">AllocationPolicy</span><span class="p">]</span>        <span class="c1">#控制卷组内的逻辑卷是否可以输入输出，或者说是内核是否能看到逻辑卷。 </span>
+        <span class="p">[</span><span class="o">-</span><span class="no">P</span><span class="o">|--</span><span class="n">partial</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">ignoremonitoring</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">monitor</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span>
+        <span class="p">[</span><span class="o">--</span><span class="p">[</span><span class="n">vg</span><span class="p">]</span><span class="n">metadatacopies</span> <span class="c1">#copies] </span>
+        <span class="p">[</span><span class="o">--</span><span class="n">poll</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span>         <span class="c1">#y，重启崩溃之前的pvmove和lvconvert。</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">noudevsync</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">refresh</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">sysinit</span><span class="p">]</span>            <span class="c1">#声明命令是系统初始化时调用的</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">u</span><span class="o">|--</span><span class="n">uuid</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">{</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">activate</span> <span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">e</span><span class="o">|</span><span class="n">l</span><span class="p">]{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}</span>  <span class="o">|</span>           <span class="c1">#激活</span>
+         <span class="o">-</span><span class="n">c</span><span class="o">|--</span><span class="n">clustered</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}</span> <span class="o">|</span>                  <span class="c1">#集群</span>
+         <span class="o">-</span><span class="n">x</span><span class="o">|--</span><span class="n">resizeable</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}</span> <span class="o">|</span>                 <span class="c1">#禁用扩展和缩减</span>
+         <span class="o">-</span><span class="n">l</span><span class="o">|--</span><span class="n">logicalvolume</span> <span class="no">MaxLogicalVolumes</span> <span class="o">|</span>  <span class="c1">#最大逻辑卷数</span>
+         <span class="o">-</span><span class="nb">p</span><span class="o">|--</span><span class="n">maxphysicalvolumes</span> <span class="no">MaxPhysicalVolumes</span> <span class="o">|</span>       <span class="c1">#物理卷限制  </span>
+         <span class="o">-</span><span class="n">s</span><span class="o">|--</span><span class="n">physicalextentsize</span> <span class="no">PhysicalExtentSize</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]</span> <span class="o">|</span>  <span class="c1">#物理块大小</span>
+         <span class="o">--</span><span class="n">addtag</span> <span class="no">Tag</span> <span class="o">|</span>
+         <span class="o">--</span><span class="n">deltag</span> <span class="no">Tag</span><span class="p">}</span>
+        <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+<span class="c1">#卷组改名</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgrename --help</span>
+  <span class="ss">vgrename: </span><span class="no">Rename</span> <span class="n">a</span> <span class="n">volume</span> <span class="n">group</span>
+  
+<span class="n">vgrename</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">OldVolumeGroupPath</span> <span class="no">NewVolumeGroupPath</span> <span class="o">|</span>
+        <span class="no">OldVolumeGroupName</span> <span class="no">NewVolumeGroupName</span></code></pre></div>
+
+<p>
+卷组转换
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgconvert --help</span>
+  <span class="ss">vgconvert: </span><span class="no">Change</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">metadata</span> <span class="nb">format</span>
+  
+<span class="n">vgconvert</span>  
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">labelsector</span> <span class="n">sector</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="no">M</span><span class="o">|--</span><span class="n">metadatatype</span> <span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="p">]</span>         <span class="c1">#元数据格式LVM1，LVM2</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">pvmetadatacopies</span> <span class="c1">#copies]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">metadatasize</span> <span class="no">MetadataSize</span><span class="p">[</span><span class="n">bBsSkKmMgGtTpPeE</span><span class="p">]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="no">VolumeGroupName</span> <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span></code></pre></div>
+
+<p>
+显示卷组信息
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgdisplay --help</span>
+  <span class="ss">vgdisplay: </span><span class="no">Display</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">information</span>
+  
+<span class="n">vgdisplay</span> 
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">activevolumegroups</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="o">|--</span><span class="n">colon</span> <span class="o">|</span> <span class="o">-</span><span class="n">s</span><span class="o">|--</span><span class="n">short</span> <span class="o">|</span> <span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>      <span class="c1">#显示卷组信息-c 多列，-s简写</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">nosuffix</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">P</span><span class="o">|--</span><span class="n">partial</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">units</span> <span class="n">hHbBsSkKmMgGtTpPeE</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span><span class="no">VolumeGroupName</span> <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]</span>
+  
+<span class="n">vgdisplay</span> <span class="o">--</span><span class="n">columns</span><span class="o">|-</span><span class="no">C</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">aligned</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">ignorelockingfailure</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">noheadings</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">nosuffix</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">o</span><span class="o">|--</span><span class="n">options</span> <span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="no">Field</span><span class="p">[,</span><span class="no">Field</span><span class="p">]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">O</span><span class="o">|--</span><span class="n">sort</span> <span class="p">[</span><span class="o">+|-</span><span class="p">]</span><span class="n">key1</span><span class="p">[,[</span><span class="o">+|-</span><span class="p">]</span><span class="n">key2</span><span class="p">[,.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">P</span><span class="o">|--</span><span class="n">partial</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">separator</span> <span class="no">Separator</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">unbuffered</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">units</span> <span class="n">hHbBsSkKmMgGtTpPeE</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span><span class="no">VolumeGroupName</span> <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]]</span></code></pre></div>
+
+<p>
+扩展卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#新增物理卷到卷组</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgextend --help</span>
+  <span class="ss">vgextend: </span><span class="no">Add</span> <span class="n">physical</span> <span class="n">volumes</span> <span class="n">to</span> <span class="n">a</span> <span class="n">volume</span> <span class="n">group</span>
+  
+<span class="n">vgextend</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">restoremissing</span><span class="p">]</span>          <span class="c1">#增加之前丢失的物理卷PV</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">force</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="p">[</span> <span class="no">PHYSICAL</span> <span class="no">DEVICE</span> <span class="no">OPTIONS</span> <span class="p">]</span> 
+        <span class="no">VolumeGroupName</span> <span class="no">PhysicalDevicePath</span> <span class="p">[</span><span class="no">PhysicalDevicePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span></code></pre></div>
+
+<p>
+缩减卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#从卷组中移除物理卷</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgreduce --help</span>
+  <span class="ss">vgreduce: </span><span class="no">Remove</span> <span class="n">physical</span> <span class="n">volume</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">from</span> <span class="n">a</span> <span class="n">volume</span> <span class="n">group</span>
+  
+<span class="n">vgreduce</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">all</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">mirrorsonly</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">removemissing</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">force</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">VolumeGroupName</span>
+        <span class="p">[</span><span class="no">PhysicalVolumePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span></code></pre></div>
+
+<p>
+vgexport    vgimport
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#修改系统是否可以见卷组</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgexport --help</span>
+  <span class="ss">vgexport: </span><span class="no">Unregister</span> <span class="n">volume</span> <span class="n">group</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">from</span> <span class="n">the</span> <span class="nb">system</span>
+  
+<span class="n">vgexport</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">all</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> 
+        <span class="no">VolumeGroupName</span> <span class="p">[</span><span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span>
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgimport --help</span>
+  <span class="ss">vgimport: </span><span class="no">Register</span> <span class="n">exported</span> <span class="n">volume</span> <span class="n">group</span> <span class="n">with</span> <span class="nb">system</span>
+  
+<span class="n">vgimport</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="o">|--</span><span class="n">all</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="o">|--</span><span class="n">force</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">VolumeGroupName</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span></code></pre></div>
+
+<p>
+合并两个卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgmerge --help</span>
+  <span class="ss">vgmerge: </span><span class="no">Merge</span> <span class="n">volume</span> <span class="n">groups</span>
+  
+<span class="n">vgmerge</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="o">|--</span><span class="n">list</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">DestinationVolumeGroupName</span> <span class="no">SourceVolumeGroupName</span>
+<span class="c1"># 将后一个卷组合并到第二个卷组</span></code></pre></div>
+
+<p>
+拆分卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgsplit --help</span>
+  <span class="ss">vgsplit: </span><span class="no">Move</span> <span class="n">physical</span> <span class="n">volumes</span> <span class="n">into</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">or</span> <span class="n">existing</span> <span class="n">volume</span> <span class="n">group</span>
+  
+<span class="n">vgsplit</span> 
+        <span class="p">[</span><span class="o">-</span><span class="no">A</span><span class="o">|--</span><span class="n">autobackup</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">alloc</span> <span class="no">AllocationPolicy</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="o">|--</span><span class="n">clustered</span> <span class="p">{</span><span class="n">y</span><span class="o">|</span><span class="n">n</span><span class="p">}]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="o">|--</span><span class="n">debug</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="o">|--</span><span class="n">help</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="o">|--</span><span class="n">maxlogicalvolumes</span> <span class="no">MaxLogicalVolumes</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="no">M</span><span class="o">|--</span><span class="n">metadatatype</span> <span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="p">[</span><span class="n">vg</span><span class="p">]</span><span class="n">metadatacopies</span> <span class="c1">#copies] </span>
+        <span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="o">|--</span><span class="nb">name</span> <span class="no">LogicalVolumeName</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">-</span><span class="nb">p</span><span class="o">|--</span><span class="n">maxphysicalvolumes</span> <span class="no">MaxPhysicalVolumes</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="nb">test</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="o">|--</span><span class="n">verbose</span><span class="p">]</span> 
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+        <span class="no">SourceVolumeGroupName</span> <span class="no">DestinationVolumeGroupName</span>
+        <span class="p">[</span><span class="no">PhysicalVolumePath</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">]</span></code></pre></div>
+
+<p>
+移动一个或者多个物理卷从源卷组到目的卷组。可以通过指定物理卷路径或者指定逻辑卷名称，指定逻辑卷那么该逻辑卷下的物理卷才会移动。如果目的卷组不存在，一个新的卷组将被创建。<br />
+如果目的卷组存在会检查源卷组容量，目的卷组有操作，拆分将不会发生。<br />
+逻辑卷不会分布于多个卷组，操作只会移动整个物理卷。split可能会失败，如果会导致一个逻辑卷分布于多个卷组。<br />
+</p>
+<p>
+扫描卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgscan </span>
+  <span class="no">Reading</span> <span class="n">all</span> <span class="n">physical</span> <span class="n">volumes</span><span class="o">.</span>  <span class="no">This</span> <span class="n">may</span> <span class="n">take</span> <span class="n">a</span> <span class="k">while</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="no">Found</span> <span class="n">volume</span> <span class="n">group</span> <span class="s2">"vg_2"</span> <span class="n">using</span> <span class="n">metadata</span> <span class="n">type</span> <span class="n">lvm2</span>
+  <span class="no">Found</span> <span class="n">volume</span> <span class="n">group</span> <span class="s2">"vg_1"</span> <span class="n">using</span> <span class="n">metadata</span> <span class="n">type</span> <span class="n">lvm2</span>
+<span class="c1">#扫描物理卷，获取卷组信息。</span></code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-6" title="LVM2 Logical Volume Manager 详解（六）--LVM物理卷Physical Volume命令实战">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-8" title="LVM2 Logical Volume Manager 详解（八）--LVM逻辑卷Logical Volume命令实战">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-7"  data-title="LVM2 Logical Volume Manager 详解（七）--LVM卷组Volume Group命令实战 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

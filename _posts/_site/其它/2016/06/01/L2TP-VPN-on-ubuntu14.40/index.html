@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Ubuntu14.04安装L2TP VPN</title>
+    <meta name="description" content="VPN">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>Ubuntu14.04安装L2TP VPN </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2016-06-01</span>
+    </div>
+    <div class="content">
+      <h3 id="section">安装软件</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get install openswan xl2tpd ppp lsof</code></pre></div>
+
+<h3 id="section-1">配置防火墙规则</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">iptables -t nat -A POSTROUTING -j SNAT --to-source %SERVERIP% -o eth+</code></pre></div>
+
+<p>%SERVERIP%  使用服务器IP替换 <br />
+eth+  更换为对应的网络接口名称</p>
+
+<h3 id="ip">启用内核IP转发</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">"net.ipv4.ip_forward = 1"</span> |  tee -a /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.conf.all.accept_redirects = 0"</span> |  tee -a /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.conf.all.send_redirects = 0"</span> |  tee -a /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.conf.default.rp_filter = 0"</span> |  tee -a /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.conf.default.accept_source_route = 0"</span> |  tee -a /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.conf.default.send_redirects = 0"</span> |  tee -a /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.icmp_ignore_bogus_error_responses = 1"</span> |  tee -a /etc/sysctl.conf</code></pre></div>
+
+<h5 id="section-2">其它网卡设置</h5>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="k">for </span>vpn <span class="k">in</span> /proc/sys/net/ipv4/conf/<span class="k">*</span>; <span class="k">do </span><span class="nb">echo </span>0 &gt; <span class="nv">$vpn</span>/accept_redirects; <span class="nb">echo </span>0 &gt; <span class="nv">$vpn</span>/send_redirects; <span class="k">done</span></code></pre></div>
+
+<h5 id="section-3">应用设置</h5>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sysctl -p</code></pre></div>
+
+<h3 id="ipsec">配置IPSEC</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">vim /etc/ipsec.conf</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">version 2 <span class="c"># conforms to second version of ipsec.conf specification</span>
+
+config setup
+    <span class="nv">dumpdir</span><span class="o">=</span>/var/run/pluto/
+    <span class="c">#in what directory should things started by setup (notably the Pluto daemon) be allowed to dump core?</span>
+
+    <span class="nv">nat_traversal</span><span class="o">=</span>yes
+    <span class="c">#whether to accept/offer to support NAT (NAPT, also known as "IP Masqurade") workaround for IPsec</span>
+
+    <span class="nv">virtual_private</span><span class="o">=</span>%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v6:fd00::/8,%v6:fe80::/10
+    <span class="c">#contains the networks that are allowed as subnet= for the remote client. In other words, the address ranges that may live behind a NAT router through which a client connects.</span>
+
+    <span class="nv">protostack</span><span class="o">=</span>netkey
+    <span class="c">#decide which protocol stack is going to be used.</span>
+
+    <span class="nv">force_keepalive</span><span class="o">=</span>yes
+    <span class="nv">keep_alive</span><span class="o">=</span>60
+    <span class="c"># Send a keep-alive packet every 60 seconds.</span>
+
+conn L2TP-PSK-noNAT
+    <span class="nv">authby</span><span class="o">=</span>secret
+    <span class="c">#shared secret. Use rsasig for certificates.</span>
+
+    <span class="nv">pfs</span><span class="o">=</span>no
+    <span class="c">#Disable pfs</span>
+
+    <span class="nv">auto</span><span class="o">=</span>add
+    <span class="c">#the ipsec tunnel should be started and routes created when the ipsec daemon itself starts.</span>
+
+    <span class="nv">keyingtries</span><span class="o">=</span>3
+    <span class="c">#Only negotiate a conn. 3 times.</span>
+
+    <span class="nv">ikelifetime</span><span class="o">=</span>8h
+    <span class="nv">keylife</span><span class="o">=</span>1h
+
+    <span class="nv">ike</span><span class="o">=</span>aes256-sha1,aes128-sha1,3des-sha1
+    <span class="nv">phase2alg</span><span class="o">=</span>aes256-sha1,aes128-sha1,3des-sha1
+    <span class="c"># https://lists.openswan.org/pipermail/users/2014-April/022947.html</span>
+    <span class="c"># specifies the phase 1 encryption scheme, the hashing algorithm, and the diffie-hellman group. The modp1024 is for Diffie-Hellman 2. Why 'modp' instead of dh? DH2 is a 1028 bit encryption algorithm that modulo's a prime number, e.g. modp1028. See RFC 5114 for details or the wiki page on diffie hellmann, if interested.</span>
+
+    <span class="nb">type</span><span class="o">=</span>transport
+    <span class="c">#because we use l2tp as tunnel protocol</span>
+
+    <span class="nv">left</span><span class="o">=</span>%SERVERIP%
+    <span class="c">#fill in server IP above</span>
+
+    <span class="nv">leftprotoport</span><span class="o">=</span>17/1701
+    <span class="nv">right</span><span class="o">=</span>%any
+    <span class="nv">rightprotoport</span><span class="o">=</span>17/%any
+
+    <span class="nv">dpddelay</span><span class="o">=</span>10
+    <span class="c"># Dead Peer Dectection (RFC 3706) keepalives delay</span>
+    <span class="nv">dpdtimeout</span><span class="o">=</span>20
+    <span class="c">#  length of time (in seconds) we will idle without hearing either an R_U_THERE poll from our peer, or an R_U_THERE_ACK reply.</span>
+    <span class="nv">dpdaction</span><span class="o">=</span>clear
+    <span class="c"># When a DPD enabled peer is declared dead, what action should be taken. clear means the eroute and SA with both be cleared.</span></code></pre></div>
+
+<h3 id="ipsec-1">验证IPSEC</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ipsec verify
+
+Checking your system to see <span class="k">if </span>IPsec got installed and started correctly:
+Version check and ipsec on-path                                 <span class="o">[</span>OK]
+Linux Openswan U2.6.38/K3.13.0-24-generic <span class="o">(</span>netkey<span class="o">)</span>
+Checking <span class="k">for </span>IPsec support <span class="k">in </span>kernel                            <span class="o">[</span>OK]
+ SAref kernel support                                           <span class="o">[</span>N/A]
+ NETKEY:  Testing XFRM related proc values                      <span class="o">[</span>OK]
+    <span class="o">[</span>OK]
+    <span class="o">[</span>OK]
+Checking that pluto is running                                  <span class="o">[</span>OK]
+ Pluto listening <span class="k">for </span>IKE on udp 500                             <span class="o">[</span>OK]
+ Pluto listening <span class="k">for </span>NAT-T on udp 4500                          <span class="o">[</span>OK]
+Checking <span class="k">for</span> <span class="s1">'ip'</span> <span class="nb">command</span>                                       <span class="o">[</span>OK]
+Checking /bin/sh is not /bin/dash                               <span class="o">[</span>WARNING]
+Checking <span class="k">for</span> <span class="s1">'iptables'</span> <span class="nb">command</span>                                 <span class="o">[</span>OK]
+Opportunistic Encryption Support                                <span class="o">[</span>DISABLED]</code></pre></div>
+
+<h3 id="xl2tpd">配置xl2tpd</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">vim /etc/xl2tpd/xl2tpd.conf  
+<span class="c">##############################</span>
+<span class="o">[</span>global]
+ipsec saref <span class="o">=</span> yes
+saref refinfo <span class="o">=</span> 30
+
+;debug avp <span class="o">=</span> yes
+;debug network <span class="o">=</span> yes
+;debug state <span class="o">=</span> yes
+;debug tunnel <span class="o">=</span> yes
+
+<span class="o">[</span>lns default]
+ip range <span class="o">=</span> 172.16.1.30-172.16.1.100
+<span class="nb">local </span>ip <span class="o">=</span> 172.16.1.1
+refuse pap <span class="o">=</span> yes
+require authentication <span class="o">=</span> yes
+;ppp debug <span class="o">=</span> yes
+pppoptfile <span class="o">=</span> /etc/ppp/options.xl2tpd
+length bit <span class="o">=</span> yes</code></pre></div>
+
+<h3 id="section-4">配置用户</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">vim /etc/ppp/chap-secrets 
+<span class="c">###############################</span>
+<span class="c"># Secrets for authentication using CHAP</span>
+<span class="c"># client        server  secret                  IP addresses</span>
+liujinlong      l2tpd   liujinlong                      <span class="k">*</span>
+szuser          l2tpd   hxfzcct                 <span class="k">*</span>
+wanggang        l2tpd   wanggang                <span class="k">*</span>
+guest01         l2tpd   123qweasd               <span class="k">*</span></code></pre></div>
+
+<h3 id="ppp">配置PPP</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">vim /etc/ppp/options.xl2tpd
+<span class="c">###############################</span>
+require-mschap-v2
+ms-dns 8.8.8.8
+ms-dns 8.8.4.4
+auth
+mtu 1200
+mru 1000
+crtscts
+hide-password
+modem
+name l2tpd
+proxyarp
+lcp-echo-interval 30
+lcp-echo-failure 4</code></pre></div>
+
+<h3 id="section-5">重启服务验证</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">/etc/init.d/ipsec restart 
+/etc/init.d/xl2tpd restart</code></pre></div>
+
+<h3 id="section-6">服务器示例</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">root@CCTCloudServer:~# </span>iptables -t nat -L
+Chain PREROUTING <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target     prot opt <span class="nb">source               </span>destination         
+
+Chain INPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target     prot opt <span class="nb">source               </span>destination         
+
+Chain OUTPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target     prot opt <span class="nb">source               </span>destination         
+
+Chain POSTROUTING <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target     prot opt <span class="nb">source               </span>destination         
+SNAT       all  --  anywhere             anywhere             to:192.168.51.100
+
+<span class="gp">root@CCTCloudServer:~# </span>ipsec verify
+Checking your system to see <span class="k">if </span>IPsec got installed and started correctly:
+Version check and ipsec on-path                                 <span class="o">[</span>OK]
+Linux Openswan U2.6.38/K3.13.0-24-generic <span class="o">(</span>netkey<span class="o">)</span>
+Checking <span class="k">for </span>IPsec support <span class="k">in </span>kernel                            <span class="o">[</span>OK]
+ SAref kernel support                                           <span class="o">[</span>N/A]
+ NETKEY:  Testing XFRM related proc values                      <span class="o">[</span>OK]
+        <span class="o">[</span>OK]
+        <span class="o">[</span>OK]
+Checking that pluto is running                                  <span class="o">[</span>OK]
+ Pluto listening <span class="k">for </span>IKE on udp 500                             <span class="o">[</span>OK]
+ Pluto listening <span class="k">for </span>NAT-T on udp 4500                          <span class="o">[</span>OK]
+Two or more interfaces found, checking IP forwarding            <span class="o">[</span>FAILED]
+Checking NAT and MASQUERADEing                                  <span class="o">[</span>OK]
+Checking <span class="k">for</span> <span class="s1">'ip'</span> <span class="nb">command</span>                                       <span class="o">[</span>OK]
+Checking /bin/sh is not /bin/dash                               <span class="o">[</span>WARNING]
+Checking <span class="k">for</span> <span class="s1">'iptables'</span> <span class="nb">command</span>                                 <span class="o">[</span>OK]
+Opportunistic Encryption Support                                <span class="o">[</span>DISABLED]</code></pre></div>
+
+<h3 id="vpnudp">VPN采用UDP端口</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">root@CCTCloudServer:~# </span>ss -anup|column -t 
+State   Recv-Q  Send-Q  Local                Address:Port  Peer                        Address:Port
+UNCONN  0       0       127.0.0.1:4500       <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"pluto"</span>,42500,21<span class="o">))</span>
+UNCONN  0       0       192.168.51.100:4500  <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"pluto"</span>,42500,19<span class="o">))</span>
+UNCONN  0       0       192.168.51.255:137   <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"nmbd"</span>,999,18<span class="o">))</span>
+UNCONN  0       0       192.168.51.100:137   <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"nmbd"</span>,999,17<span class="o">))</span>
+UNCONN  0       0       <span class="k">*</span>:137                <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"nmbd"</span>,999,11<span class="o">))</span>
+UNCONN  0       0       192.168.51.255:138   <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"nmbd"</span>,999,20<span class="o">))</span>
+UNCONN  0       0       192.168.51.100:138   <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"nmbd"</span>,999,19<span class="o">))</span>
+UNCONN  0       0       <span class="k">*</span>:138                <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"nmbd"</span>,999,12<span class="o">))</span>
+UNCONN  0       0       127.0.0.1:500        <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"pluto"</span>,42500,20<span class="o">))</span>
+UNCONN  0       0       192.168.51.100:500   <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"pluto"</span>,42500,18<span class="o">))</span>
+UNCONN  0       0       <span class="k">*</span>:1701               <span class="k">*</span>:<span class="k">*</span>           users:<span class="o">((</span><span class="s2">"xl2tpd"</span>,42578,3<span class="o">))</span>
+UNCONN  0       0       ::1:500              :::<span class="k">*</span>          users:<span class="o">((</span><span class="s2">"pluto"</span>,42500,22<span class="o">))</span>
+<span class="c">#### UDP端口号1701 4500 500 需要暴露到公网</span></code></pre></div>
+
+<h4 id="vpn789">VPN错误789修复</h4>
+
+<p>注册表 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Rasman\Parameters <br />
+在“编辑”菜单上，单击“新建”-&gt;“DWORD值” <br />
+在“名称”框中，键入“ProhibitIpSec” <br />
+在“数值数据”框中，键入“1”，然后单击“确定” <br /></p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#其它-ref">
+    		其它 <span>4</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#VPN-ref">VPN <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/onos/2016/05/25/install-onos-on-centos7" title="CentOS7 ONOS 离线编译安装">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/docker/2016/06/01/install-docker-on-centos7" title="CentOS7 安装Docker">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%85%B6%E5%AE%83/2016/06/01/L2TP-VPN-on-ubuntu14.40"  data-title="Ubuntu14.04安装L2TP VPN - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

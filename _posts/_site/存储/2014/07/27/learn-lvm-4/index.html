@@ -1,0 +1,693 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>LVM2 Logical Volume Manager 详解（四）--常规任务实战</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>LVM2 Logical Volume Manager 详解（四）--常规任务实战 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-27</span>
+    </div>
+    <div class="content">
+      
+<p>
+任务一：初始化磁盘或者磁盘分区
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">apt</span><span class="c1"># fdisk -l</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="no">Disk</span> <span class="sr">/dev/s</span><span class="ss">da: </span><span class="mi">8589</span> <span class="no">MB</span><span class="p">,</span> <span class="mi">8589934592</span> <span class="n">bytes</span>
+<span class="mi">255</span> <span class="n">heads</span><span class="p">,</span> <span class="mi">63</span> <span class="n">sectors</span><span class="o">/</span><span class="n">track</span><span class="p">,</span> <span class="mi">1044</span> <span class="n">cylinders</span><span class="p">,</span> <span class="n">total</span> <span class="mi">16777216</span> <span class="n">sectors</span>
+<span class="no">Units</span> <span class="o">=</span> <span class="n">sectors</span> <span class="n">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="n">bytes</span>
+<span class="no">Sector</span> <span class="n">size</span> <span class="p">(</span><span class="n">logical</span><span class="o">/</span><span class="n">physical</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
+<span class="no">I</span><span class="o">/</span><span class="no">O</span> <span class="n">size</span> <span class="p">(</span><span class="n">minimum</span><span class="o">/</span><span class="n">optimal</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
+<span class="no">Disk</span> <span class="ss">identifier: </span><span class="mh">0x0001b5c2</span></code></pre></div>
+
+<p>
+可见到/dev/sdb为在虚拟机管理器中新创建的虚拟磁盘。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">apt</span><span class="c1"># pvcreate /dev/sdb1</span>
+  <span class="no">Physical</span> <span class="n">volume</span> <span class="s2">"/dev/sdb1"</span> <span class="n">successfully</span> <span class="n">created</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">apt</span><span class="c1"># pvcreate /dev/sdb2</span>
+  <span class="no">Physical</span> <span class="n">volume</span> <span class="s2">"/dev/sdb2"</span> <span class="n">successfully</span> <span class="n">created</span></code></pre></div>
+
+<p>
+不推荐使用整个磁盘作为物理卷。因为任何其它系统都没法识别LVM的元数据，会当做空白磁盘进行写入操作。
+查看物理卷
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvdisplay </span>
+  <span class="o">---</span> <span class="no">Physical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">PV</span> <span class="no">Name</span>               <span class="sr">/dev/s</span><span class="n">db1</span>
+  <span class="no">VG</span> <span class="no">Name</span>               <span class="n">my_volume_group</span>
+  <span class="no">PV</span> <span class="no">Size</span>               <span class="mi">1</span><span class="o">.</span><span class="mo">00</span> <span class="no">GiB</span> <span class="o">/</span> <span class="n">not</span> <span class="n">usable</span> <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Allocatable</span>           <span class="n">yes</span> 
+  <span class="no">PE</span> <span class="no">Size</span>               <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Total</span> <span class="no">PE</span>              <span class="mi">255</span>
+  <span class="no">Free</span> <span class="no">PE</span>               <span class="mi">255</span>
+  <span class="no">Allocated</span> <span class="no">PE</span>          <span class="mi">0</span>
+  <span class="no">PV</span> <span class="no">UUID</span>               <span class="no">I4v2Y8</span><span class="o">-</span><span class="mi">5</span><span class="no">Bec</span><span class="o">-</span><span class="no">QxKH</span><span class="o">-</span><span class="n">fx2G</span><span class="o">-</span><span class="no">Aatb</span><span class="o">-</span><span class="no">SGvN</span><span class="o">-</span><span class="n">bO0wIE</span>
+   
+  <span class="o">---</span> <span class="no">Physical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">PV</span> <span class="no">Name</span>               <span class="sr">/dev/s</span><span class="n">db2</span>
+  <span class="no">VG</span> <span class="no">Name</span>               <span class="n">my_volume_group</span>
+  <span class="no">PV</span> <span class="no">Size</span>               <span class="mi">2</span><span class="o">.</span><span class="mo">00</span> <span class="no">GiB</span> <span class="o">/</span> <span class="n">not</span> <span class="n">usable</span> <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Allocatable</span>           <span class="n">yes</span> 
+  <span class="no">PE</span> <span class="no">Size</span>               <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Total</span> <span class="no">PE</span>              <span class="mi">511</span>
+  <span class="no">Free</span> <span class="no">PE</span>               <span class="mi">511</span>
+  <span class="no">Allocated</span> <span class="no">PE</span>          <span class="mi">0</span>
+  <span class="no">PV</span> <span class="no">UUID</span>               <span class="no">Qprdh0</span><span class="o">-</span><span class="n">bhgx</span><span class="o">-</span><span class="n">elJG</span><span class="o">-</span><span class="mi">1</span><span class="n">grk</span><span class="o">-</span><span class="n">h4Uu</span><span class="o">-</span><span class="n">kgBt</span><span class="o">-</span><span class="no">TVFELH</span></code></pre></div>
+
+<p>
+任务二：创建卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgcreate my_volume_group /dev/sdb1 /dev/sdb2</span>
+  <span class="no">Volume</span> <span class="n">group</span> <span class="s2">"my_volume_group"</span> <span class="n">successfully</span> <span class="n">created</span>
+<span class="c1">#查看VG</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgdisplay </span>
+  <span class="o">---</span> <span class="no">Volume</span> <span class="n">group</span> <span class="o">---</span>
+  <span class="no">VG</span> <span class="no">Name</span>               <span class="n">my_volume_group</span>
+  <span class="no">System</span> <span class="no">ID</span>             
+  <span class="no">Format</span>                <span class="n">lvm2</span>
+  <span class="no">Metadata</span> <span class="no">Areas</span>        <span class="mi">2</span>
+  <span class="no">Metadata</span> <span class="no">Sequence</span> <span class="no">No</span>  <span class="mi">1</span>
+  <span class="no">VG</span> <span class="no">Access</span>             <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">VG</span> <span class="no">Status</span>             <span class="n">resizable</span>
+  <span class="no">MAX</span> <span class="no">LV</span>                <span class="mi">0</span>
+  <span class="no">Cur</span> <span class="no">LV</span>                <span class="mi">0</span>
+  <span class="no">Open</span> <span class="no">LV</span>               <span class="mi">0</span>
+  <span class="no">Max</span> <span class="no">PV</span>                <span class="mi">0</span>
+  <span class="no">Cur</span> <span class="no">PV</span>                <span class="mi">2</span>
+  <span class="no">Act</span> <span class="no">PV</span>                <span class="mi">2</span>
+  <span class="no">VG</span> <span class="no">Size</span>               <span class="mi">2</span><span class="o">.</span><span class="mi">99</span> <span class="no">GiB</span>
+  <span class="no">PE</span> <span class="no">Size</span>               <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Total</span> <span class="no">PE</span>              <span class="mi">766</span>
+  <span class="no">Alloc</span> <span class="no">PE</span> <span class="o">/</span> <span class="no">Size</span>       <span class="mi">0</span> <span class="o">/</span> <span class="mi">0</span>   
+  <span class="no">Free</span>  <span class="no">PE</span> <span class="o">/</span> <span class="no">Size</span>       <span class="mi">766</span> <span class="o">/</span> <span class="mi">2</span><span class="o">.</span><span class="mi">99</span> <span class="no">GiB</span>
+  <span class="no">VG</span> <span class="no">UUID</span>               <span class="mi">3</span><span class="n">fJpp8</span><span class="o">-</span><span class="no">N7iV</span><span class="o">-</span><span class="mi">7</span><span class="n">egR</span><span class="o">-</span><span class="mi">8</span><span class="no">O3x</span><span class="o">-</span><span class="no">E5nx</span><span class="o">-</span><span class="n">qusx</span><span class="o">-</span><span class="n">wkGAcl</span></code></pre></div>
+
+<p>
+如果物理块大小不合适可通过命令修改。
+任务三：激活卷组<br />
+重启系统或者运行vgchange -an 后，卷组和逻辑卷将不可用。重新激活卷组运行：
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># vgchange -a y my_volume_group</span></code></pre></div>
+
+<p>
+任务四：移除卷组<br />
+当确认卷组内没有逻辑卷后，可以禁用卷组。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># vgchange -a n my_volume_group</span>
+<span class="c1">#移除</span>
+<span class="c1"># vgremove my_volume_group</span></code></pre></div>
+
+<p>
+任务五：增加物理卷到某一卷组
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgextend my_volume_group /dev/sdb3</span>
+  <span class="no">No</span> <span class="n">physical</span> <span class="n">volume</span> <span class="n">label</span> <span class="n">read</span> <span class="n">from</span> <span class="sr">/dev/s</span><span class="n">db3</span>
+  <span class="no">Physical</span> <span class="n">volume</span> <span class="s2">"/dev/sdb3"</span> <span class="n">successfully</span> <span class="n">created</span>
+  <span class="no">Volume</span> <span class="n">group</span> <span class="s2">"my_volume_group"</span> <span class="n">successfully</span> <span class="n">extended</span></code></pre></div>
+
+<p>
+任务六：从卷组移除物理卷
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># pvdisplay /dev/sdb3</span>
+  <span class="o">---</span> <span class="no">Physical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">PV</span> <span class="no">Name</span>               <span class="sr">/dev/s</span><span class="n">db3</span>
+  <span class="no">VG</span> <span class="no">Name</span>               <span class="n">my_volume_group</span>
+  <span class="no">PV</span> <span class="no">Size</span>               <span class="mi">1</span><span class="o">.</span><span class="mo">00</span> <span class="no">GiB</span> <span class="o">/</span> <span class="n">not</span> <span class="n">usable</span> <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Allocatable</span>           <span class="n">yes</span> 
+  <span class="no">PE</span> <span class="no">Size</span>               <span class="mi">4</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Total</span> <span class="no">PE</span>              <span class="mi">255</span>
+  <span class="no">Free</span> <span class="no">PE</span>               <span class="mi">255</span>
+  <span class="no">Allocated</span> <span class="no">PE</span>          <span class="mi">0</span>
+  <span class="no">PV</span> <span class="no">UUID</span>               <span class="mi">8</span><span class="n">eb21D</span><span class="o">-</span><span class="n">yy8V</span><span class="o">-</span><span class="no">FTMA</span><span class="o">-</span><span class="n">lnVT</span><span class="o">-</span><span class="n">rKUu</span><span class="o">-</span><span class="n">riYA</span><span class="o">-</span><span class="no">C4ygoW</span>
+<span class="c1">#可以看出分配为0，如果有使用，必须迁移数据使用pvmove</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># vgreduce my_volume_group /dev/sdb3</span>
+  <span class="no">Removed</span> <span class="s2">"/dev/sdb3"</span> <span class="n">from</span> <span class="n">volume</span> <span class="n">group</span> <span class="s2">"my_volume_group"</span></code></pre></div>
+
+<p>
+任务七：创建逻辑卷Logical Volume
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvcreate -L200 -ntestlv my_volume_group </span>
+  <span class="no">Logical</span> <span class="n">volume</span> <span class="s2">"testlv"</span> <span class="n">created</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvdisplay </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">testlv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">testlv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">vPqtej</span><span class="o">-</span><span class="mi">3</span><span class="n">xtc</span><span class="o">-</span><span class="n">bOhM</span><span class="o">-</span><span class="mi">6</span><span class="no">LyR</span><span class="o">-</span><span class="no">TML1</span><span class="o">-</span><span class="no">MT4R</span><span class="o">-</span><span class="no">Dak9Gi</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">29</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">200</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">50</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">0</span>
+<span class="c1">#给定大小，逻辑卷名，所属卷组创建逻辑卷。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvcreate -i2 -I4 -l100 -nanothertestlv my_volume_group </span>
+  <span class="no">Logical</span> <span class="n">volume</span> <span class="s2">"anothertestlv"</span> <span class="n">created</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvdisplay </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">testlv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">testlv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">vPqtej</span><span class="o">-</span><span class="mi">3</span><span class="n">xtc</span><span class="o">-</span><span class="n">bOhM</span><span class="o">-</span><span class="mi">6</span><span class="no">LyR</span><span class="o">-</span><span class="no">TML1</span><span class="o">-</span><span class="no">MT4R</span><span class="o">-</span><span class="no">Dak9Gi</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">29</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">200</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">50</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">0</span>
+   
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">anothertestlv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">anothertestlv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">nJshWf</span><span class="o">-</span><span class="no">RAbl</span><span class="o">-</span><span class="no">P7zI</span><span class="o">-</span><span class="no">VVKS</span><span class="o">-</span><span class="mi">1</span><span class="n">kLq</span><span class="o">-</span><span class="no">Ll0v</span><span class="o">-</span><span class="no">LcSTfz</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">50</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">400</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">100</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">1</span>
+<span class="c1">#给定条带数，条带大小已经，逻辑块大小创建逻辑卷。</span>
+<span class="c1"># vgdisplay testvg | grep "Total PE"</span>
+<span class="no">Total</span> <span class="no">PE</span>              <span class="mi">10230</span>
+<span class="c1"># lvcreate -l 10230 testvg -n mylv</span>
+<span class="c1">#使用整个卷组创建逻辑卷。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvcreate -L 300 -nkinglv my_volume_group /dev/sdb2</span>
+  <span class="no">Logical</span> <span class="n">volume</span> <span class="s2">"kinglv"</span> <span class="n">created</span>
+<span class="err">在命令结尾指定特定物理卷作为逻辑卷的组成。</span></code></pre></div>
+
+<p>
+任务八：移除逻辑卷<br />
+逻辑卷必须关闭使用才可以移除，例如从相应路径卸载。
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># umount /dev/my_volume_group/testlv</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvremove /dev/my_volume_group/testlv </span>
+<span class="no">Do</span> <span class="n">you</span> <span class="n">really</span> <span class="n">want</span> <span class="n">to</span> <span class="n">remove</span> <span class="n">and</span> <span class="no">DISCARD</span> <span class="n">active</span> <span class="n">logical</span> <span class="n">volume</span> <span class="n">testlv?</span> <span class="p">[</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">]:</span> <span class="n">y</span>
+  <span class="no">Logical</span> <span class="n">volume</span> <span class="s2">"testlv"</span> <span class="n">successfully</span> <span class="n">removed</span></code></pre></div>
+
+<p>
+任务九：扩展逻辑卷
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#扩展逻辑卷可以指定扩展的量或者指定扩展的目的大小。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvdisplay </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">anothertestlv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">anothertestlv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">nJshWf</span><span class="o">-</span><span class="no">RAbl</span><span class="o">-</span><span class="no">P7zI</span><span class="o">-</span><span class="no">VVKS</span><span class="o">-</span><span class="mi">1</span><span class="n">kLq</span><span class="o">-</span><span class="no">Ll0v</span><span class="o">-</span><span class="no">LcSTfz</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">50</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">400</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">100</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">1</span>
+   
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">kinglv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">oVMYB3</span><span class="o">-</span><span class="no">Jc5L</span><span class="o">-</span><span class="mi">0</span><span class="no">BQZ</span><span class="o">-</span><span class="no">J89F</span><span class="o">-</span><span class="no">WWvc</span><span class="o">-</span><span class="no">A3Nl</span><span class="o">-</span><span class="no">Pj2II1</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">25</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">300</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">75</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">2</span>
+   
+   
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvextend -L500 /dev/my_volume_group/kinglv </span>
+  <span class="no">Extending</span> <span class="n">logical</span> <span class="n">volume</span> <span class="n">kinglv</span> <span class="n">to</span> <span class="mi">500</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Logical</span> <span class="n">volume</span> <span class="n">kinglv</span> <span class="n">successfully</span> <span class="n">resized</span>
+<span class="c1">#扩展到500M</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvdisplay /dev/my_volume_group/kinglv </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">kinglv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">oVMYB3</span><span class="o">-</span><span class="no">Jc5L</span><span class="o">-</span><span class="mi">0</span><span class="no">BQZ</span><span class="o">-</span><span class="no">J89F</span><span class="o">-</span><span class="no">WWvc</span><span class="o">-</span><span class="no">A3Nl</span><span class="o">-</span><span class="no">Pj2II1</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">25</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">500</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">125</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">2</span>
+<span class="c1"># 扩展完逻辑卷，增加文件系统大小使两者相匹配是必要的。如何做取决你使用的文件系统。大多数文件系统调整工具会增加你扩展逻辑卷的大小。</span>
+<span class="c1">#对于文件系统ext2、ext3，除非你打过ext2online的内核包，否则需要在更改大小之前卸载文件系统。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># df -h</span>
+<span class="no">Filesystem</span>                          <span class="no">Size</span>  <span class="no">Used</span> <span class="no">Avail</span> <span class="no">Use</span><span class="o">%</span> <span class="no">Mounted</span> <span class="n">on</span>
+<span class="sr">/dev/s</span><span class="n">da1</span>                           <span class="mi">5</span><span class="o">.</span><span class="mi">8</span><span class="no">G</span>  <span class="mi">963</span><span class="no">M</span>  <span class="mi">4</span><span class="o">.</span><span class="mi">6</span><span class="no">G</span>  <span class="mi">18</span><span class="o">%</span> <span class="sr">/
+none                                4.0K     0  4.0K   0% /s</span><span class="n">ys</span><span class="o">/</span><span class="n">fs</span><span class="o">/</span><span class="n">cgroup</span>
+<span class="n">udev</span>                                <span class="mi">492</span><span class="no">M</span>  <span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="no">K</span>  <span class="mi">492</span><span class="no">M</span>   <span class="mi">1</span><span class="o">%</span> <span class="sr">/dev
+tmpfs                               101M  408K  100M   1% /</span><span class="n">run</span>
+<span class="n">none</span>                                <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/</span><span class="n">lock</span>
+<span class="n">none</span>                                <span class="mi">501</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">501</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/s</span><span class="n">hm</span>
+<span class="n">none</span>                                <span class="mi">100</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">100</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/use</span><span class="n">r</span>
+<span class="sr">/dev/m</span><span class="n">apper</span><span class="o">/</span><span class="n">my_volume_group</span><span class="o">-</span><span class="n">kinglv</span>  <span class="mi">673</span><span class="no">M</span>  <span class="mi">712</span><span class="no">K</span>  <span class="mi">624</span><span class="no">M</span>   <span class="mi">1</span><span class="o">%</span> <span class="sr">/mnt
+# 扩展之前的挂载大小，扩展后逻辑卷800M
+root@king:~# lvdisplay /</span><span class="n">dev</span><span class="o">/</span><span class="n">my_volume_group</span><span class="o">/</span><span class="n">kinglv</span> 
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">kinglv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">oVMYB3</span><span class="o">-</span><span class="no">Jc5L</span><span class="o">-</span><span class="mi">0</span><span class="no">BQZ</span><span class="o">-</span><span class="no">J89F</span><span class="o">-</span><span class="no">WWvc</span><span class="o">-</span><span class="no">A3Nl</span><span class="o">-</span><span class="no">Pj2II1</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">25</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 1</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">800</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">200</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">2</span>
+<span class="c1">#预先卸载路径</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># umount /dev/my_volume_group/kinglv</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># resize2fs /dev/my_volume_group/kinglv </span>
+<span class="n">resize2fs</span> <span class="mi">1</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mi">9</span> <span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="no">Feb</span><span class="o">-</span><span class="mi">2014</span><span class="p">)</span>
+<span class="no">Please</span> <span class="n">run</span> <span class="s1">'e2fsck -f /dev/my_volume_group/kinglv'</span> <span class="n">first</span><span class="o">.</span>
+<span class="c1">#更改大小时提示先扫描</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># e2fsck -f /dev/my_volume_group/kinglv </span>
+<span class="n">e2fsck</span> <span class="mi">1</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mi">9</span> <span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="no">Feb</span><span class="o">-</span><span class="mi">2014</span><span class="p">)</span>
+<span class="no">Pass</span> <span class="mi">1</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">inodes</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">and</span> <span class="n">sizes</span>
+<span class="no">Pass</span> <span class="mi">2</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">directory</span> <span class="n">structure</span>
+<span class="no">Pass</span> <span class="mi">3</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">directory</span> <span class="n">connectivity</span>
+<span class="no">Pass</span> <span class="mi">4</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">reference</span> <span class="n">counts</span>
+<span class="no">Pass</span> <span class="mi">5</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">group</span> <span class="n">summary</span> <span class="n">information</span>
+<span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="ss">kinglv: </span><span class="mi">11</span><span class="o">/</span><span class="mi">44832</span> <span class="n">files</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">%</span> <span class="n">non</span><span class="o">-</span><span class="n">contiguous</span><span class="p">),</span> <span class="mi">7096</span><span class="o">/</span><span class="mi">179200</span> <span class="n">blocks</span>
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># resize2fs /dev/my_volume_group/kinglv</span>
+<span class="n">resize2fs</span> <span class="mi">1</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mi">9</span> <span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="no">Feb</span><span class="o">-</span><span class="mi">2014</span><span class="p">)</span>
+<span class="no">Resizing</span> <span class="n">the</span> <span class="n">filesystem</span> <span class="n">on</span> <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span> <span class="n">to</span> <span class="mi">204800</span> <span class="p">(</span><span class="mi">4</span><span class="n">k</span><span class="p">)</span> <span class="n">blocks</span><span class="o">.</span>
+<span class="no">The</span> <span class="n">filesystem</span> <span class="n">on</span> <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span> <span class="n">is</span> <span class="n">now</span> <span class="mi">204800</span> <span class="n">blocks</span> <span class="n">long</span><span class="o">.</span>
+  
+<span class="c1">#之后再运行调整命令，之后再挂载检测</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># mount /dev/my_volume_group/kinglv /mnt/</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># df -h</span>
+<span class="no">Filesystem</span>                          <span class="no">Size</span>  <span class="no">Used</span> <span class="no">Avail</span> <span class="no">Use</span><span class="o">%</span> <span class="no">Mounted</span> <span class="n">on</span>
+<span class="sr">/dev/s</span><span class="n">da1</span>                           <span class="mi">5</span><span class="o">.</span><span class="mi">8</span><span class="no">G</span>  <span class="mi">963</span><span class="no">M</span>  <span class="mi">4</span><span class="o">.</span><span class="mi">6</span><span class="no">G</span>  <span class="mi">18</span><span class="o">%</span> <span class="sr">/
+none                                4.0K     0  4.0K   0% /s</span><span class="n">ys</span><span class="o">/</span><span class="n">fs</span><span class="o">/</span><span class="n">cgroup</span>
+<span class="n">udev</span>                                <span class="mi">492</span><span class="no">M</span>  <span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="no">K</span>  <span class="mi">492</span><span class="no">M</span>   <span class="mi">1</span><span class="o">%</span> <span class="sr">/dev
+tmpfs                               101M  408K  100M   1% /</span><span class="n">run</span>
+<span class="n">none</span>                                <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/</span><span class="n">lock</span>
+<span class="n">none</span>                                <span class="mi">501</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">501</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/s</span><span class="n">hm</span>
+<span class="n">none</span>                                <span class="mi">100</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">100</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/use</span><span class="n">r</span>
+<span class="sr">/dev/m</span><span class="n">apper</span><span class="o">/</span><span class="n">my_volume_group</span><span class="o">-</span><span class="n">kinglv</span>  <span class="mi">772</span><span class="no">M</span>  <span class="mi">712</span><span class="no">K</span>  <span class="mi">715</span><span class="no">M</span>   <span class="mi">1</span><span class="o">%</span> <span class="sr">/mnt</span></code></pre></div>
+
+<p>
+任务十：缩减逻辑卷
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">和扩展一样，逻辑卷可以缩减。同时相应的缩减文件系统大小。先卸载设备</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># e2fsck -f /dev/my_volume_group/kinglv</span>
+<span class="n">e2fsck</span> <span class="mi">1</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mi">9</span> <span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="no">Feb</span><span class="o">-</span><span class="mi">2014</span><span class="p">)</span>
+<span class="no">Pass</span> <span class="mi">1</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">inodes</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">and</span> <span class="n">sizes</span>
+<span class="no">Pass</span> <span class="mi">2</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">directory</span> <span class="n">structure</span>
+<span class="no">Pass</span> <span class="mi">3</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">directory</span> <span class="n">connectivity</span>
+<span class="no">Pass</span> <span class="mi">4</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">reference</span> <span class="n">counts</span>
+<span class="no">Pass</span> <span class="mi">5</span><span class="p">:</span> <span class="no">Checking</span> <span class="n">group</span> <span class="n">summary</span> <span class="n">information</span>
+<span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="ss">kinglv: </span><span class="mi">11</span><span class="o">/</span><span class="mi">52304</span> <span class="n">files</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">%</span> <span class="n">non</span><span class="o">-</span><span class="n">contiguous</span><span class="p">),</span> <span class="mi">7565</span><span class="o">/</span><span class="mi">204800</span> <span class="n">blocks</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># resize2fs /dev/my_volume_group/kinglv 700M</span>
+<span class="n">resize2fs</span> <span class="mi">1</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mi">9</span> <span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="no">Feb</span><span class="o">-</span><span class="mi">2014</span><span class="p">)</span>
+<span class="no">Resizing</span> <span class="n">the</span> <span class="n">filesystem</span> <span class="n">on</span> <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span> <span class="n">to</span> <span class="mi">179200</span> <span class="p">(</span><span class="mi">4</span><span class="n">k</span><span class="p">)</span> <span class="n">blocks</span><span class="o">.</span>
+<span class="no">The</span> <span class="n">filesystem</span> <span class="n">on</span> <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span> <span class="n">is</span> <span class="n">now</span> <span class="mi">179200</span> <span class="n">blocks</span> <span class="n">long</span><span class="o">.</span>
+  
+<span class="c1">#执行缩减</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvreduce -L-100 /dev/my_volume_group/kinglv </span>
+  <span class="no">WARNING</span><span class="p">:</span> <span class="no">Reducing</span> <span class="n">active</span> <span class="n">logical</span> <span class="n">volume</span> <span class="n">to</span> <span class="mi">700</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">THIS</span> <span class="no">MAY</span> <span class="no">DESTROY</span> <span class="no">YOUR</span> <span class="no">DATA</span> <span class="p">(</span><span class="n">filesystem</span> <span class="n">etc</span><span class="o">.</span><span class="p">)</span>
+<span class="no">Do</span> <span class="n">you</span> <span class="n">really</span> <span class="n">want</span> <span class="n">to</span> <span class="n">reduce</span> <span class="n">kinglv?</span> <span class="p">[</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">]:</span> <span class="n">y</span>
+  <span class="no">Reducing</span> <span class="n">logical</span> <span class="n">volume</span> <span class="n">kinglv</span> <span class="n">to</span> <span class="mi">700</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Logical</span> <span class="n">volume</span> <span class="n">kinglv</span> <span class="n">successfully</span> <span class="n">resized</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvdisplay /dev/my_volume_group/kinglv </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">kinglv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">oVMYB3</span><span class="o">-</span><span class="no">Jc5L</span><span class="o">-</span><span class="mi">0</span><span class="no">BQZ</span><span class="o">-</span><span class="no">J89F</span><span class="o">-</span><span class="no">WWvc</span><span class="o">-</span><span class="no">A3Nl</span><span class="o">-</span><span class="no">Pj2II1</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">13</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">25</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 0</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">700</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">175</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">2</span></code></pre></div>
+
+<p>
+任务十一：从物理卷迁离数据
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">首先备份文件系统，然后执行</span><span class="n">pvmove</span><span class="err">操作。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="c1"># df -h</span>
+<span class="no">Filesystem</span>                          <span class="no">Size</span>  <span class="no">Used</span> <span class="no">Avail</span> <span class="no">Use</span><span class="o">%</span> <span class="no">Mounted</span> <span class="n">on</span>
+<span class="sr">/dev/s</span><span class="n">da1</span>                           <span class="mi">5</span><span class="o">.</span><span class="mi">8</span><span class="no">G</span>  <span class="mi">963</span><span class="no">M</span>  <span class="mi">4</span><span class="o">.</span><span class="mi">6</span><span class="no">G</span>  <span class="mi">18</span><span class="o">%</span> <span class="sr">/
+none                                4.0K     0  4.0K   0% /s</span><span class="n">ys</span><span class="o">/</span><span class="n">fs</span><span class="o">/</span><span class="n">cgroup</span>
+<span class="n">udev</span>                                <span class="mi">492</span><span class="no">M</span>  <span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="no">K</span>  <span class="mi">492</span><span class="no">M</span>   <span class="mi">1</span><span class="o">%</span> <span class="sr">/dev
+tmpfs                               101M  404K  100M   1% /</span><span class="n">run</span>
+<span class="n">none</span>                                <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/</span><span class="n">lock</span>
+<span class="n">none</span>                                <span class="mi">501</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">501</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/s</span><span class="n">hm</span>
+<span class="n">none</span>                                <span class="mi">100</span><span class="no">M</span>     <span class="mi">0</span>  <span class="mi">100</span><span class="no">M</span>   <span class="mi">0</span><span class="o">%</span> <span class="sr">/run/use</span><span class="n">r</span>
+<span class="sr">/dev/m</span><span class="n">apper</span><span class="o">/</span><span class="n">my_volume_group</span><span class="o">-</span><span class="n">kinglv</span>   <span class="mi">93</span><span class="no">M</span>  <span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="no">M</span>   <span class="mi">85</span><span class="no">M</span>   <span class="mi">2</span><span class="o">%</span> <span class="sr">/mnt
+root@king:/</span><span class="c1"># lvdisplay /dev/my_volume_group/kinglv </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">kinglv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">lAT5Te</span><span class="o">-</span><span class="n">obE1</span><span class="o">-</span><span class="no">Q3dY</span><span class="o">-</span><span class="n">pU4r</span><span class="o">-</span><span class="no">YYDt</span><span class="o">-</span><span class="n">rSRu</span><span class="o">-</span><span class="n">hgmKQP</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">43</span><span class="p">:</span><span class="mi">41</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 1</span>
+  <span class="no">LV</span> <span class="no">Size</span>                <span class="mi">100</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span>
+  <span class="no">Current</span> <span class="no">LE</span>             <span class="mi">25</span>
+  <span class="no">Segments</span>               <span class="mi">1</span>
+  <span class="no">Allocation</span>             <span class="n">inherit</span>
+  <span class="no">Read</span> <span class="n">ahead</span> <span class="n">sectors</span>     <span class="n">auto</span>
+  <span class="o">-</span> <span class="n">currently</span> <span class="n">set</span> <span class="n">to</span>     <span class="mi">256</span>
+  <span class="no">Block</span> <span class="n">device</span>           <span class="mi">252</span><span class="p">:</span><span class="mi">0</span>
+  
+<span class="c1">#逻辑卷kinglv指定物理卷/dev/sdb3</span>
+<span class="c1">#如果卷组有足够的空闲块，直接运行命令</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="c1"># pvmove /dev/sdb3</span>
+  <span class="sr">/dev/s</span><span class="ss">db3: </span><span class="no">Moved</span><span class="p">:</span> <span class="mi">76</span><span class="o">.</span><span class="mi">0</span><span class="o">%</span>
+  <span class="sr">/dev/s</span><span class="ss">db3: </span><span class="n">no</span> <span class="n">pvmove</span> <span class="k">in</span> <span class="n">progress</span> <span class="o">-</span> <span class="n">already</span> <span class="n">finished</span> <span class="n">or</span> <span class="n">aborted</span><span class="o">.</span>
+<span class="c1">#pvmove是很慢的。之后从卷组移除旧的物理卷</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="c1"># vgreduce my_volume_group /dev/sdb3</span>
+  <span class="no">Removed</span> <span class="s2">"/dev/sdb3"</span> <span class="n">from</span> <span class="n">volume</span> <span class="n">group</span> <span class="s2">"my_volume_group"</span>
+<span class="c1">#如果空间不足，就增加新物理卷然后pvmove，最后移除旧的物理卷。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="c1"># pvcreate /dev/sdb4</span>
+  <span class="no">Physical</span> <span class="n">volume</span> <span class="s2">"/dev/sdb4"</span> <span class="n">successfully</span> <span class="n">created</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="c1"># vgextend my_volume_group /dev/sdb4</span>
+  <span class="no">Volume</span> <span class="n">group</span> <span class="s2">"my_volume_group"</span> <span class="n">successfully</span> <span class="n">extended</span></code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#存储-ref">
+    		存储 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#存储-ref">存储 <span>9</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-3" title="LVM2 Logical Volume Manager 详解（三）--VGDA卷组描述区域">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-5" title="LVM2 Logical Volume Manager 详解（五）--利用快照备份">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-4"  data-title="LVM2 Logical Volume Manager 详解（四）--常规任务实战 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

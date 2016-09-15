@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Ubuntu 14.04 64bits安装Apache Karaf</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>Ubuntu 14.04 64bits安装Apache Karaf </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2015-01-06</span>
+    </div>
+    <div class="content">
+      
+<p>
+版本链接：http://karaf.apache.org/index/community/download.html <br />
+3.0.2下载页面：http://www.apache.org/dyn/closer.cgi/karaf/3.0.2/apache-karaf-3.0.2.tar.gz <br />
+ONOS技术群[425319659]共享中心：http://pan.baidu.com/s/1dDcVbfN
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">tar</span> <span class="n">zxvf</span> <span class="n">apache</span><span class="o">-</span><span class="n">karaf</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">.</span><span class="nf">tar</span><span class="p">.</span><span class="nf">gz</span> <span class="o">-</span><span class="no">C</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span>
+  
+<span class="err">重命名</span>
+<span class="n">cd</span> <span class="sr">/usr/</span><span class="n">local</span>
+<span class="n">mv</span> <span class="n">apache</span><span class="o">-</span><span class="n">karaf</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="o">/</span> <span class="n">apache</span><span class="o">-</span><span class="n">karaf</span>
+  
+<span class="err">配置环境变量，依赖</span><span class="no">JAVA_HOME</span>	<span class="err">可将以下编辑添加到</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span><span class="err">或者</span><span class="o">~</span><span class="sr">/.bashrc
+export KARAF_ROOT=/us</span><span class="n">r</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">apache</span><span class="o">-</span><span class="n">karaf</span><span class="o">/</span>
+<span class="n">export</span> <span class="no">KARAF</span><span class="o">=</span><span class="vg">$KARAF_ROOT</span><span class="o">/</span><span class="n">bin</span>
+<span class="n">export</span> <span class="no">PATH</span><span class="o">=</span><span class="vg">$KARAF</span><span class="p">:</span><span class="vg">$PATH</span>
+  
+<span class="err">其它环境变量</span>
+<span class="no">KARAF_DATA</span>	<span class="err">数据文件目录，</span><span class="no">Karaf</span><span class="err">存储临时文件</span>
+<span class="no">KARAF_ETC</span>	<span class="err">配置文件目录，</span><span class="no">Karaf</span><span class="err">存储配置文件</span>
+<span class="no">KARAF_BASE</span>	<span class="err">和</span><span class="no">KARAF_HOME</span><span class="err">作用相同</span>
+  
+<span class="err">测试安装</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:/</span><span class="n">bin</span><span class="c1"># karaf </span>
+<span class="ss">karaf: </span><span class="no">Ignoring</span> <span class="n">predefined</span> <span class="n">value</span> <span class="k">for</span> <span class="no">KARAF_HOME</span>
+        <span class="n">__</span> <span class="n">__</span>                  <span class="n">____</span>      
+       <span class="sr">/ //_/</span><span class="n">____</span> <span class="n">__________</span> <span class="n">_</span><span class="o">/</span> <span class="n">__</span><span class="o">/</span>      
+      <span class="sr">/ ,&lt;  /</span> <span class="n">__</span> <span class="sb">`/ ___/ __ `</span><span class="o">/</span> <span class="sr">/_        
+     /</span> <span class="o">/|</span> <span class="o">|</span><span class="sr">/ /</span><span class="n">_</span><span class="o">/</span> <span class="sr">/ /</span>  <span class="o">/</span> <span class="sr">/_/</span> <span class="o">/</span> <span class="n">__</span><span class="o">/</span>        
+    <span class="sr">/_/</span> <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="p">\</span><span class="n">__</span><span class="p">,</span><span class="n">_</span><span class="o">/</span><span class="n">_</span><span class="o">/</span>   <span class="p">\</span><span class="n">__</span><span class="p">,</span><span class="n">_</span><span class="o">/</span><span class="n">_</span><span class="o">/</span>         
+  
+  <span class="no">Apache</span> <span class="no">Karaf</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
+  
+<span class="no">Hit</span> <span class="s1">'&lt;tab&gt;'</span> <span class="k">for</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">available</span> <span class="n">commands</span>
+<span class="n">and</span> <span class="s1">'[cmd] --help'</span> <span class="k">for</span> <span class="n">help</span> <span class="n">on</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">command</span><span class="o">.</span>
+<span class="no">Hit</span> <span class="s1">'&lt;ctrl-d&gt;'</span> <span class="n">or</span> <span class="n">type</span> <span class="s1">'system:shutdown'</span> <span class="n">or</span> <span class="s1">'logout'</span> <span class="n">to</span> <span class="n">shutdown</span> <span class="no">Karaf</span><span class="p">.</span>
+  
+<span class="nf">karaf</span><span class="vi">@root</span><span class="p">()</span><span class="o">&gt;</span> 
+   
+<span class="no">Ctrl</span><span class="o">+</span><span class="no">D</span> <span class="err">关闭</span></code></pre></div>
+
+<p>
+Ubuntu 14.04 64bits 安装JDK8 <br />
+参见：http://jinlongliu.github.io/linux/2015/01/06/install-jdk8-on-ubuntu14.04lts/
+</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#linux-ref">
+    		linux <span>12</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/openstack/2015/01/05/openstack-spice-info" title="Openstack SPICE INFO NOTE">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/linux/2015/01/06/install-apache-maven-on-ubuntu14.04lts" title="Ubuntu 14.04 64bits安装Maven3.2.5">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/linux/2015/01/06/install-apache-karaf-on-ubuntu14.04lts"  data-title="Ubuntu 14.04 64bits安装Apache Karaf - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Ansible 学习笔记（一）</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>Ansible 学习笔记（一） </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2016-06-07</span>
+    </div>
+    <div class="content">
+      
+<h3 id="centos7ansible">CentOS7安装Ansible</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$git</span> clone git://github.com/ansible/ansible.git --recursive    <span class="c">#下载源码</span>
+<span class="nv">$cd</span> ./ansible	
+<span class="nv">$source</span> ./hacking/env-setup    <span class="c">#配置环境变量</span>
+
+<span class="c">#其它程序</span>
+<span class="nv">$sudo</span> easy_install pip	
+<span class="nv">$sudo</span> pip install paramiko PyYAML Jinja2 httplib2 six
+
+<span class="nv">$echo</span> <span class="s2">"127.0.0.1"</span> &gt; ~/ansible_hosts
+<span class="nv">$export</span> <span class="nv">ANSIBLE_INVENTORY</span><span class="o">=</span>~/ansible_hosts</code></pre></div>
+
+<h3 id="centos7sshpass">CentOS7安装sshpass</h3>
+<p>配置EPEL源</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$vim</span> /etc/yum.repos.d/epel.repo
+
+<span class="o">[</span>epel]
+<span class="nv">name</span><span class="o">=</span>Extra Packages <span class="k">for </span>Enterprise Linux 7 - <span class="nv">$basearch</span>
+<span class="c">#baseurl=http://download.fedoraproject.org/pub/epel/7/$basearch</span>
+<span class="nv">mirrorlist</span><span class="o">=</span>https://mirrors.fedoraproject.org/metalink?repo<span class="o">=</span>epel-7&amp;arch<span class="o">=</span><span class="nv">$basearch</span>
+<span class="nv">failovermethod</span><span class="o">=</span>priority
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+<span class="o">[</span>epel-debuginfo]
+<span class="nv">name</span><span class="o">=</span>Extra Packages <span class="k">for </span>Enterprise Linux 7 - <span class="nv">$basearch</span> - Debug
+<span class="c">#baseurl=http://download.fedoraproject.org/pub/epel/7/$basearch/debug</span>
+<span class="nv">mirrorlist</span><span class="o">=</span>https://mirrors.fedoraproject.org/metalink?repo<span class="o">=</span>epel-debug-7&amp;arch<span class="o">=</span><span class="nv">$basearch</span>
+<span class="nv">failovermethod</span><span class="o">=</span>priority
+<span class="nv">enabled</span><span class="o">=</span>0
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="o">[</span>epel-source]
+<span class="nv">name</span><span class="o">=</span>Extra Packages <span class="k">for </span>Enterprise Linux 7 - <span class="nv">$basearch</span> - Source
+<span class="c">#baseurl=http://download.fedoraproject.org/pub/epel/7/SRPMS</span>
+<span class="nv">mirrorlist</span><span class="o">=</span>https://mirrors.fedoraproject.org/metalink?repo<span class="o">=</span>epel-source-7&amp;arch<span class="o">=</span><span class="nv">$basearch</span>
+<span class="nv">failovermethod</span><span class="o">=</span>priority
+<span class="nv">enabled</span><span class="o">=</span>0
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+<span class="nv">gpgcheck</span><span class="o">=</span>1</code></pre></div>
+
+<p>安装SSHPASS</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#安装</span>
+<span class="nv">$yum</span> --enablerepo<span class="o">=</span>epel -y install sshpass
+
+<span class="c">#使用</span>
+<span class="nv">$sshpass</span> -p password ssh 192.168.100.143 hostname
+
+<span class="nv">$echo</span> <span class="s1">'cctcloud'</span> &gt;~/password.txt
+<span class="nv">$chmod</span> 600 ~/password.txt 
+<span class="nv">$sshpass</span> -f ~/password.txt ssh 192.168.100.143 hostname
+
+<span class="nv">$export</span> <span class="nv">SSHPASS</span><span class="o">=</span>cctcloud
+<span class="nv">$sshpass</span> -e ssh 192.168.100.143 hostname</code></pre></div>
+
+<h3 id="section">测试</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ansible</span> --version
+ansible 2.2.0 <span class="o">(</span>devel 6f36909074<span class="o">)</span> last updated 2016/06/07 12:43:06 <span class="o">(</span>GMT +800<span class="o">)</span>
+  lib/ansible/modules/core: <span class="o">(</span>detached HEAD cb1093e085<span class="o">)</span> last updated 2016/06/07 12:43:23 <span class="o">(</span>GMT +800<span class="o">)</span>
+  lib/ansible/modules/extras: <span class="o">(</span>detached HEAD 66b60ce7cd<span class="o">)</span> last updated 2016/06/07 12:43:39 <span class="o">(</span>GMT +800<span class="o">)</span>
+  config file <span class="o">=</span> 
+  configured module search path <span class="o">=</span> Default w/o overrides
+
+<span class="nv">$echo</span> <span class="s2">"192.168.100.143"</span> &gt; ~/ansible_hosts   <span class="c">#目标节点IP输入到主机列表</span>
+<span class="nv">$ansible</span> all -m ping --ask-pass
+SSH password: 
+192.168.100.143 | SUCCESS <span class="o">=</span>&gt; <span class="o">{</span>
+    <span class="s2">"changed"</span>: <span class="nb">false</span>, 
+    <span class="s2">"ping"</span>: <span class="s2">"pong"</span>
+<span class="o">}</span>
+
+<span class="nv">$ansible</span> all -m ping --ask-pass
+SSH password: 
+192.168.100.143 | SUCCESS <span class="o">=</span>&gt; <span class="o">{</span>
+    <span class="s2">"changed"</span>: <span class="nb">false</span>, 
+    <span class="s2">"ping"</span>: <span class="s2">"pong"</span>
+<span class="o">}</span>
+192.168.13.33 | SUCCESS <span class="o">=</span>&gt; <span class="o">{</span>
+    <span class="s2">"changed"</span>: <span class="nb">false</span>, 
+    <span class="s2">"ping"</span>: <span class="s2">"pong"</span>
+<span class="o">}</span></code></pre></div>
+
+<h3 id="section-1">特性</h3>
+<ul>
+  <li>(1)、no agents：不需要在被管控主机上安装任何客户端；</li>
+  <li>(2)、no server：无服务器端，使用时直接运行命令即可；</li>
+  <li>(3)、modules in any languages：基于模块工作，可使用任意语言开发模块；</li>
+  <li>(4)、yaml，not code：使用yaml语言定制剧本playbook；</li>
+  <li>(5)、ssh by default：基于SSH工作；</li>
+  <li>(6)、strong multi-tier solution：可实现多级指挥。</li>
+</ul>
+
+<h3 id="section-2">开始</h3>
+<p>默认是SSH keys可以用–ask-pass启用密码认证，–ask-become-pass 启动sudo认证<br />
+禁用主机key检测</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$export</span> <span class="nv">ANSIBLE_HOST_KEY_CHECKING</span><span class="o">=</span>False</code></pre></div>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#运维-ref">
+    		运维 <span>12</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#Ansible-ref">Ansible <span>1</span></a></li>
+     
+    	<li><a href="/20-tags.html#XOS-ref">XOS <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/xos/2016/06/03/TOSCA-Notes" title="TOSCA 学习笔记">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/2016/08/22/Mariadb-galera-on-centos7" title="Mariadb Galera Cluster">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E8%BF%90%E7%BB%B4/2016/06/07/ansible-note1"  data-title="Ansible 学习笔记（一） - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

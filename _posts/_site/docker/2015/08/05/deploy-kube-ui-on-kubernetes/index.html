@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>部署 kube-ui 到 kubernetes</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>部署 kube-ui 到 kubernetes </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2015-08-05</span>
+    </div>
+    <div class="content">
+      
+<h2>本篇博文介绍在k8s(kubernetes)上部署kube-ui</h2>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">在部署节点进入cluster/addons可以看到kube-ui目录  
+  
+<span class="gp">root@docker3:~/k8s/kubernetes/cluster/addons# </span>ls
+cluster-monitoring  dns  fluentd-elasticsearch  fluentd-gcp  kube-ui  README.md</code></pre></div>
+
+<p>修改YAML配置</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">root@docker3:~/k8s/kubernetes/cluster/addons/kube-ui# </span>vim kube-ui-rc.yaml
+  
+内容如下
+  
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kube-ui-v1
+  namespace: kube-system
+  labels:
+    k8s-app: kube-ui
+    version: v1
+    kubernetes.io/cluster-service: <span class="s2">"true"</span>
+spec:
+  replicas: 3
+  selector:
+    k8s-app: kube-ui
+    version: v1
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-ui
+        version: v1
+        kubernetes.io/cluster-service: <span class="s2">"true"</span>
+    spec:
+      containers:
+      - name: kube-ui
+        image: docker3:5000/kube-ui
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+        ports:
+        - containerPort: 8080</code></pre></div>
+
+<p>主要修改replicas备份数默认为1，笔者修改为3<br />
+image:值，原先为google的registry，笔者修改为私有registry的镜像。<br />
+由于docker1，docker2,docker3处于类似局域网，笔者处理的方法在docker3上运行了registry的容器，然后把需要的镜像<br />
+从外网push到docker，再push到docker3的私有registry中。
+</p>
+<h2>修改docker私有镜像库地址</h2>
+<p>
+由于安全问题，私有库会报错，需要修改docker启动参数
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">root@docker3:~# </span>vim /etc/default/docker 
+<span class="nv">DOCKER_OPTS</span><span class="o">=</span><span class="s2">"-H tcp://127.0.0.1:4243 -H unix:///var/run/docker.sock --bip=172.16.8.1/24 --mtu=1372 --insecure-registry=docker3:5000"</span>
+  
+主要新增--insecure-registry参数</code></pre></div>
+
+<p>启动一个长期运行的registry容器</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#docker run -d -p 5000:5000 --restart=always --name registry registry</span></code></pre></div>
+
+<p>指定kubernetes的pod-infra-container-image<br />
+kube-ui部署需要一个pause镜像，默认会到谷歌下载，我们可以在kubelet配置文件中指定
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">root@docker3:~# </span>vim /etc/default/kubelet
+<span class="nv">KUBELET_OPTS</span><span class="o">=</span><span class="s2">"--address=0.0.0.0 --port=10250 --pod-infra-container-image=docker3:5000/pause:latest --hostname_override=docker3 </span><span class="se">\</span><span class="s2">
+   --api_servers=http://docker3:8080 --logtostderr=true --cluster_dns=192.168.3.10 --cluster_domain=cluster.local"</span>
+  
+主要新增参数--pod-infra-container-image<span class="o">=</span>docker3:5000/pause:latest指向你本地下载pause镜像即可。
+以上参数需要在所有minion修改，并重启服务
+<span class="c">#service kubelet restart</span></code></pre></div>
+
+<p>这样我们的准备工作就完成了，现在回到cluster/addons/目录<br />
+我们来回顾一下：<br />
+1.修改了YAML指向了本地的kube-ui镜像；<br />
+2.在所有minion节点pull了kube-ui和pause镜像；<br />
+3.修改了kubelet默认pod-infra镜像；<br />
+</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">创建
+<span class="gp">root@docker3:~/k8s/kubernetes/cluster/addons# </span>kubectl create -f kube-ui/
+  
+删除
+<span class="gp">root@docker3:~/k8s/kubernetes/cluster/addons# </span>kubectl delete -f kube-ui/
+  
+以上操作会自动创建/删除目录下YAML配置的相关rc/svc
+  
+查看分发情况
+<span class="gp">root@docker3:~# </span>kubectl get pods --all-namespaces
+NAMESPACE     NAME               READY     STATUS    RESTARTS   AGE
+kube-system   kube-ui-v1-7ksnt   1/1       Running   0          11h
+kube-system   kube-ui-v1-gl8wc   1/1       Running   0          11h
+kube-system   kube-ui-v1-pwqg4   1/1       Running   0          11h
+三个minion均处于running状态
+  
+<span class="gp">root@docker3:~# </span>kubectl get rc --all-namespaces  
+NAMESPACE     CONTROLLER   CONTAINER<span class="o">(</span>S<span class="o">)</span>   IMAGE<span class="o">(</span>S<span class="o">)</span>               SELECTOR                     REPLICAS
+kube-system   kube-ui-v1   kube-ui        docker3:5000/kube-ui   k8s-app<span class="o">=</span>kube-ui,version<span class="o">=</span>v1   3
+  
+<span class="gp">root@docker3:~# </span>kubectl get svc --all-namespaces
+NAMESPACE     NAME         LABELS                                                                         SELECTOR          IP<span class="o">(</span>S<span class="o">)</span>           PORT<span class="o">(</span>S<span class="o">)</span>
+default       kubernetes   <span class="nv">component</span><span class="o">=</span>apiserver,provider<span class="o">=</span>kubernetes                                        &lt;none&gt;            192.168.3.1     443/TCP
+kube-system   kube-ui      k8s-app<span class="o">=</span>kube-ui,kubernetes.io/cluster-service<span class="o">=</span><span class="nb">true</span>,kubernetes.io/name<span class="o">=</span>KubeUI   k8s-app<span class="o">=</span>kube-ui   192.168.3.114   80/TCP
+  
+查看Master中容器运行情况
+<span class="gp">root@docker3:~# </span>docker ps
+CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                    NAMES
+8c4f610be22b        docker3:5000/kube-ui        <span class="s2">"/kube-ui"</span>               11 hours ago        Up 11 hours                                  k8s_kube-ui.4f327c3a_kube-ui-v1-pwqg4_kube-system_7f6280b8-4bf8-11e5-837b-fa163e264958_f0940eef
+0d3236ad778c        docker3:5000/pause:latest   <span class="s2">"/pause"</span>                 11 hours ago        Up 11 hours                                  k8s_POD.968ce479_kube-ui-v1-pwqg4_kube-system_7f6280b8-4bf8-11e5-837b-fa163e264958_32419dcf
+17a7459723e6        registry                    <span class="s2">"/bin/sh -c 'exec doc"</span>   11 hours ago        Up 11 hours         0.0.0.0:5000-&gt;5000/tcp   registry</code></pre></div>
+
+<p>我们可以通过访问Master节点来查看UI<br />
+笔者则通过虚拟机的浮动IP来访问UI。http://192.168.51.36:8080/ui<br />
+URL会自动跳转至http://192.168.51.36:8080/api/v1/proxy/namespaces/kube-system/services/kube-ui/#/dashboard/</p>
+<p>至此kube-ui就部署完成了</p>
+<p><img src="/upload/2015/08/kube-ui.png" /></p>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#docker-ref">
+    		docker <span>6</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#Docker-ref">Docker <span>6</span></a></li>
+     
+    	<li><a href="/20-tags.html#Kubernetes-ref">Kubernetes <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/docker/2015/08/04/install-kubernetes-on-ubuntu-14.04" title="Ubuntu 14.40 安装Kubernetes 1.0.1">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/docker/2015/08/06/docker-registry-api" title="Docker库API">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/docker/2015/08/05/deploy-kube-ui-on-kubernetes"  data-title="部署 kube-ui 到 kubernetes - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

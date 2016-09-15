@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>基于Ubuntu 14.04的iSCSI存储配置--Target创建，Initiator连接</title>
+    <meta name="description" content="">
+    <meta name="author" content="龙棠博客">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/bootstrap-3/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/bootstrap-3/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body style="height:3000px">
+    <div id="wrap">
+      <div id="logo"><a href="/"><img src="/images/logo.png"/></a>
+      <iframe width="190" height="90" style="float:right;margin-right:150px" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=190&amp;height=90&amp;fansRow=2&amp;ptype=0&amp;speed=0&amp;skin=8&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1804200020&amp;verifier=fafe682b&amp;dpc=1"></iframe>
+      </div>
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <!--div id="logo"><a href="/"><img src="/images/logo.png"/></a></div-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--a class="navbar-brand" href="/">龙棠博客</a-->
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/10-categories.html">分类</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/20-tags.html">标签</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/30-archive.html">归档</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/40-about-me.html">关于</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+
+<div class="page-header">
+  <h1>基于Ubuntu 14.04的iSCSI存储配置--Target创建，Initiator连接 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>2014-07-28</span>
+    </div>
+    <div class="content">
+      
+<p>
+主机Win7 32位系统，Virtual Box 虚拟机Ubuntu 14.04 32位，SSH登录操作。环境问题Target和Initiator都是在同一台机器上，实际环境是可以完全分开独立分布于多个服务器。
+</p>
+<p>
+安装Target软件
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># apt-cache search tgt</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+<span class="n">nagios</span><span class="o">-</span><span class="n">plugins</span><span class="o">-</span><span class="n">basic</span> <span class="o">-</span> <span class="no">Plugins</span> <span class="k">for</span> <span class="n">nagios</span> <span class="n">compatible</span> <span class="n">monitoring</span> <span class="n">systems</span>
+<span class="n">tgt</span> <span class="o">-</span> <span class="no">Linux</span> <span class="no">SCSI</span> <span class="n">target</span> <span class="n">user</span><span class="o">-</span><span class="n">space</span> <span class="n">tools</span>
+<span class="n">epiphany</span><span class="o">-</span><span class="n">browser</span> <span class="o">-</span> <span class="no">Intuitive</span> <span class="no">GNOME</span> <span class="n">web</span> <span class="n">browser</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">python</span><span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">dev</span> <span class="o">-</span> <span class="no">WebKit</span><span class="o">/</span><span class="no">Gtk</span> <span class="no">Python</span> <span class="ss">bindings: </span><span class="n">development</span> <span class="n">files</span>
+  
+<span class="c1">#当系统update后可通过search查看tgt软件</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># apt-get install tgt</span>
+<span class="no">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="no">Done</span>
+<span class="no">Building</span> <span class="n">dependency</span> <span class="n">tree</span>       
+<span class="no">Reading</span> <span class="n">state</span> <span class="n">information</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="no">Done</span>
+<span class="no">The</span> <span class="n">following</span> <span class="n">extra</span> <span class="n">packages</span> <span class="n">will</span> <span class="n">be</span> <span class="ss">installed:
+  </span><span class="n">libboost</span><span class="o">-</span><span class="n">system1</span><span class="o">.</span><span class="mi">54</span><span class="o">.</span><span class="mi">0</span> <span class="n">libboost</span><span class="o">-</span><span class="n">thread1</span><span class="o">.</span><span class="mi">54</span><span class="o">.</span><span class="mi">0</span> <span class="n">libconfig</span><span class="o">-</span><span class="n">general</span><span class="o">-</span><span class="n">perl</span>
+  <span class="n">libibverbs1</span> <span class="n">libnspr4</span> <span class="n">libnss3</span> <span class="n">libnss3</span><span class="o">-</span><span class="n">nssdb</span> <span class="n">librados2</span> <span class="n">librbd1</span> <span class="n">librdmacm1</span>
+  <span class="n">libsgutils2</span><span class="o">-</span><span class="mi">2</span> <span class="n">sg3</span><span class="o">-</span><span class="n">utils</span>
+<span class="no">The</span> <span class="n">following</span> <span class="no">NEW</span> <span class="n">packages</span> <span class="n">will</span> <span class="n">be</span> <span class="ss">installed:
+  </span><span class="n">libboost</span><span class="o">-</span><span class="n">system1</span><span class="o">.</span><span class="mi">54</span><span class="o">.</span><span class="mi">0</span> <span class="n">libboost</span><span class="o">-</span><span class="n">thread1</span><span class="o">.</span><span class="mi">54</span><span class="o">.</span><span class="mi">0</span> <span class="n">libconfig</span><span class="o">-</span><span class="n">general</span><span class="o">-</span><span class="n">perl</span>
+  <span class="n">libibverbs1</span> <span class="n">libnspr4</span> <span class="n">libnss3</span> <span class="n">libnss3</span><span class="o">-</span><span class="n">nssdb</span> <span class="n">librados2</span> <span class="n">librbd1</span> <span class="n">librdmacm1</span>
+  <span class="n">libsgutils2</span><span class="o">-</span><span class="mi">2</span> <span class="n">sg3</span><span class="o">-</span><span class="n">utils</span> <span class="n">tgt</span>
+<span class="mi">0</span> <span class="n">upgraded</span><span class="p">,</span> <span class="mi">13</span> <span class="n">newly</span> <span class="n">installed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">remove</span> <span class="n">and</span> <span class="mi">0</span> <span class="n">not</span> <span class="n">upgraded</span><span class="o">.</span>
+<span class="no">Need</span> <span class="n">to</span> <span class="n">get</span> <span class="mi">3</span><span class="p">,</span><span class="mi">858</span> <span class="n">kB</span> <span class="n">of</span> <span class="n">archives</span><span class="o">.</span>
+<span class="no">After</span> <span class="n">this</span> <span class="n">operation</span><span class="p">,</span> <span class="mi">13</span><span class="o">.</span><span class="mi">9</span> <span class="no">MB</span> <span class="n">of</span> <span class="n">additional</span> <span class="n">disk</span> <span class="n">space</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span><span class="o">.</span>
+<span class="no">Do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">continue?</span> <span class="p">[</span><span class="no">Y</span><span class="o">/</span><span class="n">n</span><span class="p">]</span> <span class="n">y</span>
+  
+<span class="c1">#安装完毕后检查tgt运行状态</span>
+<span class="no">Processing</span> <span class="n">triggers</span> <span class="k">for</span> <span class="n">libc</span><span class="o">-</span><span class="n">bin</span> <span class="p">(</span><span class="mi">2</span><span class="o">.</span><span class="mi">19</span><span class="o">-</span><span class="mi">0</span><span class="n">ubuntu6</span><span class="p">)</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+<span class="no">Processing</span> <span class="n">triggers</span> <span class="k">for</span> <span class="n">ureadahead</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">100</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="mi">16</span><span class="p">)</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># service tgt status</span>
+<span class="n">tgt</span> <span class="n">start</span><span class="o">/</span><span class="n">running</span><span class="p">,</span> <span class="n">process</span> <span class="mi">1690</span>
+  
+<span class="c1">#tgt服务正在运行进程号1690</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># ps aux |grep 1690</span>
+<span class="n">root</span>      <span class="mi">1690</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">0</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">3</span>  <span class="mi">16764</span>  <span class="mi">3140</span> <span class="p">?</span>        <span class="no">Ss</span>   <span class="mi">21</span><span class="p">:</span><span class="mi">47</span>   <span class="mi">0</span><span class="p">:</span><span class="mo">00</span> <span class="n">tgtd</span>
+<span class="n">root</span>      <span class="mi">1716</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">0</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">0</span>   <span class="mi">4676</span>   <span class="mi">824</span> <span class="n">pts</span><span class="o">/</span><span class="mi">0</span>    <span class="no">S</span><span class="o">+</span>   <span class="mi">21</span><span class="p">:</span><span class="mi">54</span>   <span class="mi">0</span><span class="p">:</span><span class="mo">00</span> <span class="n">grep</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="n">auto</span> <span class="mi">1690</span>
+  
+<span class="c1">#tgtadmin   help查看tgtadmin 命令参数</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># tgtadm --help</span>
+<span class="no">Linux</span> <span class="no">SCSI</span> <span class="no">Target</span> <span class="n">administration</span> <span class="n">utility</span><span class="p">,</span> <span class="n">version</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">43</span>
+  
+<span class="no">Usage</span><span class="p">:</span> <span class="n">tgtadm</span> <span class="p">[</span><span class="no">OPTION</span><span class="p">]</span>
+<span class="o">--</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="kp">new</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">targetname</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span>
+        <span class="n">add</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="n">and</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span><span class="p">.</span> <span class="nf">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="n">must</span> <span class="n">not</span> <span class="n">be</span> <span class="n">zero</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">delete</span> <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="p">]</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span>
+        <span class="n">delete</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;.</span>
+        <span class="no">With</span> <span class="n">force</span> <span class="n">option</span><span class="p">,</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">target</span> <span class="n">is</span> <span class="n">deleted</span>
+        <span class="n">even</span> <span class="k">if</span> <span class="n">there</span> <span class="n">is</span> <span class="n">an</span> <span class="n">activity</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">show</span>
+        <span class="n">show</span> <span class="n">all</span> <span class="n">the</span> <span class="n">targets</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">show</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span>
+        <span class="n">show</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">target</span><span class="err">'</span><span class="n">s</span> <span class="n">parameters</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">update</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="nb">name</span> <span class="o">&lt;</span><span class="n">param</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">value</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+        <span class="n">change</span> <span class="n">the</span> <span class="n">target</span> <span class="n">parameters</span> <span class="n">of</span> <span class="n">the</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">bind</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">initiator</span><span class="o">-</span><span class="n">address</span> <span class="o">&lt;</span><span class="n">address</span><span class="o">&gt;</span>
+<span class="o">--</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">bind</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">initiator</span><span class="o">-</span><span class="nb">name</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span>
+        <span class="n">enable</span> <span class="n">the</span> <span class="n">target</span> <span class="n">to</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">initiators</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">unbind</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">initiator</span><span class="o">-</span><span class="n">address</span> <span class="o">&lt;</span><span class="n">address</span><span class="o">&gt;</span>
+<span class="o">--</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">unbind</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">initiator</span><span class="o">-</span><span class="nb">name</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span>
+        <span class="n">disable</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">permitted</span> <span class="n">initiators</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">logicalunit</span> <span class="o">--</span><span class="n">op</span> <span class="kp">new</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">lun</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span>
+  <span class="o">--</span><span class="n">backing</span><span class="o">-</span><span class="n">store</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">bstype</span> <span class="o">&lt;</span><span class="n">type</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">bsopts</span> <span class="o">&lt;</span><span class="n">bs</span> <span class="n">options</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">bsoflags</span> <span class="o">&lt;</span><span class="n">options</span><span class="o">&gt;</span>
+        <span class="n">add</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">logical</span> <span class="n">unit</span> <span class="n">with</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">the</span> <span class="n">specific</span>
+        <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;.</span> <span class="no">The</span> <span class="n">logical</span> <span class="n">unit</span> <span class="n">is</span> <span class="n">offered</span>
+        <span class="n">to</span> <span class="n">the</span> <span class="n">initiators</span><span class="p">.</span> <span class="nf">&lt;</span><span class="n">path</span><span class="o">&gt;</span> <span class="n">must</span> <span class="n">be</span> <span class="n">block</span> <span class="n">device</span> <span class="n">files</span>
+        <span class="p">(</span><span class="n">including</span> <span class="no">LVM</span> <span class="n">and</span> <span class="no">RAID</span> <span class="n">devices</span><span class="p">)</span> <span class="n">or</span> <span class="n">regular</span> <span class="n">files</span><span class="p">.</span>
+        <span class="nf">bstype</span> <span class="n">option</span> <span class="n">is</span> <span class="n">optional</span><span class="p">.</span>
+        <span class="nf">bsopts</span> <span class="n">are</span> <span class="n">specific</span> <span class="n">to</span> <span class="n">the</span> <span class="n">bstype</span><span class="p">.</span>
+        <span class="nf">bsoflags</span> <span class="n">supported</span> <span class="n">options</span> <span class="n">are</span> <span class="n">sync</span> <span class="n">and</span> <span class="n">direct</span>
+        <span class="p">(</span><span class="n">sync</span><span class="ss">:direct</span> <span class="k">for</span> <span class="n">both</span><span class="p">).</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">logicalunit</span> <span class="o">--</span><span class="n">op</span> <span class="n">delete</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">lun</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span>
+        <span class="n">delete</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">logical</span> <span class="n">unit</span> <span class="n">with</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span> <span class="n">that</span>
+        <span class="n">the</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="n">has</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">account</span> <span class="o">--</span><span class="n">op</span> <span class="kp">new</span> <span class="o">--</span><span class="n">user</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">password</span> <span class="o">&lt;</span><span class="n">pass</span><span class="o">&gt;</span>
+        <span class="n">add</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">account</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span> <span class="n">and</span> <span class="o">&lt;</span><span class="n">pass</span><span class="o">&gt;</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">account</span> <span class="o">--</span><span class="n">op</span> <span class="n">delete</span> <span class="o">--</span><span class="n">user</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span>
+        <span class="n">delete</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">account</span> <span class="n">having</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">account</span> <span class="o">--</span><span class="n">op</span> <span class="n">bind</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">user</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">outgoing</span><span class="p">]</span>
+        <span class="n">add</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">account</span> <span class="n">having</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span> <span class="n">to</span>
+        <span class="n">the</span> <span class="n">specific</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span><span class="p">.</span>
+        <span class="nf">&lt;</span><span class="n">user</span><span class="o">&gt;</span> <span class="n">could</span> <span class="n">be</span> <span class="o">&lt;</span><span class="no">IncomingUser</span><span class="o">&gt;</span> <span class="n">or</span> <span class="o">&lt;</span><span class="no">OutgoingUser</span><span class="o">&gt;.</span>
+        <span class="no">If</span> <span class="n">you</span> <span class="n">use</span> <span class="o">--</span><span class="n">outgoing</span> <span class="n">option</span><span class="p">,</span> <span class="n">the</span> <span class="n">account</span> <span class="n">will</span>
+        <span class="n">be</span> <span class="n">added</span> <span class="n">as</span> <span class="n">an</span> <span class="n">outgoing</span> <span class="n">account</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">account</span> <span class="o">--</span><span class="n">op</span> <span class="n">unbind</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">user</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">outgoing</span><span class="p">]</span>
+        <span class="n">delete</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">account</span> <span class="n">having</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span> <span class="n">from</span> <span class="n">specific</span>
+        <span class="n">target</span><span class="o">.</span> <span class="no">The</span> <span class="o">--</span><span class="n">outgoing</span> <span class="n">option</span> <span class="n">must</span> <span class="n">be</span> <span class="n">added</span> <span class="k">if</span> <span class="n">you</span>
+        <span class="n">delete</span> <span class="n">an</span> <span class="n">outgoing</span> <span class="n">account</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">lld</span> <span class="o">--</span><span class="n">op</span> <span class="n">start</span>
+        <span class="no">Start</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">lld</span> <span class="n">without</span> <span class="n">restarting</span> <span class="n">the</span> <span class="n">tgtd</span> <span class="n">process</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">control</span><span class="o">-</span><span class="n">port</span> <span class="o">&lt;</span><span class="n">port</span><span class="o">&gt;</span> <span class="n">use</span> <span class="n">control</span> <span class="n">port</span> <span class="o">&lt;</span><span class="n">port</span><span class="o">&gt;</span>
+<span class="o">--</span><span class="n">help</span>
+        <span class="nb">display</span> <span class="n">this</span> <span class="n">help</span> <span class="n">and</span> <span class="nb">exit</span>
+  
+<span class="no">Report</span> <span class="n">bugs</span> <span class="n">to</span> <span class="o">&lt;</span><span class="n">stgt</span><span class="vi">@vger</span><span class="p">.</span><span class="nf">kernel</span><span class="p">.</span><span class="nf">org</span><span class="o">&gt;.</span></code></pre></div>
+
+<p>
+创建Target<br />
+tgtadmin中关于target命令如 下
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">--</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="kp">new</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">targetname</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span>
+        <span class="n">add</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="n">and</span> <span class="o">&lt;</span><span class="nb">name</span><span class="o">&gt;</span><span class="p">.</span> <span class="nf">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="n">must</span> <span class="n">not</span> <span class="n">be</span> <span class="n">zero</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">delete</span> <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="p">]</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span>
+        <span class="n">delete</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;.</span><span class="no">With</span> <span class="n">force</span> <span class="n">option</span><span class="p">,</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">target</span> <span class="n">is</span> <span class="n">deleted</span>
+        <span class="n">even</span> <span class="k">if</span> <span class="n">there</span> <span class="n">is</span> <span class="n">an</span> <span class="n">activity</span><span class="p">.</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">target</span> <span class="o">--</span><span class="n">op</span> <span class="n">show</span>
+        <span class="n">show</span> <span class="n">all</span> <span class="n">the</span> <span class="n">targets</span><span class="o">.</span>
+  
+<span class="c1">#创建target</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># tgtadm --lld iscsi --mode target --op new --tid 1 --targetname iqn.2014-0728.com:longtang</span>
+  
+<span class="c1">#--lld iscsi 固定参数驱动iscsi</span>
+<span class="c1">#--mode  target 模式target</span>
+<span class="c1">#--op    new    操作new新创建</span>
+<span class="c1">#--tid   1      target id号</span>
+<span class="c1">#--targetname ...target名称</span>
+<span class="c1">#查看Target记录&lt;/span&gt;</span>
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># tgtadm --lld iscsi --mode target --op show</span>
+<span class="no">Target</span> <span class="mi">1</span><span class="p">:</span> <span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span>
+    <span class="no">System</span> <span class="ss">information:
+        </span><span class="no">Driver</span><span class="p">:</span> <span class="n">iscsi</span>
+        <span class="no">State</span><span class="p">:</span> <span class="n">ready</span>
+    <span class="no">I_T</span> <span class="n">nexus</span> <span class="ss">information:
+    </span><span class="o">&lt;</span><span class="n">span</span> <span class="n">style</span><span class="o">=</span><span class="s2">"color:#000099;"</span><span class="o">&gt;</span><span class="no">LUN</span> <span class="ss">information:
+        </span><span class="no">LUN</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="no">Type</span><span class="p">:</span> <span class="n">controller</span>
+            <span class="no">SCSI</span> <span class="no">ID</span><span class="p">:</span> <span class="no">IET</span>     <span class="mo">00010000</span>
+            <span class="no">SCSI</span> <span class="no">SN</span><span class="p">:</span> <span class="n">beaf10</span>
+            <span class="no">Size</span><span class="p">:</span> <span class="mi">0</span> <span class="no">MB</span><span class="p">,</span> <span class="no">Block</span> <span class="ss">size: </span><span class="mi">1</span>
+            <span class="no">Online</span><span class="p">:</span> <span class="no">Yes</span>
+            <span class="no">Removable</span> <span class="ss">media: </span><span class="no">No</span>
+            <span class="no">Prevent</span> <span class="ss">removal: </span><span class="no">No</span>
+            <span class="no">Readonly</span><span class="p">:</span> <span class="no">No</span>
+            <span class="no">SWP</span><span class="p">:</span> <span class="no">No</span>
+            <span class="no">Thin</span><span class="o">-</span><span class="ss">provisioning: </span><span class="no">No</span>
+            <span class="no">Backing</span> <span class="n">store</span> <span class="ss">type: </span><span class="n">null</span>
+            <span class="no">Backing</span> <span class="n">store</span> <span class="ss">path: </span><span class="no">None</span>
+            <span class="no">Backing</span> <span class="n">store</span> <span class="n">flags</span><span class="ss">:&lt;</span><span class="o">/</span><span class="n">span</span><span class="o">&gt;</span> 
+    <span class="no">Account</span> <span class="ss">information:
+    </span><span class="no">ACL</span> <span class="ss">information:
+  
+</span><span class="c1">#相关参数会列出，会默认创建LUN号为0的逻辑单元。</span>
+<span class="c1">#绑定initiator name，如果不操作后续Initiator可能无法发现target。</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># tgtadm --lld iscsi --mode target --op bind --tid 1 -I ALL</span>
+<span class="c1">#上述命令为任何initiator都可以连接该target。</span></code></pre></div>
+
+<p>
+为Target新增逻辑单元
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">--</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">logicalunit</span> <span class="o">--</span><span class="n">op</span> <span class="kp">new</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">lun</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span>
+  <span class="o">--</span><span class="n">backing</span><span class="o">-</span><span class="n">store</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">bstype</span> <span class="o">&lt;</span><span class="n">type</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">bsopts</span> <span class="o">&lt;</span><span class="n">bs</span> <span class="n">options</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">bsoflags</span> <span class="o">&lt;</span><span class="n">options</span><span class="o">&gt;</span>
+        <span class="n">add</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">logical</span> <span class="n">unit</span> <span class="n">with</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">the</span> <span class="n">specific</span>
+        <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;.</span> <span class="no">The</span> <span class="n">logical</span> <span class="n">unit</span> <span class="n">is</span> <span class="n">offered</span>
+        <span class="n">to</span> <span class="n">the</span> <span class="n">initiators</span><span class="p">.</span> <span class="nf">&lt;</span><span class="n">path</span><span class="o">&gt;</span> <span class="n">must</span> <span class="n">be</span> <span class="n">block</span> <span class="n">device</span> <span class="n">files</span>
+        <span class="o">&lt;</span><span class="n">span</span> <span class="n">style</span><span class="o">=</span><span class="s2">"color:#ff0000;"</span><span class="o">&gt;</span><span class="p">(</span><span class="n">including</span> <span class="no">LVM</span> <span class="n">and</span> <span class="no">RAID</span> <span class="n">devices</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/span&gt; or&lt;span style="color:#ff0000;"&gt; regular files&lt;/s</span><span class="n">pan</span><span class="o">&gt;</span><span class="p">.</span>
+        <span class="nf">bstype</span> <span class="n">option</span> <span class="n">is</span> <span class="n">optional</span><span class="p">.</span>
+        <span class="nf">bsopts</span> <span class="n">are</span> <span class="n">specific</span> <span class="n">to</span> <span class="n">the</span> <span class="n">bstype</span><span class="p">.</span>
+        <span class="nf">bsoflags</span> <span class="n">supported</span> <span class="n">options</span> <span class="n">are</span> <span class="n">sync</span> <span class="n">and</span> <span class="n">direct</span>
+        <span class="p">(</span><span class="n">sync</span><span class="ss">:direct</span> <span class="k">for</span> <span class="n">both</span><span class="p">).</span>
+<span class="nf">-</span><span class="o">-</span><span class="n">lld</span> <span class="o">&lt;</span><span class="n">driver</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mode</span> <span class="n">logicalunit</span> <span class="o">--</span><span class="n">op</span> <span class="n">delete</span> <span class="o">--</span><span class="n">tid</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">lun</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span>
+        <span class="n">delete</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">logical</span> <span class="n">unit</span> <span class="n">with</span> <span class="o">&lt;</span><span class="n">lun</span><span class="o">&gt;</span> <span class="n">that</span>
+        <span class="n">the</span> <span class="n">target</span> <span class="n">with</span> <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span> <span class="n">has</span><span class="o">.</span>
+  
+<span class="err">命令规范如上</span>
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># tgtadm --lld iscsi --mode logicalunit --op new --tid 1 --lun 1 -b /dev/my_volume_group/kinglv </span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># tgtadm --lld iscsi --mode target --op show</span>
+<span class="no">Target</span> <span class="mi">1</span><span class="p">:</span> <span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span>
+    <span class="no">System</span> <span class="ss">information:
+        </span><span class="no">Driver</span><span class="p">:</span> <span class="n">iscsi</span>
+        <span class="no">State</span><span class="p">:</span> <span class="n">ready</span>
+    <span class="no">I_T</span> <span class="n">nexus</span> <span class="ss">information:
+    </span><span class="no">LUN</span> <span class="ss">information:
+        </span><span class="no">LUN</span><span class="p">:</span> <span class="mi">0</span>
+<span class="o">&lt;</span><span class="n">span</span> <span class="n">style</span><span class="o">=</span><span class="s2">"white-space:pre"</span><span class="o">&gt;</span>	<span class="o">&lt;</span><span class="sr">/span&gt;    ...
+            Backing store flags: 
+       &lt;span style="color:#000099;"&gt; LUN: 1
+            Type: disk
+            SCSI ID: IET     00010001
+            SCSI SN: beaf11
+            Size: 105 MB, Block size: 512
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: rdwr
+            Backing store path: /</span><span class="n">dev</span><span class="o">/</span><span class="n">my_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+            <span class="no">Backing</span> <span class="n">store</span> <span class="n">flags</span><span class="ss">:&lt;</span><span class="o">/</span><span class="n">span</span><span class="o">&gt;</span> 
+    <span class="no">Account</span> <span class="ss">information:
+    </span><span class="no">ACL</span> <span class="ss">information:
+</span><span class="c1"># 创建逻辑单元号为1的逻辑单元，路径可以为LVM设备或者RAID设备，或者是文件。有时利用dd创建模拟文件可以作为path。</span></code></pre></div>
+
+<p>
+安装客户端软件
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># apt-get install open-iscsi</span>
+<span class="no">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="no">Done</span>
+<span class="no">Building</span> <span class="n">dependency</span> <span class="n">tree</span>  
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>     
+  
+<span class="c1">#检查客户端运行状态，如果未运行则开启</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># service open-iscsi status</span>
+<span class="no">Current</span> <span class="n">active</span> <span class="n">iSCSI</span> <span class="ss">sessions:
+iscsiadm: </span><span class="no">No</span> <span class="n">active</span> <span class="n">sessions</span><span class="p">.</span>
+<span class="nf">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># service open-iscsi start</span>
+ <span class="o">*</span> <span class="no">Starting</span> <span class="n">iSCSI</span> <span class="n">initiator</span> <span class="n">service</span> <span class="n">iscsid</span>                                                                                            
+<span class="n">iSCSI</span> <span class="n">daemon</span> <span class="n">already</span> <span class="n">running</span></code></pre></div>
+
+<p>
+iSCSI客户端连接Target
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">发现</span><span class="no">Target</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># iscsiadm -m discovery -t sendtargets -p 192.168.1.120 </span>
+<span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">120</span><span class="p">:</span><span class="mi">3260</span><span class="p">,</span><span class="mi">1</span> <span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span>
+<span class="c1"># 如果上述target 的initiator name不绑定为all此处会无法发现target。</span>
+  
+<span class="c1">#显示已发现target</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># iscsiadm -m node</span>
+<span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">120</span><span class="p">:</span><span class="mi">3260</span><span class="p">,</span><span class="mi">1</span> <span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span>
+  
+<span class="c1">#连接Target</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># iscsiadm -m node -p 192.168.1.120 --login     </span>
+<span class="no">Logging</span> <span class="k">in</span> <span class="n">to</span> <span class="p">[</span><span class="ss">iface: </span><span class="n">default</span><span class="p">,</span> <span class="ss">target: </span><span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span><span class="p">,</span> <span class="ss">portal: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">120</span><span class="p">,</span><span class="mi">3260</span><span class="p">]</span> <span class="p">(</span><span class="n">multiple</span><span class="p">)</span>
+<span class="no">Login</span> <span class="n">to</span> <span class="p">[</span><span class="ss">iface: </span><span class="n">default</span><span class="p">,</span> <span class="ss">target: </span><span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span><span class="p">,</span> <span class="ss">portal: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">120</span><span class="p">,</span><span class="mi">3260</span><span class="p">]</span> <span class="n">successful</span><span class="o">.</span>
+  
+<span class="c1">#查看磁盘设备</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># ls /dev/sd*</span>
+<span class="sr">/dev/s</span><span class="n">da</span>  <span class="sr">/dev/s</span><span class="n">da1</span>  <span class="sr">/dev/s</span><span class="n">da2</span>  <span class="sr">/dev/s</span><span class="n">da5</span>  <span class="sr">/dev/s</span><span class="n">db</span>  <span class="sr">/dev/s</span><span class="n">db1</span>  <span class="sr">/dev/s</span><span class="n">db2</span>  <span class="sr">/dev/s</span><span class="n">db3</span>  <span class="sr">/dev/s</span><span class="n">db4</span>  <span class="sr">/dev/s</span><span class="n">dc</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># fdisk -l /dev/sdc</span>
+  
+<span class="no">Disk</span> <span class="sr">/dev/s</span><span class="ss">dc: </span><span class="mi">104</span> <span class="no">MB</span><span class="p">,</span> <span class="mi">104857600</span> <span class="n">bytes</span>
+<span class="mi">4</span> <span class="n">heads</span><span class="p">,</span> <span class="mi">50</span> <span class="n">sectors</span><span class="o">/</span><span class="n">track</span><span class="p">,</span> <span class="mi">1024</span> <span class="n">cylinders</span><span class="p">,</span> <span class="n">total</span> <span class="mi">204800</span> <span class="n">sectors</span>
+<span class="no">Units</span> <span class="o">=</span> <span class="n">sectors</span> <span class="n">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="n">bytes</span>
+<span class="no">Sector</span> <span class="n">size</span> <span class="p">(</span><span class="n">logical</span><span class="o">/</span><span class="n">physical</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
+<span class="no">I</span><span class="o">/</span><span class="no">O</span> <span class="n">size</span> <span class="p">(</span><span class="n">minimum</span><span class="o">/</span><span class="n">optimal</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
+<span class="no">Disk</span> <span class="ss">identifier: </span><span class="mh">0x00000000</span>
+  
+<span class="no">Disk</span> <span class="sr">/dev/s</span><span class="n">dc</span> <span class="n">doesn</span><span class="err">'</span><span class="n">t</span> <span class="n">contain</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">partition</span> <span class="n">table</span>
+    
+<span class="c1">#断开Target</span>
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># iscsiadm -m node -p 192.168.1.120 --logout</span>
+<span class="no">Logging</span> <span class="n">out</span> <span class="n">of</span> <span class="n">session</span> <span class="p">[</span><span class="ss">sid: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">target: </span><span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span><span class="p">,</span> <span class="ss">portal: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">120</span><span class="p">,</span><span class="mi">3260</span><span class="p">]</span>
+<span class="no">Logout</span> <span class="n">of</span> <span class="p">[</span><span class="ss">sid: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">target: </span><span class="n">iqn</span><span class="o">.</span><span class="mi">2014</span><span class="o">-</span><span class="mo">072</span><span class="mi">8</span><span class="p">.</span><span class="nf">com</span><span class="ss">:longtang</span><span class="p">,</span> <span class="ss">portal: </span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">120</span><span class="p">,</span><span class="mi">3260</span><span class="p">]</span> <span class="n">successful</span><span class="p">.</span>
+<span class="nf">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># ls /dev/sd*</span>
+<span class="sr">/dev/s</span><span class="n">da</span>  <span class="sr">/dev/s</span><span class="n">da1</span>  <span class="sr">/dev/s</span><span class="n">da2</span>  <span class="sr">/dev/s</span><span class="n">da5</span>  <span class="sr">/dev/s</span><span class="n">db</span>  <span class="sr">/dev/s</span><span class="n">db1</span>  <span class="sr">/dev/s</span><span class="n">db2</span>  <span class="sr">/dev/s</span><span class="n">db3</span>  <span class="sr">/dev/s</span><span class="n">db4</span>
+<span class="c1">#发现连接和断开之间设备相差一个/dev/sdc 大小在104MB。我们底层实际存储设备LVM逻辑卷kinglv大小相近。</span>
+  
+<span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># lvdisplay /dev/my_volume_group/kinglv </span>
+  <span class="o">---</span> <span class="no">Logical</span> <span class="n">volume</span> <span class="o">---</span>
+  <span class="no">LV</span> <span class="no">Path</span>                <span class="sr">/dev/m</span><span class="n">y_volume_group</span><span class="o">/</span><span class="n">kinglv</span>
+  <span class="no">LV</span> <span class="no">Name</span>                <span class="n">kinglv</span>
+  <span class="no">VG</span> <span class="no">Name</span>                <span class="n">my_volume_group</span>
+  <span class="no">LV</span> <span class="no">UUID</span>                <span class="n">lAT5Te</span><span class="o">-</span><span class="n">obE1</span><span class="o">-</span><span class="no">Q3dY</span><span class="o">-</span><span class="n">pU4r</span><span class="o">-</span><span class="no">YYDt</span><span class="o">-</span><span class="n">rSRu</span><span class="o">-</span><span class="n">hgmKQP</span>
+  <span class="no">LV</span> <span class="no">Write</span> <span class="no">Access</span>        <span class="n">read</span><span class="o">/</span><span class="n">write</span>
+  <span class="no">LV</span> <span class="no">Creation</span> <span class="n">host</span><span class="p">,</span> <span class="n">time</span> <span class="n">king</span><span class="p">,</span> <span class="mi">2014</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">43</span><span class="p">:</span><span class="mi">41</span> <span class="o">+</span><span class="mi">0800</span>
+  <span class="no">LV</span> <span class="no">Status</span>              <span class="n">available</span>
+  <span class="c1"># open                 1</span>
+  <span class="o">&lt;</span><span class="n">span</span> <span class="n">style</span><span class="o">=</span><span class="s2">"color:#ff0000;"</span><span class="o">&gt;</span><span class="no">LV</span> <span class="no">Size</span>                <span class="mi">100</span><span class="o">.</span><span class="mo">00</span> <span class="no">MiB</span><span class="o">&lt;</span><span class="sr">/span&gt;
+  Current LE             25
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           252:1
+  
+如果怕指定IP什么太烦，直接连接所有Target
+root@king:~# iscsiadm -m node --login all
+Logging in to [iface: default, target: iqn.2014-0728.com:longtang, portal: 192.168.1.120,3260] (multiple)
+Login to [iface: default, target: iqn.2014-0728.com:longtang, portal: 192.168.1.120,3260] successful.</span></code></pre></div>
+
+<p>
+iSCSI 端口号
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span><span class="vi">@king</span><span class="ss">:~</span><span class="c1"># netstat -anl | grep 3260</span>
+<span class="n">tcp</span>        <span class="mi">0</span>      <span class="mi">0</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">:</span><span class="mi">3260</span>            <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">:</span><span class="o">*</span>               <span class="no">LISTEN</span>     
+<span class="n">tcp6</span>       <span class="mi">0</span>      <span class="mi">0</span> <span class="o">::</span><span class="p">:</span><span class="mi">3260</span>                 <span class="o">::</span><span class="p">:</span><span class="o">*</span>                    <span class="no">LISTEN</span>   
+<span class="c1">#/etc/service 中也存在默认端口号</span>
+  
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">icpv2</span>           <span class="mi">3130</span><span class="o">/</span><span class="n">tcp</span>        <span class="n">icp</span>             <span class="c1"># Internet Cache Protocol</span>
+<span class="n">icpv2</span>           <span class="mi">3130</span><span class="o">/</span><span class="n">udp</span>        <span class="n">icp</span>
+<span class="n">iscsi</span><span class="o">-</span><span class="n">target</span>    <span class="mi">3260</span><span class="o">/</span><span class="n">tcp</span>
+<span class="n">mysql</span>           <span class="mi">3306</span><span class="o">/</span><span class="n">tcp</span>
+<span class="n">mysql</span>           <span class="mi">3306</span><span class="o">/</span><span class="n">udp</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span></code></pre></div>
+
+<p>
+上述只是简单介绍了iSCSI的使用，方便快速建立一个基于网络的存储服务，但个Target是可以供多个Initiator连接的。更多更详细的操作大家可以自己实践。
+</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/10-categories.html#运维-ref">
+    		运维 <span>12</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="glyphicon glyphicon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/20-tags.html#iSCSI-ref">iSCSI <span>1</span></a></li>
+     
+    	<li><a href="/20-tags.html#Ubuntu14.04-ref">Ubuntu14.04 <span>4</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/%E5%AD%98%E5%82%A8/2014/07/27/learn-lvm-8" title="LVM2 Logical Volume Manager 详解（八）--LVM逻辑卷Logical Volume命令实战">&laquo; 上一篇</a></li>
+    
+      <li><a href="/30-archive.html">归档</a></li>
+    
+      <li class="next"><a href="/%E5%AD%98%E5%82%A8/2014/07/29/drbd-on-ubuntu14.04" title="基于Ubuntu 14.04 的DRBD配置">下一篇 &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+
+
+  <!-- Duoshuo Comment BEGIN -->
+    <div id="comments">
+        <div class="ds-thread" data-thread-key="/%E8%BF%90%E7%BB%B4/2014/07/28/iSCSI-on-ubuntu14.04"  data-title="基于Ubuntu 14.04的iSCSI存储配置--Target创建，Initiator连接 - 龙棠博客"></div>
+    </div>
+<!-- Duoshuo Comment END -->
+
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2016 龙棠博客
+        </p>
+      </div>
+    </div>
+    <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"longtang"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script>
+    $(function () {
+        var elm = $('.navbar');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function () {
+            var p = $(window).scrollTop();
+            $(elm).css('position', ((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top', ((p) > startPos) ? '0px' : "");
+        });
+    });    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-56471525-1', 'auto');
+     ga('send', 'pageview');
+    </script>
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <script src="/assets/themes/bootstrap-3/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
