@@ -36,6 +36,12 @@ gem install rake
 ##### /usr/local/share/ruby/site_ruby/rubygems/core_ext/kernel_require.rb:55:in `require': cannot load such file -- json/pure
 上述报错安装json_pure
 
+### 安装Nodejs
+{%highlight bash%}
+#Jekyll 依赖js所以需要安装nodejs
+$yum install nodejs
+{%endhighlight%}
+
 ### 安装Jekyll指定版本
 {% highlight bash %}
 gem install jekyll -v 2.4.0				# 安装指定版本，默认3.1.6有问题
