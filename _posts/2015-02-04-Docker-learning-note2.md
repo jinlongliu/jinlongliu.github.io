@@ -8,7 +8,7 @@ tags: [Docker, Linux]
 {% include JB/setup %}
 ## 运行使用Docker
 - 容器是镜像的一个实例，其拥有额外的可写文件层。
-- 通过命令参数-d，使容器以守护态（Daemonized）运行
+- 通过命令参数-d，使容器以守护态（Daemonized）运行,只和docker run 使用
 
 ### 创建容器
 {%highlight bash%}
@@ -89,7 +89,7 @@ $docker rm -f b016ba8e759d
 
 ### 导入和导出容器
 - 导出命令格式 docker export CONTAINER > OUTPUT_FILE_NAME
-- 导入命令格式 cat INPUT_FILE_NAME | docker import - IMAGE_NAME[:TAG]
+- 导入命令格式 cat INPUT_FILE_NAME \| docker import - IMAGE_NAME[:TAG]
 {%highlight bash%}
 cfd4b89c9d73        test:2              "/bin/bash"              34 minutes ago       Created                                             modest_goldberg
 [root@king ~]# docker export cfd>output.tar
