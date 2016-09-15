@@ -121,13 +121,13 @@ $docker load --input ubuntu.tar
 $docker load < ubuntu.tar 
 {%endhighlight%}
 
-### 上传镜像
+#### 上传镜像
 命令格式docker pusher NAME:[TAG]
 {%highlight bash%}
 $docker push registry/test:2.0
 {%endhighlight%}
 
-##小结
+## 小结
 - 获取镜像 docker pull NAME[:TAG]
 - 查看镜像 docker images
 - 镜像详情 docker inspect NAME[:TAG]
