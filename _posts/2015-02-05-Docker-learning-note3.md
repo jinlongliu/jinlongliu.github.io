@@ -42,3 +42,43 @@ curl king:5000/v2/_catalog
 {"repositories":["ubuntu"]}
 {%endhighlight%}
 
+## Docker数据管理
+- 容器管理数据方式：1.数据卷Data Volumes;2.数据卷容器Data Volumes Dontainers
+- 数据卷可以共享重用，修改立即生效，对镜像无影响，始终存在。
+
+{%highlight bash%}
+#以下创建了数据卷 /webapp
+$docker run -d -P --name web -v /webapp training/webapp python app.py
+
+#将宿主机/src/webapp 目录挂在到容器的/webapp,/src/webapp目录在命令执行时会自动创建
+docker run -d -P --name web -v /src/webapp:/webapp training/webapp python app.py
+
+#只读挂在
+docker run -d -P --name webs2 -v /src/webapp:/webapp:ro training/webapp python app.py
+
+#挂在单独文件读写
+$docker run --rm -it -v ~/test.file:/test.file ubuntu /bin/bash
+{%endhighlight%} 
+
+### 通过数据卷容器共享
+{%highlight bash%}
+#创建数据卷容器
+$docker run -it -v /opt/data --name dbdata ubuntu
+
+#使用数据卷容器
+$docker run -it --volumes-from dbdata --name db1 ubuntu
+$docker run -it --volumes-from dbdata --name db2 ubuntu
+
+#--volumes-from 可以多次使用，或者传递性挂载
+$docker run -it --volumes-from db2 --name db3 ubuntu
+
+#--volumes-from 后面作为数据卷使用的容器，本身不需要处于运行状态即可使用
+{%endhighlight%}
+
+## 小结
+- Registry V2 HTTP API查询仓库清单 http://RegistryServerIP:5000/v2/_catalog
+- docker run -P 随机选取宿主机IP映射到容器IP
+- docker run -it -v HOST_PATH:CONTAINER_PATH ubuntu 挂载数据卷
+- 通过多个容器使用--volumes-from 同一个数据卷容器达到数据共享同步
+
+
