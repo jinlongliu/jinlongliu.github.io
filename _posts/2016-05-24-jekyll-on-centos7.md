@@ -29,8 +29,9 @@ https://ruby.taobao.org/
 ### gem安装依赖
 {% highlight bash %}
 gem install json_pure
+gem install rouge
+gem install bundler
 gem install rake
-gem install json_pure
 {% endhighlight %}
 ##### /usr/local/share/ruby/site_ruby/rubygems/core_ext/kernel_require.rb:55:in `require': cannot load such file -- json/pure
 上述报错安装json_pure
@@ -42,6 +43,8 @@ jekyll build --incremental --watch		# 编译开启，并自动检测修改
 jekyll serve -H 0.0.0.0			# 启动server并监听所有访问
 rake preview					# 启动监听并自动检测修改		
 {% endhighlight %}
+
+<p>如果报错Liquid Exception: highlight tag was never closed in，配置_config.yml中添加excerpt_separator: ""</p>
 
 ### 创建文章
 {% highlight bash %}
