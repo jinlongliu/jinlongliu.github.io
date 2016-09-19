@@ -24,6 +24,7 @@ gem source -l
 *** CURRENT SOURCES ***
 
 https://ruby.taobao.org/
+gem sources -u 
 {% endhighlight %}
 
 ### gem安装依赖
