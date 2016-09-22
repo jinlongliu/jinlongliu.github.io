@@ -172,6 +172,9 @@ $ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read objec
 
 #检测安装
 $ceph health
+
+#查看节点上磁盘情况
+$ceph-deploy disk list node1
 {%endhighlight%}
 
 ## 小结
