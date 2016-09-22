@@ -3,7 +3,7 @@ layout: post
 title: "CentOS7部署Ceph"
 description: ""
 category: 存储
-tags: [存储, Linux]
+tags: [存储, Linux, Ceph]
 ---
 {% include JB/setup %}
 #### ceph-deploy部署需要完全在线，但是纯手工配置又过于繁琐，笔者最近尝试，手动安装然后用Ceph-deploy配置。
@@ -136,12 +136,18 @@ $cd ceph_cluster
 #创建基于某个节点为监控节点的集群信息
 $ceph-deploy new node1
 
+#如果配置多个监控节点
+$ceph-deploy new node1 node2 node3
+
 #修改配置新增一行，调整默认OSD数
 $vim ceph.conf
 osd pool default size = 3
 
 #初始化监控节点
 $ceph-deploy mon create-initial
+
+#重复配置是，需要添加覆盖参数
+$ceph-deploy --overwrite-conf mon create-inital
 
 #准备OSD存储
 ssh node1 -- mkdir -p /var/local/osd1
