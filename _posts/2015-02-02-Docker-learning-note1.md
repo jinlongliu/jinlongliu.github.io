@@ -122,7 +122,7 @@ $docker load < ubuntu.tar
 {%endhighlight%}
 
 #### 上传镜像
-命令格式docker pusher NAME:[TAG]
+命令格式docker push NAME:[TAG]
 {%highlight bash%}
 $docker push registry/test:2.0
 {%endhighlight%}
