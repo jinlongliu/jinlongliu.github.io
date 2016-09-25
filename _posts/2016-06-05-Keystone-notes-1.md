@@ -173,6 +173,15 @@ Accept              application/json
     }
 }
 
+#Token 存放于X-Subject-Token
+Content-Length →307
+Content-Type →application/json
+Vary →X-Auth-Token
+X-Subject-Token →gAAAAABX5pd6BDxhG46-KXSjhres-bjqPMN7qUN0ZO1JV0CGs-Q2bfwjnozJZptE5ht2PpgEZIgNU7NkKTPqLfbD6-nXMJTewZgekhMWGqNTriGz7aTmn3nD1m8JssAW-iLiaeAZxrcxrfa7Ovm_JbkSRmqPHwAngA
+x-openstack-request-id →req-2d4c2a9a-b7dd-4437-9854-2952cd724ce2
+
+#部分Admin请求在获取Token是要求指定范围，后续请求将X-Subject-Token放入请求头中X-Auth-Token中
+
 {%endhighlight%}
 
 ***
