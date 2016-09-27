@@ -11,6 +11,11 @@ tags: [Openstack, Keystone]
 
 ### Paste deploy了解
 
+>
+- Paste Deployment is a system for finding and configuring WSGI applications and servers.
+- 对于WSGI应用消费者它提供单实例简单的loadapp从.ini配置或者Python Egg中载入WSGI应用
+- 对于WSGI应用提供者只询问应用的切入点
+
 ### 典型配置
 {%highlight bash%}
 [composite:main]
