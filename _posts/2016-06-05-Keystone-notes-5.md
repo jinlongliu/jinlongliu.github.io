@@ -12,6 +12,12 @@ tags: [Openstack, Keystone]
 ### Keystone交互流程
 ![Keystone Workflow](/upload/2016/06/Keystone-workflow.png)
 
+### 基本交互图
+<img src="/upload/2016/06/workflow2.png" width="900px">
+
+### Keystone和其它组件交互
+![Keystone Workflow3](/upload/2016/06/workflow3.jpg)
+
 
 
 
