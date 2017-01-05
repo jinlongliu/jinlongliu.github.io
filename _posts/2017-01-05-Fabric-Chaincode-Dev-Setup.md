@@ -17,23 +17,23 @@ tags: [区块链, Fabric, Chaincode]
 - vmware的ubuntu最好安装vmware-tools 这样你本地的maven仓库可以共享到虚拟机，
 然后到容器，这样在编译java chaincode时可以复用本地包
 
-#安装docker
+# 安装docker
 - 可以通过网络百度安装方法，Fabric开发官方推荐是1.12+
 - 或者通过下载本文中的安装附件，在dockerDEB目录中通过dpkg -i *.deb
 
-#安装docker-compose
+# 安装docker-compose
 - 安装pip，在pipDEB目录中dpkg -i *.deb
 - pip install --upgrade pip
 - pip install behave nose docker-compose
 
-#下载docker镜像，可以从官方pull
+# 下载docker镜像，可以从官方pull
 - docker pull hyperledger/fabric-peer:latest
 - docker pull hyperledger/fabric-membersrvc:latest
 - 在下载附件FabricDockerImages目录中通过命令导入
 - docker load < fabric-peer.tar
 - docker load < fabric-membersrvc.tar
 
-#编辑docker-compose文件
+# 编辑docker-compose文件
 - 在deploy目录vim docker-compose.yml
 {%highlight bash%}
 membersrvc:
