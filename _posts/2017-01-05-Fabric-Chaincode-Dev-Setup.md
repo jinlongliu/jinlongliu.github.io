@@ -213,7 +213,7 @@ Query Result: {"Name":"a","Amount":"60"}
 16:33:31.337 [main] main -> INFO 004 Exiting.....
 {%endhighlight%}
 
-### Rest API
+### Rest API (V1.0 REST API将弃用)
 {%highlight bash%}
 root@fabric:~# curl 127.0.0.1:7050/chain
 {
@@ -221,7 +221,14 @@ root@fabric:~# curl 127.0.0.1:7050/chain
     "currentBlockHash": "UPlJDYyOBwc+wtbwDqoYUxsqnBerbEeIe/DqEL1KfgXOt5+Whkq6PTalMdgOJeDTd1SpZAkH8+gY1cNtJOt//Q==",
     "previousBlockHash": "xbvUoAaE54XyBg5yQaavC+U4gmQUJg8Hf12cizmB6V1rVWzUBdamxjdPVkNWBJr93K3/Ez/yyBlz5c3gC2BZsw=="
 }
+
+curl 127.0.0.1:7050/chain/blocks/1
+#如果在windows使用postman 查询，请求发往http://192.168.78.130:7050/chain/blocks/1
 {%endhighlight%}
+
+# 小结
+- 耗时在拉取fabric镜像，编译java chaincode最好在容器内编译，尝试在windows编译java失败，报错较多。
+- 参考文档 [Hyperledger Fabric](http://hyperledger-fabric.readthedocs.io/en/v0.6/)
 
 
 
