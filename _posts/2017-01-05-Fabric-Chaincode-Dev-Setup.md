@@ -226,6 +226,40 @@ curl 127.0.0.1:7050/chain/blocks/1
 #如果在windows使用postman 查询，请求发往http://192.168.78.130:7050/chain/blocks/1
 {%endhighlight%}
 
+- GET /chain/blocks/{Block}
+- GET /chain
+- POST /chaincode
+- GET /network/peers
+- POST /registrar
+- DELETE /registrar/{enrollmentID}
+- GET /registrar/{enrollmentID}
+- GET /registrar/{enrollmentID}/ecert
+- GET /registrar/{enrollmentID}/tcert
+- GET /transactions/{UUID}
+
+### Golang chaincode调用
+- 在容器中或者本地编一个chaincode
+{%highlight bash%}
+#编译在bin目录下生成可执行文件，代码里有main函数
+cd $GOPATH/src/github.com/chaincode_example0
+go build
+
+#CORE_CHAINCODE_ID_NAME，CORE_PEER_ADDRESS 为环境变量
+#linux上用export，dos用set
+#程序会启动一个与validating peer的gRPC通道供其调用
+CORE_CHAINCODE_ID_NAME=mycc CORE_PEER_ADDRESS=0.0.0.0:7051 ./chaincode_example02
+{%endhighlight%}
+- 在其它SSH终端中部署chaincode
+{%highlight bash%}
+peer network login jim
+#输入密码6avZQLwcUe9b
+
+peer chaincode deploy -u jim -l golang -n mycc -c '{"Args": ["init", "a","100", "b", "200"]}' 
+peer chaincode invoke -u jim -l golang -n mycc -c '{"Args": ["transfer", "a", "b", "10"]}'
+peer chaincode query -u jim -l golang -n mycc -c '{ "Args": ["query", "a"]}'
+peer chaincode query -u jim -l golang -n mycc -c '{"Args": ["query", "b"]}'
+{%endhighlight%}
+
 # 小结
 - 耗时在拉取fabric镜像，编译java chaincode最好在容器内编译，尝试在windows编译java失败，报错较多。
 - 参考文档 [Hyperledger Fabric](http://hyperledger-fabric.readthedocs.io/en/v0.6/)
