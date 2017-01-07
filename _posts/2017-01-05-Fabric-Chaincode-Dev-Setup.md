@@ -254,6 +254,8 @@ CORE_CHAINCODE_ID_NAME=mycc CORE_PEER_ADDRESS=0.0.0.0:7051 ./chaincode_example02
 peer network login jim
 #输入密码6avZQLwcUe9b
 
+peer network login jim -p 6avZQLwcUe9b
+
 peer chaincode deploy -u jim -l golang -n mycc -c '{"Args": ["init", "a","100", "b", "200"]}' 
 peer chaincode invoke -u jim -l golang -n mycc -c '{"Args": ["transfer", "a", "b", "10"]}'
 peer chaincode query -u jim -l golang -n mycc -c '{ "Args": ["query", "a"]}'
