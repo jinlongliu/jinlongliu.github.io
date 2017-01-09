@@ -2,7 +2,7 @@
 layout: post
 title: "Chaincode Deploy链码部署"
 description: ""
-category: 区块链 
+category: Blockchain 
 tags: [区块链, Fabric, Chaincode]
 ---
 {% include JB/setup %}
