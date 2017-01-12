@@ -57,7 +57,7 @@ membersrvc:
    command: membersrvc
 {%endhighlight%}
 
-## docker-compose-4-consensus-base.yml
+### docker-compose-4-consensus-base.yml
 - 定义了vp节点指向membersrvc连接需要的参数，membersrvc服务于端口7054
 - 指定了PBFT的副本数，这个在PBFT插件引擎中需要使用，同样参数在src/github.com/hyperledger/fabric/consensus/pbft/config.yaml
 {%highlight bash%}
@@ -87,7 +87,7 @@ vpBatch:
     - CORE_PBFT_GENERAL_BATCHSIZE=1
 {%endhighlight%}
 
-## docker-compose-4-consensus-batch.yml
+### docker-compose-4-consensus-batch.yml
 - 最终docker-compose文件
 - 在主机上运行docker-compose -f docker-compose-4-consensus-batch.yml up
 - 6060端口是性能分析的端口，笔者认为在初始极端用不到
