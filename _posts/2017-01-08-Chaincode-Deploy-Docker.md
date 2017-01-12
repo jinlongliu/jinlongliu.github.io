@@ -277,16 +277,3 @@ docker ps -a | awk 'NR >1 {print $1}' |xargs -I {} docker rm -f {}
 #删除所有dev-vp开头镜像
 docker images | awk 'NR >1 {print $1}' | awk '/dev-vp*/'|xargs -I {} docker rmi {}
 {%endhighlight%}
-### 分析
-
-
-# 小结
-- 
-- 
-- 
-
-
-
-
-
-
