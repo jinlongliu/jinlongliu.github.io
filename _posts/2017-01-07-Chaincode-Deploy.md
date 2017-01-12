@@ -100,7 +100,7 @@ peer chaincode query -u jim -l golang -n mycc -c '{"Args": ["query", "b"]}'
 
 ## 多个validator和单个membersrvc场景
 - src/github.com/hyperledger/fabric/bddtests/bdd-docker里面有多重场景的docker-compose文件
-- 我们分析docker-compose-4-consensus-batch-1-byzantine.yml
+- 我们分析docker-compose-4-consensus-batch.yml
 {%highlight bash%}
 membersrvc0:
   extends:
