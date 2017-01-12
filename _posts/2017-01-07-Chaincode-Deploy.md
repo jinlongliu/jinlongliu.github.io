@@ -73,8 +73,8 @@ func serve(args []string) error {
 #chaincodeDevMode的值在56行通过--peer-chaincodedev 解析获得
 {%endhighlight%}
 - dev这种模式下通过peer chaincode deploy... 执行validator不会去寻找chaincode的实际字节
-- docker-compose.yml中将容器的7051映射到宿主机的7051，所以按照如果你的环境是HOST->VM->CONTAINER
-则在HOST访问VM的7051，来简历chaincode和validator的连接进行注册
+- docker-compose.yml中将容器的7051映射到宿主机的7051，所以按照如果你的环境是HOST->VM->CONTAINER则在HOST访问VM的7051,<br/>
+来简历chaincode和validator的连接进行注册
 - 官方教程是编译chaincode为可执行程序
 - 设置chaincode注册需要的环境变量
 - CORE_CHAINCODE_ID_NAME=mycc      chaincode的id
