@@ -40,4 +40,21 @@ chmod +x docker-compose
 [root@controller common]# docker-compose --version
 docker-compose version 1.7.1, build 0a9ab35
 {% endhighlight %}
+
+### 修改启动参数
+{% highlight bash %}
+#针对CentOS/Red Hat Enterprise Linux
+mkdir /etc/systemd/system/docker.service.d
+
+vim /etc/systemd/system/docker.service.d/docker.conf
+
+#必须指定一个空行，后接一个新配置行
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// -D --tls=true --tlscert=/var/docker/server.pem --tlskey=/var/docker/serverkey.pem -H tcp://192.168.59.3:2376
+
+systemctl daemon-reload
+systemctl restart docker
+{% endhighlight %}
+
 {% include JB/setup %}
