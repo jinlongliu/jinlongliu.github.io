@@ -3,7 +3,7 @@ layout: post
 title: "Hyperledger Fabric中事件框架"
 description: ""
 category: Blockchain 
-tags: [区块链, Fabric, Chaincode，byzantine]
+tags: [区块链, Fabric, Chaincode，EventFramework]
 ---
 {% include JB/setup %}
 
