@@ -13,6 +13,17 @@ tags: [区块链, Fabric, Chaincode，byzantine]
 - 事件适配器
 - 事件结构
 
+### 事件框架代码目录
+  - src/github.com/hyperledger/fabric/events
+  - 事件流是用来发送和接收事件的gRPC通道
+  - 事件生产者暴露函数`Send(e *pb.Event)`来发送事件
+  - 事件消费者允许外部应用监听事件
+
+### 事件适配器 事件适配器封装了三种流交互的切面：
+  - 返回所有感兴趣的事件列表的接口
+  - 当事件消费者框架接受到事件后调用的接口
+  - 当事件总线终止时，事件消费者框架会调用的接口
+
 ### 数据结构
 ![PBFT](/upload/2017/eventFrameworkDataStructure.png)
 
