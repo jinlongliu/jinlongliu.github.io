@@ -7,6 +7,9 @@ tags: [区块链, Fabric, Chaincode]
 ---
 {% include JB/setup %}
 
+### 事件管理交互图V0.6.1
+![PBFT](/upload/2017/eventManager.png)
+
 ### Fabric多处用了事件管理
 - coordinatorImpl
 {% highlight bash %}
@@ -49,6 +52,5 @@ type obcBatch struct {
 }
 {% endhighlight %}
 
-### 事件管理交互图
-![PBFT](/upload/2017/eventManager.png)
+
 
