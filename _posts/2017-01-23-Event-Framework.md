@@ -6,6 +6,7 @@ category: Blockchain
 tags: [区块链, Fabric, Chaincode，EventFramework]
 ---
 {% include JB/setup %}
+**<font color="red">版权声明：本文为博主原创文章，未经博主授权不得转载。</font>**
 
 ### 事件框架V0.6.1
 - 事件框架提供了生产和消费预定义或自定义的事件的能力。它有3个基础组件：
