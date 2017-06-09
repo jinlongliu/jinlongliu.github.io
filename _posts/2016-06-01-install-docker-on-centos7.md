@@ -57,4 +57,12 @@ systemctl daemon-reload
 systemctl restart docker
 {% endhighlight %}
 
+### 指定其他仓库
+{% highlight bash %}
+ExecStart=/usr/bin/dockerd --insecure-registry=54.193.56.94:5000
+
+#下载其它仓库镜像
+docker pull 54.193.56.94:5000/hyperledger/fabric-ca
+{% endhighlight %}
+
 {% include JB/setup %}
