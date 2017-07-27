@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Ubuntu 16.04 安装docker 17.06ce运行swarm模式"
+title: "Ubuntu 16.04 安装docker 17.06.0-ce运行swarm模式"
 description: ""
 category: Docker 
 tags: [Docker]
