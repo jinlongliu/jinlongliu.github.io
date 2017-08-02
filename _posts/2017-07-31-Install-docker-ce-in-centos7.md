@@ -38,6 +38,10 @@ $ yum list docker-ce.x86_64  --showduplicates | sort -r
 
 #启动
 $ sudo systemctl start docker
+
+#开机启动
+$systemctl enable docker
+$systemctl list-unit-files| grep docker
 {% endhighlight %}
 
 ### 卸载
