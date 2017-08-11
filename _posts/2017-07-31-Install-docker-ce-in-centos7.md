@@ -27,6 +27,26 @@ $ sudo yum-config-manager --enable docker-ce-edge
 $ sudo yum-config-manager --enable docker-ce-testing
 {% endhighlight %}
 
+### 修改主机名
+{% highlight bash %}
+$ hostnamectl --static set-hostname c1
+
+$ hostnamectl status
+{% endhighlight %}
+
+### 开放防火墙端口
+{% highlight bash %}
+$firewall-cmd --zone=public --add-port=2377/tcp --permanent && \
+    firewall-cmd --zone=public --add-port=7946/tcp --permanent && \
+    firewall-cmd --zone=public --add-port=7946/udp --permanent && \
+    firewall-cmd --zone=public --add-port=4789/tcp --permanent && \
+    firewall-cmd --zone=public --add-port=4789/udp --permanent && \
+    firewall-cmd --reload 
+
+$firewall-cmd --list-ports
+4789/udp 7946/tcp 7946/udp 2377/tcp 4789/tcp
+{% endhighlight %}
+
 ### 安装
 {% highlight bash %}
 #刷新软件索引
