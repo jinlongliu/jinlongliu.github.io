@@ -76,6 +76,11 @@ curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://0503c5a1
 
 #执行效果，新增文件/etc/docker/daemon.json 内容如下
 {"registry-mirrors": ["http://0503c5a1.m.daocloud.io"]}
+
+#阿里加速器
+{"registry-mirrors": ["https://axhzwr24.mirror.aliyuncs.com"]}
+$systemctl daemon-reload
+$systemctl restart docker
 {% endhighlight %}
 
 
