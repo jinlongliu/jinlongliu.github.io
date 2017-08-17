@@ -22,12 +22,12 @@ Enter：SHIFT + CTRL + ALT + /
 
 ### 新增依赖
 {% highlight bash %}
-        <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-			<scope>runtime</scope>
-		</dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
+        <scope>runtime</scope>
+    </dependency>
 {% endhighlight %}
 
 {% include JB/setup %}
