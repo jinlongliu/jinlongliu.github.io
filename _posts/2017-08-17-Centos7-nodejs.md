@@ -58,6 +58,57 @@ $ npm install
 $ npm run dev
 {% endhighlight %}
 
+### 使用iView-project
+{% highlight bash %}
+#按照上述安装npm webpack vue
+$ git clone https://github.com/iview/iview-project.git
+
+$ vim webpack.dev.config.js
+#在module.exports 内新增devServer信息【webpack知识】
+module.exports = merge(webpackBaseConfig, {
+    devtool: '#source-map',
+    output: {
+        publicPath: '/dist/',
+        filename: '[name].js',
+        chunkFilename: '[name].chunk.js'
+    },
+    devServer: {
+        publicPath: '/dist/',
+        host: '0.0.0.0',
+        port: 8080
+    },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: '[name].css',
+            allChunks: true
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendors',
+            filename: 'vendors.js'
+        }),
+        new HtmlWebpackPlugin({
+            filename: '../index.html',
+            template: './src/template/index.ejs',
+            inject: false
+        })
+    ]
+});
+
+#如果Centos7注意开放防火墙
+
+#安装依赖,会生成node_modules
+$ npm install 
+
+#开发
+$ npm run init
+$ npm run dev
+
+#生产打包
+$ npm run build 
+{% endhighlight %}
+
+### 部署
+webpack.prod.config.js指定了打包后的输出目录，该目录即为前段的所有静态文件，index_prod.html作为后台返回的主入口
 {% include JB/setup %}
 
 
