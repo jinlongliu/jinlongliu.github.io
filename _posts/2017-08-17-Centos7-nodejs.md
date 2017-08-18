@@ -109,6 +109,28 @@ $ npm run build
 
 ### 部署
 webpack.prod.config.js指定了打包后的输出目录，该目录即为前段的所有静态文件，index_prod.html作为后台返回的主入口
+
+### webpack代理
+{% highlight bash %}
+#0.0.0.0:8080/api/* 重定向到 172.18.1.27:8080/*
+ devServer: {
+        publicPath: '/dist/',
+        host: '0.0.0.0',
+        port: 8080,
+        proxy: {
+          '/api': {
+            target: {
+              host: "172.18.1.27",
+              protocol: 'http:',
+              port: 8080
+            },
+            pathRewrite: {
+                '^/api': ''
+            }
+          }
+        }
+    },
+{% endhighlight %}
 {% include JB/setup %}
 
 
