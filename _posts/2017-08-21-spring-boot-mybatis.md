@@ -30,6 +30,7 @@ spring:
     url: jdbc:mysql://172.18.60.121:3306/liujinlong
     username: root
     password: 123qwe!@#QWE
+    #是否使用schema.sql初始化数据库，存放resources目录
     initialize: false
 
 mybatis:
