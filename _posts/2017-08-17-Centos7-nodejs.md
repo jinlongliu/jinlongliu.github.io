@@ -131,6 +131,16 @@ webpack.prod.config.js指定了打包后的输出目录，该目录即为前段�
         }
     },
 {% endhighlight %}
+
+### FAQ
+{% highlight bash %}
+$Component template should contain exactly one root element
+#<template></template>内只能包含一个根元素
+
+Right: <template><div><button>xxx</button></div></template>
+Wrong: <template><div></div><button>xxx</button></template>
+#上述中错误示例里 div 和 button并列
+{% endhighlight %}
 {% include JB/setup %}
 
 
