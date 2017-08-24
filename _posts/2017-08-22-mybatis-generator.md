@@ -35,6 +35,8 @@ tags: [Spring]
 
 ### mybatis-generator配置文件，存放路径spring-boot的resources
 {% highlight bash %}
+#generatorConfig.xml
+
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
