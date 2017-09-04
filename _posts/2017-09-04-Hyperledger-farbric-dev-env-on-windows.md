@@ -89,8 +89,6 @@ set CGO_ENABLED=1
 {% endhighlight %}
 
 
-
-
 ###Windows开发环境实质
 {% highlight bash %}
 #windows开发环境实质上是fabric，fabric-ca,fabric-sdk-java代码存放于windows上，编译打包制作docker镜像在virtualbox的ubuntu里面
@@ -314,9 +312,13 @@ Commands
  * version - [DEPRECATED] will be removed in v1 - use `choco outdated` or `cup <pkg|all> -whatif` instead
  * update - [DEPRECATED] RESERVED for future use (you are looking for upgrade, these are not the droids you are looking
 for)
+
+#Linux开发环境只需要按照setup.sh, 因为windows开发环境的实质还是Linux开发环境，只是代码存放于windows上
 {% endhighlight %}
 
 ### 下篇预告《构建基于kafka的fabric》，尽请期待！
+
+
 
 {% include JB/setup %}
 
