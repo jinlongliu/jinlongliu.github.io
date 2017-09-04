@@ -316,7 +316,7 @@ Commands
 for)
 {% endhighlight %}
 
-### 下篇预告《构件基于kafka的fabric》，尽请期待！
+### 下篇预告《构建基于kafka的fabric》，尽请期待！
 
 {% include JB/setup %}
 
