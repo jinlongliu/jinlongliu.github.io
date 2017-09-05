@@ -248,6 +248,8 @@ zkCli.sh -server 127.0.0.1
 {% endhighlight %}
 
 ### 设置kafka-manager
+- 在zookeeper,kafka启动ok后访问kafka-manager暴露的端口，Cluster Zookeeper Hosts填写zookeeper.example.com:2181，从kafka-manager角度这个dns是可解析的
+- 勾选Enable JMX，Poll consumer information这样可以观察topic的Latest Offset
 ![SETUP-KM](/upload/2017/setup-km.png)
 
 ### 小结
