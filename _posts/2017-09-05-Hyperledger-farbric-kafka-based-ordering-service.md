@@ -16,7 +16,8 @@ tags: [区块链,Hyperledger, Fabric, Chaincode]
 ### 说明
 - Zookeeper 分布式的，开放源码的分布式应用程序协调服务
 - Kafka 高吞吐量的分布式发布订阅消息系统
-- Kafka-manger kafka集群管理工具，笔者的是已经重新tag的，docker pull sheepkiller/kafka-manager:alpine获取
+- Kafka-manager kafka集群管理工具，笔者的是已经重新tag的，docker pull sheepkiller/kafka-manager:alpine获取
+- Kafka-manager 只是UI管理工具，在此次试验中存在与否不重要，km.example.com容器是完全可以注释掉的
 
 ### 原始E2E例子yaml解析
 {% highlight bash %}
