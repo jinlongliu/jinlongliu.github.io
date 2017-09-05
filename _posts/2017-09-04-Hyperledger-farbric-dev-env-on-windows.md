@@ -322,6 +322,7 @@ for)
 
 #FIRST:构建测试环境
 ubuntu@hyperledger-devenv:e43b68f:/opt/gopath/src/github.com/hyperledger/fabric/sdkintegration
+#对应fabric-sdk-java项目目录src/test/fixture/sdkintegration
 #该目录内修改.env文件,默认为1.0.1,修改为1.0.2
 $docker-compose up
 CONTAINER ID        IMAGE                                     COMMAND                  CREATED              STATUS              PORTS                                            NAMES
