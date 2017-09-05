@@ -366,6 +366,41 @@ Tests run: 18, Failures: 0, Errors: 0, Skipped: 2
 [INFO] Final Memory: 14M/174M
 [INFO] ------------------------------------------------------------------------
 
+#failsafe补充
+Failsafe和maven结合，将整个集成测试分为4个阶段： 
+1. pre-integration-test 启动测试环境，比如通过容器插件cargo启动容器，加载应用 
+2. integration-test 执行集成测试用例， 
+3. post-integration-test 清理测试环境 
+4. verify 检测测试结果 
+
+test目录下所有 “/ITCase.Java”，”/IT.java” 和”**/*IT.java” 测试用例
+
+#pom配置
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>2.19.1</version>
+    <configuration>
+        <argLine>${failsafeArgLine}</argLine>
+        <includes>
+            <include>**/IntegrationSuite.java</include>
+        </includes>
+        <skipITs>${skipITs}</skipITs>
+        <!--<argLine>-->
+        <!-- -Xbootclasspath/p:${settings.localRepository}/org/mortbay/jetty/alpn/alpn-boot/${alpn-boot-version}/alpn-boot-${alpn-boot-version}.jar-->
+        <!--</argLine>-->
+    </configuration>
+    <executions>
+        <execution>
+            <id>failsafe-integration-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
 
 {% endhighlight %}
 
