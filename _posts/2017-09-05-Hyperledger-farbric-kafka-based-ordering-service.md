@@ -247,6 +247,9 @@ zkCli.sh -server 127.0.0.1
 #重新启动kafka，整个过程zookeeper可以不需要停止
 {% endhighlight %}
 
+### 设置kafka-manager
+![SETUP-KM](/upload/2017/setup-km.png)
+
 ### 小结
 - [Bringing up a Kafka-based Ordering Service](http://hyperledger-fabric.readthedocs.io/en/latest/kafka.html) 官方文档构建参考
 - 官方指南是3 zookeeper，4 kafka，本次实验是1 zookeeper，1 kafka构建不包含冗余和可用性存在多处单点故障
