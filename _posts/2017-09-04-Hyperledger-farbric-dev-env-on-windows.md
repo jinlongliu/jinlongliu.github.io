@@ -316,6 +316,58 @@ for)
 #Linux开发环境只需要按照setup.sh, 因为windows开发环境的实质还是Linux开发环境，只是代码存放于windows上
 {% endhighlight %}
 
+### Fabric-sdk-java
+{% highlight bash %}
+#创建两个vagrant ssh
+
+#FIRST:构建测试环境
+ubuntu@hyperledger-devenv:e43b68f:/opt/gopath/src/github.com/hyperledger/fabric/sdkintegration
+#该目录内修改.env文件,默认为1.0.1,修改为1.0.2
+$docker-compose up
+CONTAINER ID        IMAGE                                     COMMAND                  CREATED              STATUS              PORTS                                            NAMES
+e77cac2d62e4        hyperledger/fabric-peer:x86_64-1.0.2      "peer node start"        About a minute ago   Up About a minute   0.0.0.0:7056->7051/tcp, 0.0.0.0:7058->7053/tcp   peer1.org1.example.com
+a01670d92b08        hyperledger/fabric-peer:x86_64-1.0.2      "peer node start"        About a minute ago   Up About a minute   0.0.0.0:8056->7051/tcp, 0.0.0.0:8058->7053/tcp   peer1.org2.example.com
+b7114220bc1b        hyperledger/fabric-peer:x86_64-1.0.2      "peer node start"        About a minute ago   Up About a minute   0.0.0.0:8051->7051/tcp, 0.0.0.0:8053->7053/tcp   peer0.org2.example.com
+7e767f05b5b5        hyperledger/fabric-peer:x86_64-1.0.2      "peer node start"        About a minute ago   Up About a minute   0.0.0.0:7051->7051/tcp, 0.0.0.0:7053->7053/tcp   peer0.org1.example.com
+81f953933fed        hyperledger/fabric-orderer:x86_64-1.0.2   "orderer"                About a minute ago   Up About a minute   0.0.0.0:7050->7050/tcp                           orderer.example.com
+9b7a12985544        hyperledger/fabric-tools:x86_64-1.0.2     "/usr/local/bin/co..."   About a minute ago   Up About a minute   0.0.0.0:7059->7059/tcp                           configtxlator
+88dc3f728287        hyperledger/fabric-ca:x86_64-1.0.2        "sh -c 'fabric-ca-..."   About a minute ago   Up About a minute   0.0.0.0:7054->7054/tcp                           ca_peerOrg1
+ab5424ab459c        hyperledger/fabric-ca:x86_64-1.0.2        "sh -c 'fabric-ca-..."   About a minute ago   Up About a minute   0.0.0.0:8054->7054/tcp                           ca_peerOrg2
+34acae21e4ce        portainer:1.13.6                          "/portainer -H uni..."   37 hours ago         Up 3 hours          0.0.0.0:9000->9000/tcp                           heuristic_haibt
+
+#SECOND:测试
+ubuntu@hyperledger-devenv:e43b68f:/opt/gopath/src/github.com/hyperledger/fabric/devenv/fabric-sdk-java
+$mvn clean
+$mvn install
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ fabric-sdk-java ---
+[INFO] Installing /opt/gopath/src/github.com/hyperledger/fabric/devenv/fabric-sdk-java/target/fabric-sdk-java-1.0.1.jar to /home/ubuntu/.m2/repository/org/hyperledger/fabric-sdk-java/fabric-sdk-java/1.0.1/fabric-sdk-java-1.0.1.jar
+[INFO] Installing /opt/gopath/src/github.com/hyperledger/fabric/devenv/fabric-sdk-java/pom.xml to /home/ubuntu/.m2/repository/org/hyperledger/fabric-sdk-java/fabric-sdk-java/1.0.1/fabric-sdk-java-1.0.1.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 02:00 min
+[INFO] Finished at: 2017-09-05T12:32:25+08:00
+[INFO] Final Memory: 39M/378M
+[INFO] ------------------------------------------------------------------------
+
+#集成测试End2endIT
+$mvn failsafe:integration-test -DskipITs=false
+Results :
+
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 2
+
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent! The file encoding for reports output files should be provided by the POM property ${project.reporting.outputEncoding}.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 55.370 s
+[INFO] Finished at: 2017-09-05T12:34:03+08:00
+[INFO] Final Memory: 14M/174M
+[INFO] ------------------------------------------------------------------------
+
+
+{% endhighlight %}
+
 ### 下篇预告《构建基于kafka的fabric》，尽请期待！
 
 
