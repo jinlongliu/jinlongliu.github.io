@@ -368,6 +368,8 @@ Tests run: 18, Failures: 0, Errors: 0, Skipped: 2
 
 {% endhighlight %}
 
+参考链接：[Java SDK for Hyperledger Fabric 1.0 ](https://bertrandszoghy.wordpress.com/2017/05/12/fabric-sdk-java/)
+
 ### 下篇预告《构建基于kafka的fabric》，尽请期待！
 
 
