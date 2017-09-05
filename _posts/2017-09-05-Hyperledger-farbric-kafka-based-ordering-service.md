@@ -231,6 +231,21 @@ peer chaincode invoke -o orderer.example.com:7050  --tls $CORE_PEER_TLS_ENABLED 
 
 {% endhighlight %}
 
+### 删除topic【可跳过，笔者自用】
+{% highlight bash %}
+#测试过程中可能想全部重新来一次，如何彻底删除topic，当然可以选择全部重构zookeer，kafka
+#停止所有producer，consumer,停止kafka或者停止容器，如果将/data/kafka映射到其它目录需要删除数据
+#登录zookeeper容器
+zkCli.sh -server 127.0.0.1
+>rmr /brokers
+>rmr /admin
+>rmr /config
+>rmr /isr_change_notification
+>rmr /kafka-manager
+
+#重新启动kafka，整个过程zookeeper可以不需要停止
+{% endhighlight %}
+
 ### 小结
 - [Bringing up a Kafka-based Ordering Service](http://hyperledger-fabric.readthedocs.io/en/latest/kafka.html) 官方文档构建参考
 - 官方指南是3 zookeeper，4 kafka，本次实验是1 zookeeper，1 kafka构建不包含冗余和可用性存在多处单点故障
