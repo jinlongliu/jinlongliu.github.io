@@ -6,7 +6,7 @@ category: Blockchain
 tags: [区块链, Fabric, Chaincode]
 ---
 {% include JB/setup %}
-**<font color="red">版权声明：本文为博主原创文章，未经博主授权不得转载。</font>**
+**<font color="red">版权声明：本文为博主原创文章，转载注明“龙棠博客”字样和原文链接。</font>**
 
 ### 事件管理交互图V0.6.1
 <img src="/upload/2017/peerCommunication.png" width="1024px">
