@@ -89,7 +89,7 @@ set CGO_ENABLED=1
 {% endhighlight %}
 
 
-###Windows开发环境实质
+### Windows开发环境实质
 {% highlight bash %}
 #windows开发环境实质上是fabric，fabric-ca,fabric-sdk-java代码存放于windows上，编译打包制作docker镜像在virtualbox的ubuntu里面
 #通过vagrant脚本【源码内】将windows目录映射到ubuntu目录
@@ -142,6 +142,11 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe mu
 deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 EOF
 
+#docker安装调整，安装docker-ce 17.06.2-ce
+apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+apt-get update -qq
+apt-get install -y --allow-unauthenticated linux-image-extra-$(uname -r) apparmor docker-ce
 
 #原67行
 # Install docker-compose
