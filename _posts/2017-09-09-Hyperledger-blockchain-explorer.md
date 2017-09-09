@@ -40,6 +40,9 @@ npm ERR! EPROTO: protocol error, symlink '../mkdirp/bin/cmd.js' -> '/opt/gopath/
 sudo npm install -g grpc
 $npm install --no-bin-links
 
+#初始化数据库
+fabric-sdk-node/fabric-explorer/db/fabricexplorer.sql
+
 {% endhighlight %}
 
 
@@ -49,6 +52,14 @@ $npm install --no-bin-links
 
 #blockchain-explorer/fabric-explorer/config.json 开启TLS
 "enableTls":true
+
+#同时配置数据库连接信息
+"mysql":{
+  "host":"127.0.0.1",
+  "database":"fabricexplorer",
+  "username":"root",
+  "passwd":"123456"
+}
 
 #相关配置
 #blockchain-explorer/fabric-explorer/app/network-config-tls.json
