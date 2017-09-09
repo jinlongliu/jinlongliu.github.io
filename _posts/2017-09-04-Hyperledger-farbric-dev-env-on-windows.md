@@ -183,6 +183,9 @@ NODE_URL=http://54.193.56.94/download/node-v6.9.5-linux-x64.tar.gz
 
 # Install from my VPS
 wget http://54.193.56.94/download/gradle-2.12-bin.zip -P /tmp
+
+#上述步骤中在setup.sh Line 136 make clean gotools 会导致失败，可以直接vagrant ssh进去手动执行后面几个
+#失败原因编译gotools依赖部分包需要从google下载，如果网络不可导编译失败，后续脚本停止执行
 {% endhighlight %}
 
 
