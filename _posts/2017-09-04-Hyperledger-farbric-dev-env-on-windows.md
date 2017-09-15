@@ -129,6 +129,8 @@ config.vm.network :forwarded_port, guest: 9000, host: 9000, id: "portainer", hos
 #启动虚拟机,在cygwin终端内devenv目录下执行
 $vagrant up
 
+#如果后续创建成功，但是第二使用时，它没有启动第一次创建的虚拟机，而是重新创建了，关闭cyg终端，再新开重新up
+
 #该命令会启动virtualbox下载Vagrantfile内配置的虚拟机镜像ubuntu/xenial64，启动后执行devenv/setup.sh脚本
 #此时可以Ctrl+C取消因为我们可以调整一下setup.sh脚本，加速构建
 
