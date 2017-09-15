@@ -113,6 +113,16 @@ D:               366G  111G  256G   31% /cygdrive/d
 #编辑vagrant脚本【fabric/devenv内】，脚本配置了宿主机【我的win10】和客户机【ubuntu】的路径映射管理和端口映射
 config.vm.network :forwarded_port, guest: 9000, host: 9000, id: "portainer", host_ip: "localhost", auto_correct: true # Portainer service
 
+# 映射端口至宿主机后续，可以在window上进行用例测试等操作
+# mapping ports for fabric-sdk-java development
+  config.vm.network :forwarded_port, guest: 7056, host: 7056, id: "java7056", host_ip: "localhost", autocorrect: true
+  config.vm.network :forwarded_port, guest: 7058, host: 7058, id: "java7058", host_ip: "localhost", autocorrect: true
+  config.vm.network :forwarded_port, guest: 8051, host: 8051, id: "java8051", host_ip: "localhost", autocorrect: true
+  config.vm.network :forwarded_port, guest: 8053, host: 8053, id: "java8053", host_ip: "localhost", autocorrect: true
+  config.vm.network :forwarded_port, guest: 8054, host: 8054, id: "java8054", host_ip: "localhost", autocorrect: true
+  config.vm.network :forwarded_port, guest: 8056, host: 8056, id: "java8056", host_ip: "localhost", autocorrect: true
+  config.vm.network :forwarded_port, guest: 8058, host: 8058, id: "java8058", host_ip: "localhost", autocorrect: true
+
 #将客户机9000端口映射到宿主机9000，portainer为docker的WEB管理工具，这样在宿主机访问localhost:9000就可以访问到虚拟机
 
 #笔者修改，将相对fabric/devenv目录的fabric-sdk-java映射到客户机的devenv里，同时在宿主机的maven仓库映射到客户机
@@ -375,6 +385,9 @@ Tests run: 18, Failures: 0, Errors: 0, Skipped: 2
 [INFO] Finished at: 2017-09-05T12:34:03+08:00
 [INFO] Final Memory: 14M/174M
 [INFO] ------------------------------------------------------------------------
+
+#测试指定用例
+$mvn failsafe:integration-test -Dit.test=End2endIT -DskipITs=false
 
 #failsafe补充
 Failsafe和maven结合，将整个集成测试分为4个阶段： 
