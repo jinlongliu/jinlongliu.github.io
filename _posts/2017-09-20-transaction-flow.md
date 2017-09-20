@@ -24,7 +24,6 @@ tags: [区块链,Hyperledger, Fabric, Chaincode]
 ![commit](/upload/2017/transaction-flow/6.png)
 
 
-[官方链接](http://hyperledger-fabric.readthedocs.io/en/latest/txflow.html)
-
+![官方链接](http://hyperledger-fabric.readthedocs.io/en/latest/txflow.html)
 
 {% include JB/setup %}
