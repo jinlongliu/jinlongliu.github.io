@@ -75,6 +75,28 @@ V和N都包含特定元素\bot,\bot 为N的最小元素。初始化键都映射�
 信道提供了所有消息的原子交付。消息是可靠，完全有序分发通信。换句话说，<font color="red">信道以完全相同的逻辑顺序将完全相同的消息输出到所有连接节点。</font>
 这个原子通信保证叫做total-order broadcast, atomic broadcast, 在分布式系统上下文叫consensus(共识)。通信消息是包含在区块链状态里的候选交易。
 
+分区(排序服务通道)排序服务支持多信道类似消息系统的主题订阅和发布机制。client可以连接到给定信道，发送和接收消息。client连接到某个信道，不知道
+其它信道存在。但是client可以连接到多个信道。
+
+**ordering service api**:peer通过对应接口连接到ordering服务提供的信道，提供两个基本操作，通常是异步事件
+- broadcast(blob) client调用其广播消息blob,在BFT（拜占庭）上下文系统中也叫request(blob)
+- deliver(seqno, prevhash, blob) ，ordering服务在对等节点peer上调用来交付消息。换句话说，是来自于排序服务的一个输出事件。
+在订阅发布系统中也叫notify()，在BFT系统中也叫commit()
+
+**账本和块信息** 账本包含排序服务的所有数据，概括而言就是一系列的deliver(seqno, prevhash, blob)事件。实质是上通过prevhash构成了一个哈希链。
+
+大部分情况，因为效率原因，排序服务打包二进制组成块封装到一个deliver事件，而不是输出单个交易的二进制。块内二进制的数量可以动态选择。
+
+**排序服务特性**
+- Agreement 
+- Hashchain integrity
+- No skipping
+- No creation
+- No duplication
+- Liveness
+
+### 交易担保基本流程
+![tx-endorsement](/upload/2017/tx-endorsement.png)
 
 
 
