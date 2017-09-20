@@ -38,7 +38,7 @@ tags: [区块链,Hyperledger, Fabric, Chaincode]
 区块链的状态模型是版本控制的key/value store(KVS)。条目由智能合约通过put和get KVS操作维护。状态是持久化的，状态操作是记录的。版本控制的
 KVS是适配状态模型(state model)，可以用KVS实现，也可以用RDBMS或者其它解决方案实现。
 
-state(s) 模型化为一个映射元素 K -> (V X N)     X为关联符号
+state(s) 模型化为一个映射元素 K -> (V x N)     x为关联符号
 - K a set of keys
 - V a set of values
 - N 版本号的无限排序集合， next: N -> N
@@ -98,8 +98,17 @@ V和N都包含特定元素\bot,\bot 为N的最小元素。初始化键都映射�
 ### 交易担保基本流程
 ![tx-endorsement](/upload/2017/tx-endorsement.png)
 
+tx=<clientID,chaincodeID,txPayload,timestamp,clientSig>
 
-
+txPayload根据交易类型的不同而不同
+- Invoke transaction: txPayload = <operation, metadata>
+ - operation
+ - metadata
+ 
+- Deploy transaction: txPayload = <source, metadata, policies>
+ - source
+ - metadata
+ - policies
 
 
 
