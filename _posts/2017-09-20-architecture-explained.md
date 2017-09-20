@@ -115,7 +115,9 @@ tid=HASH(tx),client存储tid在内存中，等待担保节点回应。
 ### 担保策略
 ### 验证账本
 
+
 [官方链接](http://hyperledger-fabric.readthedocs.io/en/latest/arch-deep-dive.html)
+
 
 {% include JB/setup %}
 
