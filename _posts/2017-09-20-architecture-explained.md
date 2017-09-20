@@ -102,17 +102,18 @@ tx=<clientID,chaincodeID,txPayload,timestamp,clientSig>
 
 txPayload根据交易类型的不同而不同
 - Invoke transaction: txPayload = <operation, metadata>
- - operation
- - metadata
+    - operation
+    - metadata
  
 - Deploy transaction: txPayload = <source, metadata, policies>
- - source
- - metadata
- - policies
+    - source
+    - metadata
+    - policies
 
+tid=HASH(tx),client存储tid在内存中，等待担保节点回应。
 
-
-
+### 担保策略
+### 验证账本
 
 {% include JB/setup %}
 
