@@ -24,5 +24,3 @@ tags: [区块链,Hyperledger, Fabric, Chaincode]
 ![commit](/upload/2017/transaction-flow/6.png)
 
 {% include JB/setup %}
-
-
