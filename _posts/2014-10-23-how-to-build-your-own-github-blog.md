@@ -61,4 +61,10 @@ http://ruby.taobao.org/
 {%  highlight ruby %}
 #rake preview
 {% endhighlight %}
+
+### 绑定域名
+- 修改CNAME
+- 在网页设置
+- 以上两种方法任选一种均可
+
 {% include JB/setup %}
