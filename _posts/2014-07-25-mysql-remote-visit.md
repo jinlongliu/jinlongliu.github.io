@@ -13,7 +13,7 @@ tags: [Mysql]
 >flush privileges; 
 {% endhighlight %}
 
-## MySQL 8 修改密码
+### MySQL 8 修改密码
 
 {% highlight bash %}
 >CREATE USER 'super'@'%' IDENTIFIED BY 'MyPass@123';
