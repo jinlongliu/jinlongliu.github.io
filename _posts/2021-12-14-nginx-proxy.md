@@ -24,7 +24,7 @@ tags: [Linux, CentOS]
 ```
 
 ##### 添加部分为
-```access transformers
+```
         location ^~ /backend-cluster/ {
             proxy_pass http://172.16.110.202:8002/;
         }
